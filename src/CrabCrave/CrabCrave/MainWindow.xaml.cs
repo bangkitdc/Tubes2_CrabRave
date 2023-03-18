@@ -84,25 +84,11 @@ namespace CrabCrave
         }
     }
 
-    public class MatrixElement
-    {
-        public MatrixElement(int row, int col, Brush color)
-        {
-            Row = row;
-            Column = col;
-            Color = color;
-        }
-
-        public int Row { get; set; }
-        public int Column { get; set; }
-        public Brush Color { get; set; }
-    }
-
     public class MainViewModel : INotifyPropertyChanged
     {
         private int _rows;
         private int _columns;
-        private ObservableCollection<MatrixElement> _matrixElements;
+        private ObservableCollection<Node> _matrixElements;
 
         public MainViewModel(int rows, int columns)
         {
@@ -134,7 +120,7 @@ namespace CrabCrave
             }
         }
 
-        public ObservableCollection<MatrixElement> MatrixElements
+        public ObservableCollection<Node> MatrixElements
         {
             get => _matrixElements;
             set
@@ -146,13 +132,14 @@ namespace CrabCrave
 
         private void GenerateMatrixElements()
         {
-            var elements = new ObservableCollection<MatrixElement>();
+            var elements = new ObservableCollection<Node>();
 
             for (int i = 0; i < _rows; i++)
             {
                 for (int j = 0; j < _columns; j++)
                 {
-                    elements.Add(new MatrixElement(i, j, Brushes.WhiteSmoke));
+                    // was Node(i, j, Brushes.WhiteSmoke)
+                    elements.Add(new Node(i, j, false, false, true, false, Brushes.WhiteSmoke));
                 }
             }
 
