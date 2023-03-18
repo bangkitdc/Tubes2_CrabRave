@@ -1,9 +1,9 @@
 using System.Windows.Media;
 public class Map
 {
-    private Node[,] map;
-    private int rowEff;
-    private int colEff;
+    public Node[,] map;
+    public int rowEff;
+    public int colEff;
 
     public Map() {
         map = new Node[1, 1];
@@ -17,7 +17,7 @@ public class Map
         this.colEff = columns;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; i++) {
-                this.map[i, j] = new Node(i, j, false, false, true, false, Brushes.WhiteSmoke);
+                this.map[i, j] = new Node(i, j, false, false, false, true, false, Brushes.WhiteSmoke);
                 // by default the map doesn't have path and only contain walls
             }
         }
@@ -55,7 +55,7 @@ public class Map
         if (x == 0) {
             return false;
         } else {
-            if (this.map[x-1, y].isPath()) {
+            if (this.map[x-1, y].isPath() && !this.map[x-1, y].hasBeenVisited()) {
                 return true;
             } else {
                 return false;
@@ -68,7 +68,7 @@ public class Map
         if (y == this.colEff-1) {
             return false;
         } else {
-            if (this.map[x, y+1].isPath()) {
+            if (this.map[x, y+1].isPath() && !this.map[x, y+1].hasBeenVisited()) {
                 return true;
             } else {
                 return false;
@@ -80,7 +80,7 @@ public class Map
         if (y == 0) {
             return false;
         } else {
-            if (this.map[x, y-1].isPath()) {
+            if (this.map[x, y-1].isPath() && !this.map[x, y-1].hasBeenVisited()) {
                 return true;
             } else {
                 return false;
@@ -92,7 +92,7 @@ public class Map
         if (x == this.rowEff-1) {
             return false;
         } else {
-            if (this.map[x+1, y].isPath()) {
+            if (this.map[x+1, y].isPath() && !this.map[x+1, y].hasBeenVisited()) {
                 return true;
             } else {
                 return false;

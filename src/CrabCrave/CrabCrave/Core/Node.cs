@@ -10,9 +10,10 @@ public class Node
     public bool visiting; // true if the node is currently being visited
     public Brush color;
 
-    public Node(int x, int y, bool path, bool treasure, bool unvisited, bool visiting, Brush color) {
+    public Node(int x, int y, bool startpoint, bool path, bool treasure, bool unvisited, bool visiting, Brush color) {
         this.x = x;
         this.y = y;
+        this.startpoint = startpoint;
         this.path = path;
         this.treasure = treasure;
         this.unvisited = unvisited;
@@ -41,6 +42,11 @@ public class Node
     public void setVisiting() {
         this.visiting = true;
     }
+
+    public void setLeaving() {
+        this.visiting = false;
+    }
+
     public void setUnvisited() {
         this.unvisited = false;
     }
