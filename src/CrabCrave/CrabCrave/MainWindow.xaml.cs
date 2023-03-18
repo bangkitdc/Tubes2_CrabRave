@@ -10,13 +10,13 @@ namespace CrabCrave
 {
     public partial class MainWindow : Window
     {
-        private string filePath;
+        private string? filePath;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            DataContext = new MainViewModel(3, 3);
+            DataContext = new MainViewModel(0, 0);
         }
 
         private string AlgorithmChecked(RadioButton BFSOption, RadioButton DFSOption)
@@ -64,11 +64,12 @@ namespace CrabCrave
         {
             string algorithmUsed = AlgorithmChecked(BFSOption, DFSOption);
             string fileName = FilePathTextBox.Text;
-            if (fileName == "Your File Here")
+            if (fileName == "")
             {
                 MessageBox.Show("Please select your file first!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+
 
             if (!File.Exists(filePath))
             {
@@ -81,6 +82,13 @@ namespace CrabCrave
             myPopup.IsOpen = true;
 
 
+
+            int rows = 3;
+            int cols = 3;
+
+            MainViewModel m = new MainViewModel(rows, cols);
+
+            DataContext = m;
         }
     }
 
