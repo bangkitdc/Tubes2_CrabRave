@@ -3,12 +3,12 @@ using System.Windows.Input;
 
 namespace CrabCrave.Core
 {
-    internal class RelayCommand : ICommand
+    class RelayCommand : ICommand
     {
         private Action<object> _execute;
         private Func<object, bool> _canExecute;
 
-        public event EventHandler CaneExecuteChanged
+        public event EventHandler? CanExecuteChanged
         {
             add { CommandManager.RequerySuggested += value; }
             remove { CommandManager.RequerySuggested -= value; }

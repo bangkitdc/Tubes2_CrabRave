@@ -8,9 +8,6 @@ using System.Windows;
 
 namespace CrabCrave
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
     }

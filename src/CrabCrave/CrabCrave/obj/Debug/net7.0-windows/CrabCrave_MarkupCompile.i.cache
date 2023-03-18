@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET7_0;NETCOREAPP
 D:\STEI\Jurusan\Semester-4\STIMA\tubes\tubes-2\Tubes2_CrabRave\src\CrabCrave\CrabCrave\App.xaml
-11407045341
+4737770817
 
 71697077396
 1981462702791
-MainWindow.xaml;
+MainWindow.xaml;Theme\BtnTheme.xaml;Theme\TextBoxTheme.xaml;Theme\ToggleBtn.xaml;
 
 True
 
