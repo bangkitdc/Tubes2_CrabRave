@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace CrabCrave.Core
 {
-    internal class RelayCommand : ICommand
+    class RelayCommand : ICommand
     {
         private Action<object> _execute;
         private Func<object, bool> _canExecute;

@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace CrabCrave.Core
 {
-    internal class ObservableObject : INotifyPropertyChanged
+    class ObservableObject : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 

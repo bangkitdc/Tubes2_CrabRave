@@ -1,20 +1,20 @@
 ﻿CrabCrave
-1.0.0.0
+
 
 winexe
 C#
 .cs
-c:\Users\louis\Downloads\Projects\Tubes2_CrabRave\src\CrabCrave\CrabCrave\obj\Debug\net7.0-windows\
+D:\STEI\Jurusan\Semester-4\STIMA\tubes\tubes-2\Tubes2_CrabRave\src\CrabCrave\CrabCrave\obj\Debug\net7.0-windows\
 CrabCrave
 none
 false
 TRACE;DEBUG;NET;NET7_0;NETCOREAPP
-c:\Users\louis\Downloads\Projects\Tubes2_CrabRave\src\CrabCrave\CrabCrave\App.xaml
-11407045341
+D:\STEI\Jurusan\Semester-4\STIMA\tubes\tubes-2\Tubes2_CrabRave\src\CrabCrave\CrabCrave\App.xaml
+4737770817
 
-973351413
-1981911467256
-MainWindow.xaml;
+71980240548
+1981462702791
+MainWindow.xaml;Theme\BtnTheme.xaml;Theme\TextBoxTheme.xaml;Theme\ToggleBtn.xaml;
 
 True
 
