@@ -1,22 +1,30 @@
-class Node
+using System.Windows.Media;
+public class Node
 {   
-    private int x;
-    private int y;
-    private bool path; // if the node is a path then true
-    private bool treasure; // true if the node contains treasure
-    private bool unvisited; // true if the node is unvisited, false if the node have been visited
-    private bool visiting; // true if the node is currently being visited
+    public int x;
+    public int y;
+    public bool startpoint; // if the node is krusty krab then true
+    public bool path; // if the node is a path then true
+    public bool treasure; // true if the node contains treasure
+    public bool unvisited; // true if the node is unvisited, false if the node have been visited
+    public bool visiting; // true if the node is currently being visited
+    public Brush color;
 
-    public Node(int x, int y, bool path, bool treasure, bool unvisited, bool visiting) {
+    public Node(int x, int y, bool path, bool treasure, bool unvisited, bool visiting, Brush color) {
         this.x = x;
         this.y = y;
         this.path = path;
         this.treasure = treasure;
         this.unvisited = unvisited;
         this.visiting = visiting;
+        this.color = color;
     }
 
     /* SETTER */
+    public void setStart() {
+        this.startpoint = true;
+    }
+
     public void setPath() {
         this.path = true;
     }
@@ -38,6 +46,10 @@ class Node
     }
 
     /**/
+    public bool isKrustyKrab() {
+        return this.startpoint;
+    }
+
     public bool isPath() {
         return this.path;
     }
