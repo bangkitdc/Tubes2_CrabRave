@@ -1,0 +1,5 @@
+C:\Addin Munawwar\2023\3. Maret\Strategi Algoritma\Tubes2_CrabRave\src\CrabCrave\CrabCrave\obj\Debug\net7.0-windows\CrabCrave.csproj.AssemblyReference.cache
+C:\Addin Munawwar\2023\3. Maret\Strategi Algoritma\Tubes2_CrabRave\src\CrabCrave\CrabCrave\obj\Debug\net7.0-windows\MainWindow.g.cs
+C:\Addin Munawwar\2023\3. Maret\Strategi Algoritma\Tubes2_CrabRave\src\CrabCrave\CrabCrave\obj\Debug\net7.0-windows\App.g.cs
+C:\Addin Munawwar\2023\3. Maret\Strategi Algoritma\Tubes2_CrabRave\src\CrabCrave\CrabCrave\obj\Debug\net7.0-windows\CrabCrave_MarkupCompile.cache
+C:\Addin Munawwar\2023\3. Maret\Strategi Algoritma\Tubes2_CrabRave\src\CrabCrave\CrabCrave\obj\Debug\net7.0-windows\CrabCrave_MarkupCompile.lref
