@@ -1,71 +1,151 @@
+using System.ComponentModel;
 using System.Windows.Media;
-
-namespace CrabCrave.Core
+public class Node : INotifyPropertyChanged
 {
-    public class Node
+    public enum Value
     {
-        public int x;
-        public int y;
-        public bool startpoint; // if the node is krusty krab then true
-        public bool path; // if the node is a path then true
-        public bool treasure; // true if the node contains treasure
-        public bool unvisited; // true if the node is unvisited, false if the node have been visited
-        public bool visiting; // true if the node is currently being visited
-        public Brush color;
+        Wall, // 0
+        Path, // 1
+        Treasure, // 2
+        KrustyKrab // 3
+    }
+    public enum Progress
+    {
+        Unvisited, // 0
+        InVisit, // 1
+        Visited // 2
+    }
+    public int x;
+    public int y;
+    public Value val;
+    public Progress prog;
+    public Brush color;
+    public Node(int x, int y, int value, int progress, Brush color)
+    {
+        this.x = x;
+        this.y = y;
+        this.val = (Value)value;
+        this.prog = (Progress)progress;
+        this.color = color;
+    }
 
-        public Node(int x, int y, bool startpoint, bool path, bool treasure, bool unvisited, bool visiting, Brush color)
+    public int X
+    {
+        get { return this.x; }
+        set
         {
-            this.x = x;
-            this.y = y;
-            this.startpoint = startpoint;
-            this.path = path;
-            this.treasure = treasure;
-            this.unvisited = unvisited;
-            this.visiting = visiting;
-            this.color = color;
+            if (x != value)
+            {
+                x = value;
+                OnPropertyChanged(nameof(X));
+            }
         }
+    }
 
-        /* GETTER */
-        public int X
+    public int Y
+    {
+        get { return y; }
+        set
         {
-            get { return this.x; }
+            if (y != value)
+            {
+                y = value;
+                OnPropertyChanged(nameof(Y));
+            }
         }
+    }
 
-        public int Y {
-            get { return y; }
-        }
-
-        public void setVisited() {
-            this.unvisited = false;
-        }
-
-        public void setLeaving() {
-            this.visiting = false;
-        }
-
-        public void setColor(Brush color)
+    public Value Val
+    {
+        get { return val; }
+        set
         {
-            this.color = color;
+            if (val != value)
+            {
+                val = value;
+                OnPropertyChanged(nameof(Val));
+            }
         }
+    }
 
-        public void setPath()
+    public Progress Prog
+    {
+        get { return prog; }
+        set
         {
-            this.path = true;
+            if (prog != value)
+            {
+                prog = value;
+                OnPropertyChanged(nameof(Prog));
+            }
         }
+    }
 
-        public void setTreasure()
+    public Brush Color
+    {
+        get { return color; }
+        set
         {
-            this.path = true;
-            this.treasure = true;
+            if (color != value)
+            {
+                color = value;
+                OnPropertyChanged(nameof(Color));
+            }
         }
+    }
 
-        public void setVisiting()
-        {
-            this.visiting = true;
-        }
+    public event PropertyChangedEventHandler PropertyChanged;
+    protected void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
 
-        public bool hasBeenVisited() {
-            return !this.unvisited;
-        }
+    /* SETTER */
+    public void setColor(Brush color)
+    {
+        this.color = color;
+    }
+
+    public void setPath()
+    {
+        this.val = (Value)1;
+    }
+    public void setTreasure()
+    {
+        this.val = (Value)2;
+    }
+    public void setStart()
+    {
+        this.val = (Value)3;
+    }
+
+    public void setUnvisited()
+    {
+        this.prog = (Progress)0;
+    }
+    public void setVisiting()
+    {
+        this.prog = (Progress)1;
+    }
+    public void setVisited()
+    {
+        this.prog = (Progress)2;
+    }
+    /**/
+    public bool isPath()
+    {
+        return this.val == (Value)1;
+    }
+    public bool isTreasure()
+    {
+        return this.val == (Value)2;
+    }
+    public bool isKrustyKrab()
+    {
+        return this.val == (Value)3;
+    }
+    public bool hasBeenVisited()
+    {
+        return this.prog == (Progress)2;
     }
 }

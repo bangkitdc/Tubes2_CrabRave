@@ -58,6 +58,7 @@
 
                     <TextBox Width="140"
                              IsReadOnly="True"
+                             IsEnabled="False"
                              Grid.Column="0"
                              Height="40"
                              VerticalContentAlignment="Center"
@@ -132,18 +133,14 @@
                         Click="VisualizeClick"
                         />
 
-                <Popup x:Name="myPopup" IsOpen="False" Placement="Center">
-                    <!-- Add your popup content here -->
-                    <TextBlock x:Name="popupText"
-                               Background="White"
-                               Text="Halo"/>
-                </Popup>
+                <Button Content="Button"
+                        Click="TESTBTN"/>
 
             </StackPanel>
 
 
             <StackPanel Grid.Row="1" Grid.Column="1">
-               
+
                 <TextBlock Text="Output"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Left"
@@ -153,7 +150,7 @@
                        Margin="50,20,0,20"/>
 
                 <Grid Height="300" Width="300">
-                    <ItemsControl ItemsSource="{Binding MatrixElements}">
+                    <ItemsControl>
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <UniformGrid Rows="{Binding Rows}" 
@@ -161,20 +158,6 @@
                                              HorizontalAlignment="Stretch"/>
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border BorderBrush="Black" BorderThickness="1" Background="{Binding Color}">
-                                    <TextBlock>
-                                        <TextBlock.Text>
-                                            <MultiBinding StringFormat="({0}, {1})" >
-                                                <Binding Path="X" />
-                                                <Binding Path="Y" />
-                                            </MultiBinding>
-                                        </TextBlock.Text>
-                                    </TextBlock>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
                     </ItemsControl>
 
 
@@ -254,43 +237,105 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Text="Route:"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Left"
-                               Foreground="White"
-                               FontSize="16"
-                               FontWeight="Bold"
-                               Margin="50,10,0,10"
-                               Grid.Column="0"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="Nodes:"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Left"
-                               Foreground="White"
-                               FontSize="16"
-                               FontWeight="Bold"
-                               Margin="50,10,0,10"
-                               Grid.Row="1"/>
+                        <TextBlock Text="Route:"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Left"
+                                   Foreground="White"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   Margin="50,10,0,10"
+                                   Grid.Column="0"/>
 
-                    <TextBlock Text="Steps:"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Left"
-                               Foreground="White"
-                               FontSize="16"
-                               FontWeight="Bold"
-                               Margin="50,10,0,10"
-                               Grid.Column="1"/>
+                        <TextBox Grid.Column="1"
+                                 FontSize="16"
+                                 IsEnabled="False"
+                                 Text=" "
+                                 Style="{StaticResource TextBoxTheme}">
+                        </TextBox>
+                    </Grid>
 
-                    <TextBlock Text="Execution Time:"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Left"
-                               Foreground="White"
-                               FontSize="16"
-                               FontWeight="Bold"
-                               Margin="50,10,0,10"
-                               Grid.Row="1" Grid.Column="1"/>
+                    <Grid Grid.Row="1" 
+                          Margin="0,20,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Nodes:"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Left"
+                                   Foreground="White"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   Margin="50,10,0,10"
+                                   Grid.Column="0"/>
+
+                        <TextBox Grid.Column="1"
+                                 FontSize="16"
+                                 IsEnabled="False"
+                                 Text=" "
+                                 Style="{StaticResource TextBoxTheme}">
+
+                        </TextBox>
+                    </Grid>
+
+                    <Grid Grid.Column="1" 
+                          >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Steps:"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Left"
+                                   Foreground="White"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   Margin="20,10,0,10"
+                                   />
+                        <TextBox Grid.Column="1"
+                                 FontSize="16"
+                                 IsEnabled="False"
+                                 Width="120"
+                                 Text=" "
+                                 Style="{StaticResource TextBoxTheme}">
+                        </TextBox>
+                    </Grid>
+
+                    <Grid Grid.Row="1" Grid.Column="1"
+                          Margin="0,20,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Execution Time:"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Left"
+                                   Foreground="White"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   Margin="20,10,0,10"
+                                   Grid.Column="0"
+                        />
+
+                        <TextBox Grid.Column="1"
+                                 Name="ExecutionText"
+                                 FontSize="16"
+                                 IsEnabled="False"
+                                 Width="120"
+                                 Text=" "
+                                 Style="{StaticResource TextBoxTheme}">
+
+                        </TextBox>
+                    </Grid>
+
                 </Grid>
-
             </StackPanel>
 
 

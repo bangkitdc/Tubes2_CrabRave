@@ -1,173 +1,249 @@
-//using System.Collections.Generic;
-//using System.Collections.ObjectModel;
-//using System.ComponentModel;
-//using System.Windows.Media;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
+using System.Windows.Media;
+using System.Xml.Linq;
+using CrabCrave;
+using CrabCrave.Core;
 
-//namespace CrabCrave.Core;
+public class Map : INotifyPropertyChanged
+{
+    public Node[,] map;
+    public int rowEff;
+    public int colEff;
+    public int treasureCount;
 
-//public class Map : INotifyPropertyChanged
-//{
-//    private int rowEff;
-//    private int colEff;
-//    private ObservableCollection<Node> map;
+    public Node[,] Maps
+    {
+        get { return map; }
+        set
+        {
+            if (map != value)
+            {
+                map = value;
+                OnPropertyChanged(nameof(Maps));
+            }
+        }
+    }
 
-//    public Map(int rows, int cols)
-//    {
-//        rowEff = rows;
-//        colEff = cols;
-//    }
+    public int RowEff
+    {
+        get { return rowEff; }
+        set
+        {
+            if (rowEff != value)
+            {
+                rowEff = value;
+                OnPropertyChanged(nameof(RowEff));
+            }
+        }
+    }
 
-//    public int Rows
-//    {
-//        get => rowEff;
-//        set
-//        {
-//            rowEff = value;
-//            OnPropertyChanged(nameof(Rows));
-//        }
-//    }
+    public int ColEff
+    {
+        get { return colEff; }
+        set
+        {
+            if (colEff != value)
+            {
+                colEff = value;
+                OnPropertyChanged(nameof(ColEff));
+            }
+        }
+    }
 
-//    public int Columns
-//    {
-//        get => colEff;
-//        set
-//        {
-//            colEff = value;
-//            OnPropertyChanged(nameof(Columns));
-//        }
-//    }
+    public int TreasureCount
+    {
+        get { return treasureCount; }
+        set
+        {
+            if (treasureCount != value)
+            {
+                treasureCount = value;
+                OnPropertyChanged(nameof(TreasureCount));
+            }
+        }
+    }
 
-//    public ObservableCollection<Node> Maps
-//    {
-//        get => map;
-//        set
-//        {
-//            map = value;
-//            OnPropertyChanged(nameof(Maps));
-//        }
-//    }
+    public event PropertyChangedEventHandler PropertyChanged;
 
-//    public void GenerateMaps(List<List<Node>> listOfListNode)
-//    {
-//        var elements = new ObservableCollection<Node>();
-//        int rows = listOfListNode.Count;
-//        int cols = listOfListNode[0].Count;
+    protected virtual void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
 
-//        for (int i = 0; i < rows; i++)
-//        {
-//            for (int j = 0; j < cols; j++)
-//            {
-//                // was Node(i, j, Brushes.WhiteSmoke)
-//                elements.Add(listOfListNode[i][j]);
-//            }
-//        }
+    public Map(int rows, int columns)
+    {
+        this.map = new Node[rows, columns];
+        this.treasureCount = 0;
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                this.map[i, j] = new Node(i, j, 0, 0, Brushes.WhiteSmoke);
+            }
+        }
+        this.rowEff = rows;
+        this.colEff = columns;
+    }
 
-//        Maps = elements;
-//    }
+    public void GenerateMap(List<List<Node>> listOfListNode)
+    {
+        rowEff = listOfListNode.Count;
+        colEff = listOfListNode[0].Count;
 
-//    public event PropertyChangedEventHandler PropertyChanged;
+        int rows = listOfListNode.Count;
+        int cols = listOfListNode[0].Count;
 
-//    protected virtual void OnPropertyChanged(string propertyName = null)
-//    {
-//        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-//    }
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < cols; j++)
+            {
+                if (listOfListNode[i][j].isTreasure())
+                {
+                    treasureCount++;
+                }
+                map[i, j] = listOfListNode[i][j];
+            }
+        }
+    }
 
-//    //public Map() {
-//    //    map = new Node[1, 1];
-//    //    this.rowEff = 1;
-//    //    this.colEff = 1;
-//    //}
+    /* GETTER */
+    public (int, int) getStart()
+    {
+        // returns the index of the starting point
+        for (int i = 0; i < this.rowEff; i++)
+        {
+            for (int j = 0; j < this.colEff; i++)
+            {
+                if (map[i, j].isKrustyKrab())
+                {
+                    return (i, j);
+                }
+            }
+        }
 
-//    //public Map(int rows, int columns) {
-//    //    this.map = new Node[rows, columns];
-//    //    this.rowEff = rows;
-//    //    this.colEff = columns;
-//    //    for (int i = 0; i < rows; i++) {
-//    //        for (int j = 0; j < columns; i++) {
-//    //            this.map[i, j] = new Node(i, j, false, false, false, true, false, Brushes.WhiteSmoke);
-//    //            // by default the map doesn't have path and only contain walls
-//    //        }
-//    //    }
-//    //}
+        return (-1, -1); // to handle the return error
+    }
 
-//    /* GETTER */
-//    public (int, int) getStart()
-//    {
-//        // returns the index of the starting point
-//        for (int i = 0; i < this.rowEff; i++)
-//        {
-//            for (int j = 0; j < this.colEff; i++)
-//            {
-//                if (map[i, j].isKrustyKrab())
-//                {
-//                    return (i, j);
-//                }
-//            }
-//        }
+    /* SETTER */
+    public void setStartInMap(int x, int y)
+    {
+        this.map[x, y].setPath();
+    }
 
-//        return (-1, -1); // to handle the return error
-//    }
+    public void setPathInMap(int x, int y)
+    {
+        this.map[x, y].setPath();
+    }
 
-//    ///* SETTER */
-//    //public void setStartInMap(int x, int y) {
-//    //    this.map[x, y].setPath();
-//    //}
+    // Assume all the index input is correct
+    public bool isUpAvailable(int x, int y)
+    {
+        if (x == 0)
+        {
+            return false;
+        }
+        else
+        {
+            if ((this.map[x - 1, y].isPath() || this.map[x - 1, y].isTreasure() || this.map[x - 1, y].isKrustyKrab()) && !this.map[x - 1, y].hasBeenVisited())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
 
-//    //public void setPathInMap(int x, int y) {
-//    //    this.map[x, y].setPath();
-//    //}
+    public bool isRightAvailable(int x, int y)
+    {
+        if (y == this.colEff - 1)
+        {
+            return false;
+        }
+        else
+        {
+            if ((this.map[x, y + 1].isPath() || this.map[x, y + 1].isTreasure() || this.map[x, y + 1].isKrustyKrab()) && !this.map[x, y + 1].hasBeenVisited())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
 
-//    //public void setTreasureInMap(int x, int y) {
-//    //    this.map[x, y].setTreasure();
-//    //}
+    public bool isLeftAvailable(int x, int y)
+    {
+        if (y == 0)
+        {
+            return false;
+        }
+        else
+        {
+            if ((this.map[x, y - 1].isPath() || this.map[x, y - 1].isTreasure() || this.map[x, y - 1].isKrustyKrab()) && !this.map[x, y - 1].hasBeenVisited())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
 
-//    //// Assume all the index input is correct
-//    //public bool isUpAvailable(int x, int y) {
-//    //    if (x == 0) {
-//    //        return false;
-//    //    } else {
-//    //        if (this.map[x-1, y].isPath() && !this.map[x-1, y].hasBeenVisited()) {
-//    //            return true;
-//    //        } else {
-//    //            return false;
-//    //        }
-//    //    }
+    public bool isDownAvailable(int x, int y)
+    {
+        if (x == this.rowEff - 1)
+        {
+            return false;
+        }
+        else
+        {
+            if ((this.map[x + 1, y].isPath() || this.map[x + 1, y].isTreasure() || this.map[x + 1, y].isKrustyKrab()) && !this.map[x + 1, y].hasBeenVisited())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
 
-//    //}
+    public void printMap()
+    { // for simple terminal view
+        for (int i = 0; i < this.rowEff; i++)
+        {
+            for (int j = 0; j < this.colEff; j++)
+            {
+                if (this.map[i, j].isKrustyKrab())
+                {
+                    Console.Write("K");
+                }
+                else if (this.map[i, j].isTreasure())
+                {
+                    Console.Write("T");
+                }
+                else if (this.map[i, j].isPath())
+                {
+                    Console.Write("P");
+                }
+                else if (!this.map[i, j].isPath())
+                {
+                    Console.Write(".");
+                }
+            }
+            Console.WriteLine("");
+        }
+    }
 
-//    //public bool isRightAvailable(int x, int y) {
-//    //    if (y == this.colEff-1) {
-//    //        return false;
-//    //    } else {
-//    //        if (this.map[x, y+1].isPath() && !this.map[x, y+1].hasBeenVisited()) {
-//    //            return true;
-//    //        } else {
-//    //            return false;
-//    //        }
-//    //    }
-//    //}
-
-//    //public bool isLeftAvailable(int x, int y) {
-//    //    if (y == 0) {
-//    //        return false;
-//    //    } else {
-//    //        if (this.map[x, y-1].isPath() && !this.map[x, y-1].hasBeenVisited()) {
-//    //            return true;
-//    //        } else {
-//    //            return false;
-//    //        }
-//    //    }
-//    //}
-
-//    //public bool isDownAvailable(int x, int y) {
-//    //    if (x == this.rowEff-1) {
-//    //        return false;
-//    //    } else {
-//    //        if (this.map[x+1, y].isPath() && !this.map[x+1, y].hasBeenVisited()) {
-//    //            return true;
-//    //        } else {
-//    //            return false;
-//    //        }
-//    //    }
-//    //}
-//}
+    public int getTreasureCount()
+    {
+        return this.treasureCount;
+    }
+}

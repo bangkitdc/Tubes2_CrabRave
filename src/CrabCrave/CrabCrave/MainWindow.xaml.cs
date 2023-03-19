@@ -47,6 +47,17 @@ namespace CrabCrave
             return false;
         }
 
+        private async void TESTBTN(object sender, RoutedEventArgs e)
+        {
+            var m = (MainViewModel)DataContext;
+            m._map.map[0, 0].Color = (Brushes.Yellow);
+
+            await Task.Delay(1000); // wait for 1 second
+
+            m._map.map[0, 0].Color = (Brushes.Black);
+            
+        }
+
         private void BrowseBtnClick(object sender, RoutedEventArgs e)
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
@@ -81,8 +92,6 @@ namespace CrabCrave
             }
 
             string fileContent = File.ReadAllText(filePath);
-            popupText.Text = fileContent;
-            myPopup.IsOpen = true;
 
             List<List<Node>> res = GetNodeListFromString(fileContent);
 
@@ -92,9 +101,6 @@ namespace CrabCrave
             MainViewModel m = new MainViewModel(rows, cols);
             m.GenerateMatrixElements(res);
             DataContext = m;
-
-            var mainViewModel = (MainViewModel)DataContext;
-            mainViewModel.ChangeNodeColor(0, 0, Brushes.Red);
         }
 
         private List<List<Node>> GetNodeListFromString(string fileContent)
@@ -128,19 +134,20 @@ namespace CrabCrave
                     {
                         if (value == "K")
                         {
-                            temp.Add(new Node(countX, countY, true, true, false, false, false, Brushes.Orange));
+                            temp.Add(new Node(countX, countY, 3, 0, Brushes.Orange));
                         }
                         else if (value == "R")
                         {
-                            temp.Add(new Node(countX, countY, false, true, false, false, false, Brushes.LightGreen));
+                            temp.Add(new Node(countX, countY, 1, 0, Brushes.LightGreen));
                         }
                         else if (value == "X")
                         {
-                            temp.Add(new Node(countX, countY, false, false, false, false, false, Brushes.Black));
+                            temp.Add(new Node(countX, countY, 0, 0, Brushes.Black));
                         }
                         else if (value == "T")
                         {
-                            temp.Add(new Node(countX, countY, false, true, true, false, false, Brushes.Yellow));
+                            //treasureCount++;
+                            temp.Add(new Node(countX, countY, 2, 0, Brushes.Yellow));
                         }
                         else
                         {
@@ -163,32 +170,59 @@ namespace CrabCrave
 
     public class MainViewModel : INotifyPropertyChanged
     {
-        private int _rows;
-        private int _columns;
-        private ObservableCollection<Node> _matrixElements;
+        public Map _map;
+        public ObservableCollection<Node> _matrixElements { get; set; }
+        private Queue<(int x, int y, Brush color)> _colorUpdates = new Queue<(int x, int y, Brush color)>();
 
-        public MainViewModel(int rows, int columns)
+        public Map Map
         {
-            _rows = rows;
-            _columns = columns;
+            get { return _map; }
+            set
+            {
+                if (_map != value)
+                {
+                    _map = value;
+                    OnPropertyChanged(nameof(Map));
+                    UpdateCollection();
+                }
+            }
+        }
+
+        public MainViewModel(int rows, int cols)
+        {
+            _map = new Map(rows, cols);
+            _matrixElements = new ObservableCollection<Node>();
+        }
+
+        public void UpdateCollection()
+        {
+            Node[,] map = _map.map;
+            _matrixElements.Clear();
+            for (int i = 0; i < map.GetLength(0); i++)
+            {
+                for (int j = 0; j < map.GetLength(1); j++)
+                {
+                    _matrixElements.Add(map[i, j]);
+                }
+            }
         }
 
         public int Rows
         {
-            get => _rows;
+            get => _map.RowEff;
             set
             {
-                _rows = value;
+                _map.RowEff = value;
                 OnPropertyChanged(nameof(Rows));
             }
         }
 
         public int Columns
         {
-            get => _columns;
+            get => _map.ColEff;
             set
             {
-                _columns = value;
+                _map.ColEff = value;
                 OnPropertyChanged(nameof(Columns));
             }
         }
@@ -214,7 +248,7 @@ namespace CrabCrave
 
         public void GenerateMatrixElements(List<List<Node>> listOfListNode)
         {
-            //ObservableCollection<List<Node>> nodesCollection = new ObservableCollection<List<Node>>(listOfListNode);
+            _map.GenerateMap(listOfListNode);
 
             ObservableCollection<Node> elements = new ObservableCollection<Node>();
             int rows = listOfListNode.Count;
@@ -240,3 +274,82 @@ namespace CrabCrave
         }
     }
 }
+
+    //public class MainViewModel : INotifyPropertyChanged
+    //{
+    //    private int _rows;
+    //    private int _columns;
+    //    private ObservableCollection<Node> _matrixElements;
+
+    //    public MainViewModel(int rows, int columns)
+    //    {
+    //        _rows = rows;
+    //        _columns = columns;
+    //    }
+
+    //    public int Rows
+    //    {
+    //        get => _rows;
+    //        set
+    //        {
+    //            _rows = value;
+    //            OnPropertyChanged(nameof(Rows));
+    //        }
+    //    }
+
+    //    public int Columns
+    //    {
+    //        get => _columns;
+    //        set
+    //        {
+    //            _columns = value;
+    //            OnPropertyChanged(nameof(Columns));
+    //        }
+    //    }
+
+    //    public void ChangeNodeColor(int x, int y, Brush color)
+    //    {
+    //        int index = x * Columns + y;
+    //        if (index >= 0 && index < MatrixElements.Count)
+    //        {
+    //            MatrixElements[index].setColor(color);
+    //        }
+    //    }
+
+    //    public ObservableCollection<Node> MatrixElements
+    //    {
+    //        get => _matrixElements;
+    //        set
+    //        {
+    //            _matrixElements = value;
+    //            OnPropertyChanged(nameof(MatrixElements));
+    //        }
+    //    }
+
+    //    public void GenerateMatrixElements(List<List<Node>> listOfListNode)
+    //    {
+    //        //ObservableCollection<List<Node>> nodesCollection = new ObservableCollection<List<Node>>(listOfListNode);
+
+    //        ObservableCollection<Node> elements = new ObservableCollection<Node>();
+    //        int rows = listOfListNode.Count;
+    //        int cols = listOfListNode[0].Count;
+
+    //        for (int i = 0; i < rows; i++)
+    //        {
+    //            for (int j = 0; j < cols; j++)
+    //            {
+    //                // was Node(i, j, Brushes.WhiteSmoke)
+    //                elements.Add(listOfListNode[i][j]);
+    //            }
+    //        }
+
+    //        MatrixElements = elements;
+    //    }
+
+    //    public event PropertyChangedEventHandler PropertyChanged;
+
+    //    protected virtual void OnPropertyChanged(string propertyName = null)
+    //    {
+    //        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    //    }
+    //}
