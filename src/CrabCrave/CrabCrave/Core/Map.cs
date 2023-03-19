@@ -1,4 +1,7 @@
 using System.Windows.Media;
+
+namespace CrabCrave.Core;
+
 public class Map
 {
     private Node[,] map;
@@ -17,7 +20,7 @@ public class Map
         this.colEff = columns;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; i++) {
-                this.map[i, j] = new Node(i, j, false, false, true, false, Brushes.WhiteSmoke);
+                this.map[i, j] = new Node(i, j, false, false, true, false, false, Brushes.WhiteSmoke);
                 // by default the map doesn't have path and only contain walls
             }
         }
