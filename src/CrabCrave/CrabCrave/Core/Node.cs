@@ -41,6 +41,14 @@ public class Node : INotifyPropertyChanged
             }
         }
     }
+    public Node(Node other)
+    {
+        this.x = other.x;
+        this.y = other.y;
+        this.val = other.val;
+        this.prog = other.prog;
+        this.color = other.color;
+    }
 
     public int Y
     {
@@ -144,6 +152,7 @@ public class Node : INotifyPropertyChanged
     {
         return this.val == (Value)3;
     }
+
     public bool hasBeenVisited()
     {
         return this.prog == (Progress)2;

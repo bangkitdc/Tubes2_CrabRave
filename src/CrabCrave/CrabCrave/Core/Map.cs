@@ -1,9 +1,8 @@
 using System.ComponentModel;
-using System.Windows;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
 using System.Windows.Media;
-using System.Xml.Linq;
+using System;
+using System.Collections.Generic;
+
 using CrabCrave;
 using CrabCrave.Core;
 
@@ -14,6 +13,35 @@ public class Map : INotifyPropertyChanged
     public int colEff;
     public int treasureCount;
 
+    public Map() {
+        this.map = new Node[1, 1];
+        this.map[0, 0] = new Node(0, 0, 0, 0, Brushes.WhiteSmoke);
+        this.treasureCount = 0;
+        this.rowEff = 1;
+        this.colEff = 1;
+    }
+
+    public void GenerateMap(List<List<Node>> listOfListNode)
+    {
+        rowEff = listOfListNode.Count;
+        colEff = listOfListNode[0].Count;
+
+        int rows = listOfListNode.Count;
+        int cols = listOfListNode[0].Count;
+
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < cols; j++)
+            {
+                if (listOfListNode[i][j].isTreasure())
+                {
+                    treasureCount++;
+                }
+                map[i, j] = listOfListNode[i][j];
+            }
+        }
+    }
+
     public Node[,] Maps
     {
         get { return map; }
@@ -23,6 +51,34 @@ public class Map : INotifyPropertyChanged
             {
                 map = value;
                 OnPropertyChanged(nameof(Maps));
+            }
+        }
+    }
+
+    public Map(int rows, int columns) {
+        this.map = new Node[rows, columns];
+        this.treasureCount = 0;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                this.map[i, j] = new Node(i, j, 0, 0, Brushes.WhiteSmoke);
+                // by default the map doesn't have path and only contain walls
+            }
+        }
+        this.rowEff = rows;
+        this.colEff = columns;
+    }
+
+    public Map(Map other)
+    {
+        this.rowEff = other.rowEff;
+        this.colEff = other.colEff;
+        this.treasureCount = other.treasureCount;
+        this.map = new Node[this.rowEff, this.colEff];
+        for (int i = 0; i < this.rowEff; i++)
+        {
+            for (int j = 0; j < this.colEff; j++)
+            {
+                this.map[i, j] = new Node(other.map[i, j]);
             }
         }
     }
@@ -52,6 +108,23 @@ public class Map : INotifyPropertyChanged
             }
         }
     }
+    /* GETTER */
+    public (int, int) getStart()
+    {
+        // returns the index of the starting point
+        for (int i = 0; i < this.rowEff; i++)
+        {
+            for (int j = 0; j < this.colEff; j++)
+            {
+                if (map[i, j].isKrustyKrab())
+                {
+                    return (i, j);
+                }
+            }
+        }
+
+        return (-1, -1); // to handle the return error
+    }
 
     public int TreasureCount
     {
@@ -69,72 +142,20 @@ public class Map : INotifyPropertyChanged
     public event PropertyChangedEventHandler PropertyChanged;
 
     protected virtual void OnPropertyChanged(string propertyName)
+
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
-    public Map(int rows, int columns)
-    {
-        this.map = new Node[rows, columns];
-        this.treasureCount = 0;
-        for (int i = 0; i < rows; i++)
-        {
-            for (int j = 0; j < columns; j++)
-            {
-                this.map[i, j] = new Node(i, j, 0, 0, Brushes.WhiteSmoke);
-            }
-        }
-        this.rowEff = rows;
-        this.colEff = columns;
-    }
-
-    public void GenerateMap(List<List<Node>> listOfListNode)
-    {
-        rowEff = listOfListNode.Count;
-        colEff = listOfListNode[0].Count;
-
-        int rows = listOfListNode.Count;
-        int cols = listOfListNode[0].Count;
-
-        for (int i = 0; i < rows; i++)
-        {
-            for (int j = 0; j < cols; j++)
-            {
-                if (listOfListNode[i][j].isTreasure())
-                {
-                    treasureCount++;
-                }
-                map[i, j] = listOfListNode[i][j];
-            }
-        }
-    }
-
-    /* GETTER */
-    public (int, int) getStart()
-    {
-        // returns the index of the starting point
-        for (int i = 0; i < this.rowEff; i++)
-        {
-            for (int j = 0; j < this.colEff; i++)
-            {
-                if (map[i, j].isKrustyKrab())
-                {
-                    return (i, j);
-                }
-            }
-        }
-
-        return (-1, -1); // to handle the return error
-    }
-
-    /* SETTER */
-    public void setStartInMap(int x, int y)
+   /* SETTER */ 
+    public void setStartInMap(int x, int y) 
     {
         this.map[x, y].setPath();
     }
 
     public void setPathInMap(int x, int y)
-    {
+
+{
         this.map[x, y].setPath();
     }
 
@@ -246,4 +267,5 @@ public class Map : INotifyPropertyChanged
     {
         return this.treasureCount;
     }
+
 }

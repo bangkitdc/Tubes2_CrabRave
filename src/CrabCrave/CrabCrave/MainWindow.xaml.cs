@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using CrabCrave.Core;
 using System;
+using System.Threading.Tasks;
 
 namespace CrabCrave
 {
@@ -146,7 +147,6 @@ namespace CrabCrave
                         }
                         else if (value == "T")
                         {
-                            //treasureCount++;
                             temp.Add(new Node(countX, countY, 2, 0, Brushes.Yellow));
                         }
                         else
@@ -172,8 +172,6 @@ namespace CrabCrave
     {
         public Map _map;
         public ObservableCollection<Node> _matrixElements { get; set; }
-        private Queue<(int x, int y, Brush color)> _colorUpdates = new Queue<(int x, int y, Brush color)>();
-
         public Map Map
         {
             get { return _map; }
@@ -274,82 +272,3 @@ namespace CrabCrave
         }
     }
 }
-
-    //public class MainViewModel : INotifyPropertyChanged
-    //{
-    //    private int _rows;
-    //    private int _columns;
-    //    private ObservableCollection<Node> _matrixElements;
-
-    //    public MainViewModel(int rows, int columns)
-    //    {
-    //        _rows = rows;
-    //        _columns = columns;
-    //    }
-
-    //    public int Rows
-    //    {
-    //        get => _rows;
-    //        set
-    //        {
-    //            _rows = value;
-    //            OnPropertyChanged(nameof(Rows));
-    //        }
-    //    }
-
-    //    public int Columns
-    //    {
-    //        get => _columns;
-    //        set
-    //        {
-    //            _columns = value;
-    //            OnPropertyChanged(nameof(Columns));
-    //        }
-    //    }
-
-    //    public void ChangeNodeColor(int x, int y, Brush color)
-    //    {
-    //        int index = x * Columns + y;
-    //        if (index >= 0 && index < MatrixElements.Count)
-    //        {
-    //            MatrixElements[index].setColor(color);
-    //        }
-    //    }
-
-    //    public ObservableCollection<Node> MatrixElements
-    //    {
-    //        get => _matrixElements;
-    //        set
-    //        {
-    //            _matrixElements = value;
-    //            OnPropertyChanged(nameof(MatrixElements));
-    //        }
-    //    }
-
-    //    public void GenerateMatrixElements(List<List<Node>> listOfListNode)
-    //    {
-    //        //ObservableCollection<List<Node>> nodesCollection = new ObservableCollection<List<Node>>(listOfListNode);
-
-    //        ObservableCollection<Node> elements = new ObservableCollection<Node>();
-    //        int rows = listOfListNode.Count;
-    //        int cols = listOfListNode[0].Count;
-
-    //        for (int i = 0; i < rows; i++)
-    //        {
-    //            for (int j = 0; j < cols; j++)
-    //            {
-    //                // was Node(i, j, Brushes.WhiteSmoke)
-    //                elements.Add(listOfListNode[i][j]);
-    //            }
-    //        }
-
-    //        MatrixElements = elements;
-    //    }
-
-    //    public event PropertyChangedEventHandler PropertyChanged;
-
-    //    protected virtual void OnPropertyChanged(string propertyName = null)
-    //    {
-    //        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    //    }
-    //}
