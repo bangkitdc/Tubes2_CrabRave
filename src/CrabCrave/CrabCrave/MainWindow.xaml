@@ -10,7 +10,7 @@
         ResizeMode="NoResize"
         Background="Transparent"
         AllowsTransparency="True"
-        >
+>
     <Border Background="#272537"
             CornerRadius="20">
         <Grid>
@@ -167,8 +167,8 @@
                                     <TextBlock>
                                         <TextBlock.Text>
                                             <MultiBinding StringFormat="({0}, {1})" >
-                                                <Binding Path="Row" />
-                                                <Binding Path="Column" />
+                                                <Binding Path="X" />
+                                                <Binding Path="Y" />
                                             </MultiBinding>
                                         </TextBlock.Text>
                                     </TextBlock>
@@ -176,7 +176,46 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
+
+
                 </Grid>
+                <!--<Grid Height="300" Width="300">
+                    <ItemsControl ItemsSource="{Binding MatrixElements}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Rows="{Binding Rows}" 
+                                             Columns="{Binding Columns}"
+                                             HorizontalAlignment="Stretch"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <ItemsControl ItemsSource="{Binding}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderBrush="Black" BorderThickness="1" Background="{Binding Color}"
+                                                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                                <TextBlock>
+                                                    <TextBlock.Text>
+                                                        <MultiBinding StringFormat="({0}, {1})" >
+                                                            <Binding Path="X" />
+                                                            <Binding Path="Y" />
+                                                        </MultiBinding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>-->
 
                 <!--<Grid>
                     <StackPanel Orientation="Vertical">

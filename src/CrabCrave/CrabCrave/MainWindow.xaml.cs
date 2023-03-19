@@ -1,22 +1,25 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Win32;
 using System.IO;
 using System.Windows.Media;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using CrabCrave.Core;
+using System;
 
 namespace CrabCrave
 {
     public partial class MainWindow : Window
     {
-        private string filePath;
+        private string? filePath;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            DataContext = new MainViewModel(3, 3);
+            DataContext = new MainViewModel(0, 0);
         }
 
         private string AlgorithmChecked(RadioButton BFSOption, RadioButton DFSOption)
@@ -64,11 +67,12 @@ namespace CrabCrave
         {
             string algorithmUsed = AlgorithmChecked(BFSOption, DFSOption);
             string fileName = FilePathTextBox.Text;
-            if (fileName == "Your File Here")
+            if (fileName == "")
             {
                 MessageBox.Show("Please select your file first!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+
 
             if (!File.Exists(filePath))
             {
@@ -80,7 +84,80 @@ namespace CrabCrave
             popupText.Text = fileContent;
             myPopup.IsOpen = true;
 
+            List<List<Node>> res = GetNodeListFromString(fileContent);
 
+            int rows = res.Count;
+            int cols = res[0].Count;
+
+            MainViewModel m = new MainViewModel(rows, cols);
+            m.GenerateMatrixElements(res);
+            DataContext = m;
+
+            var mainViewModel = (MainViewModel)DataContext;
+            mainViewModel.ChangeNodeColor(0, 0, Brushes.Red);
+        }
+
+        private List<List<Node>> GetNodeListFromString(string fileContent)
+        {
+            List<List<Node>> res = new List<List<Node>>();
+            // Get Rid 
+            string[] lines = fileContent.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                lines[i] = lines[i].Replace("\r", " ").Replace("\n", " ").Replace("\t", " ").Trim();
+            }
+
+            int countX = 0;
+            int countY = 0;
+
+            foreach (string line in lines)
+            {
+                string[] values = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                List<Node> temp = new List<Node>();
+
+                foreach (string value in values)
+                {
+                    if (value.Length != 1)
+                    {
+                        MessageBox.Show("The txt file is out of format", "Error", MessageBoxButton.OK,
+                            MessageBoxImage.Error);
+                        return null;
+                    }
+                    else
+                    {
+                        if (value == "K")
+                        {
+                            temp.Add(new Node(countX, countY, true, true, false, false, false, Brushes.Orange));
+                        }
+                        else if (value == "R")
+                        {
+                            temp.Add(new Node(countX, countY, false, true, false, false, false, Brushes.LightGreen));
+                        }
+                        else if (value == "X")
+                        {
+                            temp.Add(new Node(countX, countY, false, false, false, false, false, Brushes.Black));
+                        }
+                        else if (value == "T")
+                        {
+                            temp.Add(new Node(countX, countY, false, true, true, false, false, Brushes.Yellow));
+                        }
+                        else
+                        {
+                            MessageBox.Show("The character in txt file is out of format", "Error", MessageBoxButton.OK,
+                                MessageBoxImage.Error);
+                            return null;
+                        }
+
+                        countY++;
+                    }
+                }
+                countY = 0;
+                countX++;
+                res.Add(temp);
+            }
+
+            return res;
         }
     }
 
@@ -94,8 +171,6 @@ namespace CrabCrave
         {
             _rows = rows;
             _columns = columns;
-
-            GenerateMatrixElements();
         }
 
         public int Rows
@@ -104,7 +179,6 @@ namespace CrabCrave
             set
             {
                 _rows = value;
-                GenerateMatrixElements();
                 OnPropertyChanged(nameof(Rows));
             }
         }
@@ -115,8 +189,16 @@ namespace CrabCrave
             set
             {
                 _columns = value;
-                GenerateMatrixElements();
                 OnPropertyChanged(nameof(Columns));
+            }
+        }
+
+        public void ChangeNodeColor(int x, int y, Brush color)
+        {
+            int index = x * Columns + y;
+            if (index >= 0 && index < MatrixElements.Count)
+            {
+                MatrixElements[index].setColor(color);
             }
         }
 
@@ -130,16 +212,20 @@ namespace CrabCrave
             }
         }
 
-        private void GenerateMatrixElements()
+        public void GenerateMatrixElements(List<List<Node>> listOfListNode)
         {
-            var elements = new ObservableCollection<Node>();
+            //ObservableCollection<List<Node>> nodesCollection = new ObservableCollection<List<Node>>(listOfListNode);
 
-            for (int i = 0; i < _rows; i++)
+            ObservableCollection<Node> elements = new ObservableCollection<Node>();
+            int rows = listOfListNode.Count;
+            int cols = listOfListNode[0].Count;
+
+            for (int i = 0; i < rows; i++)
             {
-                for (int j = 0; j < _columns; j++)
+                for (int j = 0; j < cols; j++)
                 {
                     // was Node(i, j, Brushes.WhiteSmoke)
-                    elements.Add(new Node(i, j, false, false, false, true, false, Brushes.WhiteSmoke));
+                    elements.Add(listOfListNode[i][j]);
                 }
             }
 
