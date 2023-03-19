@@ -1,4 +1,4 @@
-//using System.Collections.Generic;
+using System.Collections.Generic;
 
 public class DFS 
 {
@@ -19,7 +19,7 @@ public class DFS
 
         // while 
         while (stack.Count != 0) {
-            if (treasureFound == map.treasureCount) {
+            if (treasureFound == map.getTreasureCount()) {
                 map.map[currentX, currentY].setVisited();
                 Node temp = stack.Pop();
                 this.path.Push(temp);

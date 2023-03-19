@@ -128,19 +128,19 @@ namespace CrabCrave
                     {
                         if (value == "K")
                         {
-                            temp.Add(new Node(countX, countY, true, true, false, false, false, Brushes.Orange));
+                            temp.Add(new Node(countX, countY, 3, 0, Brushes.Orange));
                         }
                         else if (value == "R")
                         {
-                            temp.Add(new Node(countX, countY, false, true, false, false, false, Brushes.LightGreen));
+                            temp.Add(new Node(countX, countY, 1, 0, Brushes.LightGreen));
                         }
                         else if (value == "X")
                         {
-                            temp.Add(new Node(countX, countY, false, false, false, false, false, Brushes.Black));
+                            temp.Add(new Node(countX, countY, 0, 0, Brushes.Black));
                         }
                         else if (value == "T")
                         {
-                            temp.Add(new Node(countX, countY, false, true, true, false, false, Brushes.Yellow));
+                            temp.Add(new Node(countX, countY, 2, 0, Brushes.Yellow));
                         }
                         else
                         {
