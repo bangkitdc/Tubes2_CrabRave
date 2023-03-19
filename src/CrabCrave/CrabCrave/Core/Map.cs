@@ -1,3 +1,4 @@
+using System.Windows.Media;
 public class Map
 {
     public Node[,] map;
@@ -7,7 +8,7 @@ public class Map
 
     public Map() {
         this.map = new Node[1, 1];
-        this.map[0, 0] = new Node(0, 0, false, false, false, true, false);
+        this.map[0, 0] = new Node(0, 0, false, false, false, true, false, Brushes.WhiteSmoke);
         this.treasureCount = 0;
         this.rowEff = 1;
         this.colEff = 1;
@@ -18,7 +19,7 @@ public class Map
         this.treasureCount = 0;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                this.map[i, j] = new Node(i, j, false, false, false, true, false);
+                this.map[i, j] = new Node(i, j, false, false, false, true, false, Brushes.WhiteSmoke);
                 // by default the map doesn't have path and only contain walls
             }
         }

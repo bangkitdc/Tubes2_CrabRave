@@ -1,3 +1,4 @@
+using System.Windows.Media;
 public class Node
 {   
     public int x;
@@ -7,8 +8,9 @@ public class Node
     public bool treasure; // true if the node contains treasure
     public bool unvisited; // true if the node is unvisited, false if the node have been visited
     public bool visiting; // true if the node is currently being visited
+    public Brush color;
 
-    public Node(int x, int y, bool startpoint, bool path, bool treasure, bool unvisited, bool visiting) {
+    public Node(int x, int y, bool startpoint, bool path, bool treasure, bool unvisited, bool visiting, Brush color) {
         this.x = x;
         this.y = y;
         this.startpoint = startpoint;
@@ -16,6 +18,7 @@ public class Node
         this.treasure = treasure;
         this.unvisited = unvisited;
         this.visiting = visiting;
+        this.color = color;
     }
 
     /* SETTER */
