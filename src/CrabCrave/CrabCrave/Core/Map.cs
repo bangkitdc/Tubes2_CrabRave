@@ -8,7 +8,7 @@ public class Map
 
     public Map() {
         this.map = new Node[1, 1];
-        this.map[0, 0] = new Node(0, 0, false, false, false, true, false, Brushes.WhiteSmoke);
+        this.map[0, 0] = new Node(0, 0, 0, 0, Brushes.WhiteSmoke);
         this.treasureCount = 0;
         this.rowEff = 1;
         this.colEff = 1;
@@ -19,7 +19,7 @@ public class Map
         this.treasureCount = 0;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                this.map[i, j] = new Node(i, j, false, false, false, true, false, Brushes.WhiteSmoke);
+                this.map[i, j] = new Node(i, j, 0, 0, Brushes.WhiteSmoke);
                 // by default the map doesn't have path and only contain walls
             }
         }
@@ -60,7 +60,7 @@ public class Map
         if (x == 0) {
             return false;
         } else {
-            if (this.map[x-1, y].isPath() && !this.map[x-1, y].hasBeenVisited()) {
+            if ((this.map[x-1, y].isPath() || this.map[x-1, y].isTreasure() || this.map[x-1, y].isKrustyKrab()) && !this.map[x-1, y].hasBeenVisited()) {
                 return true;
             } else {
                 return false;
@@ -73,7 +73,7 @@ public class Map
         if (y == this.colEff-1) {
             return false;
         } else {
-            if (this.map[x, y+1].isPath() && !this.map[x, y+1].hasBeenVisited()) {
+            if ((this.map[x, y+1].isPath() || this.map[x, y+1].isTreasure() || this.map[x, y+1].isKrustyKrab()) && !this.map[x, y+1].hasBeenVisited()) {
                 return true;
             } else {
                 return false;
@@ -85,7 +85,7 @@ public class Map
         if (y == 0) {
             return false;
         } else {
-            if (this.map[x, y-1].isPath() && !this.map[x, y-1].hasBeenVisited()) {
+            if ((this.map[x, y-1].isPath() || this.map[x, y-1].isTreasure() || this.map[x, y-1].isKrustyKrab()) && !this.map[x, y-1].hasBeenVisited()) {
                 return true;
             } else {
                 return false;
@@ -97,7 +97,7 @@ public class Map
         if (x == this.rowEff-1) {
             return false;
         } else {
-            if (this.map[x+1, y].isPath() && !this.map[x+1, y].hasBeenVisited()) {
+            if ((this.map[x+1, y].isPath() || this.map[x+1, y].isTreasure() || this.map[x+1, y].isKrustyKrab()) && !this.map[x+1, y].hasBeenVisited()) {
                 return true;
             } else {
                 return false;
@@ -105,7 +105,7 @@ public class Map
         }
     }
 
-    public void printMap() {
+    public void printMap() { // for simple terminal view
         for (int i = 0; i < this.rowEff; i++) {
             for (int j = 0; j < this.colEff; j++) {
                 if (this.map[i, j].isKrustyKrab()) {

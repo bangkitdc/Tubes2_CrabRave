@@ -139,7 +139,7 @@ namespace CrabCrave
                 for (int j = 0; j < _columns; j++)
                 {
                     // was Node(i, j, Brushes.WhiteSmoke)
-                    elements.Add(new Node(i, j, false, false, false, true, false, Brushes.WhiteSmoke));
+                    elements.Add(new Node(i, j, 0, 0, Brushes.WhiteSmoke));
                 }
             }
 

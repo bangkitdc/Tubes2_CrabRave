@@ -1,70 +1,62 @@
 using System.Windows.Media;
 public class Node
 {   
+    public enum Value {
+        Wall, // 0
+        Path, // 1
+        Treasure, // 2
+        KrustyKrab // 3
+    }
+    public enum Progress {
+        Unvisited, // 0
+        InVisit, // 1
+        Visited // 2
+    }
     public int x;
     public int y;
-    public bool startpoint; // if the node is krusty krab then true
-    public bool path; // if the node is a path then true
-    public bool treasure; // true if the node contains treasure
-    public bool unvisited; // true if the node is unvisited, false if the node have been visited
-    public bool visiting; // true if the node is currently being visited
+    public Value val;
+    public Progress prog;
     public Brush color;
 
-    public Node(int x, int y, bool startpoint, bool path, bool treasure, bool unvisited, bool visiting, Brush color) {
+    public Node(int x, int y, int value, int progress, Brush color) {
         this.x = x;
         this.y = y;
-        this.startpoint = startpoint;
-        this.path = path;
-        this.treasure = treasure;
-        this.unvisited = unvisited;
-        this.visiting = visiting;
+        this.val = (Value) value;
+        this.prog = (Progress) progress;
         this.color = color;
     }
 
     /* SETTER */
-    public void setStart() {
-        this.startpoint = true;
-    }
-
     public void setPath() {
-        this.path = true;
+        this.val = (Value) 1;
     }
-
     public void setTreasure() {
-        this.path = true;
-        this.treasure = true;
+        this.val = (Value) 2;
     }
-
-    public void setVisited() {
-        this.unvisited = false;
-    }
-
-    public void setVisiting() {
-        this.visiting = true;
-    }
-
-    public void setLeaving() {
-        this.visiting = false;
+    public void setStart() {
+        this.val = (Value) 3;
     }
 
     public void setUnvisited() {
-        this.unvisited = false;
+        this.prog = (Progress) 0;
     }
-
+    public void setVisiting() {
+        this.prog = (Progress) 1;
+    }
+    public void setVisited() {
+        this.prog = (Progress) 2;
+    }
     /**/
-    public bool isKrustyKrab() {
-        return this.startpoint;
-    }
-
     public bool isPath() {
-        return this.path;
+        return this.val == (Value) 1;
     }
-
     public bool isTreasure() {
-        return this.treasure;
+        return this.val == (Value) 2;
     }
-
+    public bool isKrustyKrab() {
+        return this.val == (Value) 3;
+    }
     public bool hasBeenVisited() {
-        return !this.unvisited;
+        return this.prog == (Progress) 2;
     }
 }
