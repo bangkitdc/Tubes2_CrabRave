@@ -1,33 +1,36 @@
-using System.Windows.Media;
 public class Map
 {
     public Node[,] map;
     public int rowEff;
     public int colEff;
+    public int treasureCount;
 
     public Map() {
-        map = new Node[1, 1];
+        this.map = new Node[1, 1];
+        this.map[0, 0] = new Node(0, 0, false, false, false, true, false);
+        this.treasureCount = 0;
         this.rowEff = 1;
         this.colEff = 1;
     }
 
     public Map(int rows, int columns) {
         this.map = new Node[rows, columns];
-        this.rowEff = rows;
-        this.colEff = columns;
+        this.treasureCount = 0;
         for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; i++) {
-                this.map[i, j] = new Node(i, j, false, false, false, true, false, Brushes.WhiteSmoke);
+            for (int j = 0; j < columns; j++) {
+                this.map[i, j] = new Node(i, j, false, false, false, true, false);
                 // by default the map doesn't have path and only contain walls
             }
         }
+        this.rowEff = rows;
+        this.colEff = columns;
     }
 
     /* GETTER */ 
     public (int, int) getStart() {
         // returns the index of the starting point
         for (int i = 0; i < this.rowEff; i++) {
-            for (int j = 0; j < this.colEff; i++) {
+            for (int j = 0; j < this.colEff; j++) {
                 if (this.map[i, j].isKrustyKrab()) {
                     return (i, j);
                 }
@@ -39,7 +42,7 @@ public class Map
 
     /* SETTER */
     public void setStartInMap(int x, int y) {
-        this.map[x, y].setPath();
+        this.map[x, y].setStart();
     }
 
     public void setPathInMap(int x, int y) {
@@ -48,6 +51,7 @@ public class Map
 
     public void setTreasureInMap(int x, int y) {
         this.map[x, y].setTreasure();
+        this.treasureCount++;
     }
 
     // Assume all the index input is correct
@@ -97,6 +101,23 @@ public class Map
             } else {
                 return false;
             }
+        }
+    }
+
+    public void printMap() {
+        for (int i = 0; i < this.rowEff; i++) {
+            for (int j = 0; j < this.colEff; j++) {
+                if (this.map[i, j].isKrustyKrab()) {
+                    Console.Write("K");
+                } else if (this.map[i, j].isTreasure()) {
+                    Console.Write("T");
+                } else if (this.map[i, j].isPath()) {
+                    Console.Write("P");
+                } else if (!this.map[i, j].isPath()) {
+                    Console.Write(".");
+                }
+            }
+            Console.WriteLine("");
         }
     }
 }
