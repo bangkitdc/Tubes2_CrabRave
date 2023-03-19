@@ -35,9 +35,8 @@ namespace CrabCrave.Core
             get { return y; }
         }
 
-        public Brush Color
-        {
-            get { return color; }
+        public void setVisited() {
+            this.unvisited = false;
         }
 
         public void setLeaving() {
@@ -60,40 +59,13 @@ namespace CrabCrave.Core
             this.treasure = true;
         }
 
-        public void setVisited()
-        {
-            this.unvisited = true;
-        }
-
         public void setVisiting()
         {
             this.visiting = true;
         }
 
-        public void setUnvisited()
-        {
-            this.unvisited = false;
-        }
-
-        /**/
-        public bool isKrustyKrab()
-        {
-            return this.startpoint;
-        }
-
-        public bool isPath()
-        {
-            return this.path;
-        }
-
-        public bool isTreasure()
-        {
-            return this.treasure;
-        }
-
-        public bool hasBeenVisited()
-        {
-            return this.unvisited;
+        public bool hasBeenVisited() {
+            return !this.unvisited;
         }
     }
 }

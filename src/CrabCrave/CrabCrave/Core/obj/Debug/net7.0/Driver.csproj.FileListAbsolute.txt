@@ -1,0 +1,15 @@
+C:\Users\louis\Downloads\Projects\Tubes2_CrabRave\src\CrabCrave\CrabCrave\Core\bin\Debug\net7.0\Driver.exe
+C:\Users\louis\Downloads\Projects\Tubes2_CrabRave\src\CrabCrave\CrabCrave\Core\bin\Debug\net7.0\Driver.deps.json
+C:\Users\louis\Downloads\Projects\Tubes2_CrabRave\src\CrabCrave\CrabCrave\Core\bin\Debug\net7.0\Driver.runtimeconfig.json
+C:\Users\louis\Downloads\Projects\Tubes2_CrabRave\src\CrabCrave\CrabCrave\Core\bin\Debug\net7.0\Driver.dll
+C:\Users\louis\Downloads\Projects\Tubes2_CrabRave\src\CrabCrave\CrabCrave\Core\bin\Debug\net7.0\Driver.pdb
+C:\Users\louis\Downloads\Projects\Tubes2_CrabRave\src\CrabCrave\CrabCrave\Core\obj\Debug\net7.0\Driver.csproj.AssemblyReference.cache
+C:\Users\louis\Downloads\Projects\Tubes2_CrabRave\src\CrabCrave\CrabCrave\Core\obj\Debug\net7.0\Driver.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\louis\Downloads\Projects\Tubes2_CrabRave\src\CrabCrave\CrabCrave\Core\obj\Debug\net7.0\Driver.AssemblyInfoInputs.cache
+C:\Users\louis\Downloads\Projects\Tubes2_CrabRave\src\CrabCrave\CrabCrave\Core\obj\Debug\net7.0\Driver.AssemblyInfo.cs
+C:\Users\louis\Downloads\Projects\Tubes2_CrabRave\src\CrabCrave\CrabCrave\Core\obj\Debug\net7.0\Driver.csproj.CoreCompileInputs.cache
+C:\Users\louis\Downloads\Projects\Tubes2_CrabRave\src\CrabCrave\CrabCrave\Core\obj\Debug\net7.0\Driver.dll
+C:\Users\louis\Downloads\Projects\Tubes2_CrabRave\src\CrabCrave\CrabCrave\Core\obj\Debug\net7.0\refint\Driver.dll
+C:\Users\louis\Downloads\Projects\Tubes2_CrabRave\src\CrabCrave\CrabCrave\Core\obj\Debug\net7.0\Driver.pdb
+C:\Users\louis\Downloads\Projects\Tubes2_CrabRave\src\CrabCrave\CrabCrave\Core\obj\Debug\net7.0\Driver.genruntimeconfig.cache
+C:\Users\louis\Downloads\Projects\Tubes2_CrabRave\src\CrabCrave\CrabCrave\Core\obj\Debug\net7.0\ref\Driver.dll
