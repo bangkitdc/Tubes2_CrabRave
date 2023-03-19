@@ -40,10 +40,13 @@ namespace CrabCrave.Core
             get { return color; }
         }
 
-        /* SETTER */
-        public void setStart()
+        public void setLeaving() {
+            this.visiting = false;
+        }
+
+        public void setColor(Brush color)
         {
-            this.startpoint = true;
+            this.color = color;
         }
 
         public void setPath()

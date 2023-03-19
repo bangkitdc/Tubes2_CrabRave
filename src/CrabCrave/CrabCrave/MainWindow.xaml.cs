@@ -6,12 +6,8 @@ using System.IO;
 using System.Windows.Media;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Windows.Documents;
 using CrabCrave.Core;
-using System.Reflection.PortableExecutable;
-using System.Windows.Shapes;
 using System;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CrabCrave
 {
@@ -95,8 +91,10 @@ namespace CrabCrave
 
             MainViewModel m = new MainViewModel(rows, cols);
             m.GenerateMatrixElements(res);
-
             DataContext = m;
+
+            var mainViewModel = (MainViewModel)DataContext;
+            mainViewModel.ChangeNodeColor(0, 0, Brushes.Red);
         }
 
         private List<List<Node>> GetNodeListFromString(string fileContent)
@@ -181,7 +179,6 @@ namespace CrabCrave
             set
             {
                 _rows = value;
-                //GenerateMatrixElements();
                 OnPropertyChanged(nameof(Rows));
             }
         }
@@ -192,8 +189,16 @@ namespace CrabCrave
             set
             {
                 _columns = value;
-                //GenerateMatrixElements();
                 OnPropertyChanged(nameof(Columns));
+            }
+        }
+
+        public void ChangeNodeColor(int x, int y, Brush color)
+        {
+            int index = x * Columns + y;
+            if (index >= 0 && index < MatrixElements.Count)
+            {
+                MatrixElements[index].setColor(color);
             }
         }
 
@@ -209,7 +214,9 @@ namespace CrabCrave
 
         public void GenerateMatrixElements(List<List<Node>> listOfListNode)
         {
-            var elements = new ObservableCollection<Node>();
+            //ObservableCollection<List<Node>> nodesCollection = new ObservableCollection<List<Node>>(listOfListNode);
+
+            ObservableCollection<Node> elements = new ObservableCollection<Node>();
             int rows = listOfListNode.Count;
             int cols = listOfListNode[0].Count;
 
