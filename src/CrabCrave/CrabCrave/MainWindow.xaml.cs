@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using CrabCrave.Core;
 using System;
+using System.Threading.Tasks;
 
 namespace CrabCrave
 {
@@ -47,6 +48,17 @@ namespace CrabCrave
             return false;
         }
 
+        private async void TESTBTN(object sender, RoutedEventArgs e)
+        {
+            var m = (MainViewModel)DataContext;
+            m._map.map[0, 0].Color = (Brushes.Yellow);
+
+            await Task.Delay(1000); // wait for 1 second
+
+            m._map.map[0, 0].Color = (Brushes.Black);
+            
+        }
+
         private void BrowseBtnClick(object sender, RoutedEventArgs e)
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
@@ -81,8 +93,6 @@ namespace CrabCrave
             }
 
             string fileContent = File.ReadAllText(filePath);
-            popupText.Text = fileContent;
-            myPopup.IsOpen = true;
 
             List<List<Node>> res = GetNodeListFromString(fileContent);
 
@@ -92,9 +102,6 @@ namespace CrabCrave
             MainViewModel m = new MainViewModel(rows, cols);
             m.GenerateMatrixElements(res);
             DataContext = m;
-
-            var mainViewModel = (MainViewModel)DataContext;
-            mainViewModel.ChangeNodeColor(0, 0, Brushes.Red);
         }
 
         private List<List<Node>> GetNodeListFromString(string fileContent)
@@ -163,32 +170,57 @@ namespace CrabCrave
 
     public class MainViewModel : INotifyPropertyChanged
     {
-        private int _rows;
-        private int _columns;
-        private ObservableCollection<Node> _matrixElements;
-
-        public MainViewModel(int rows, int columns)
+        public Map _map;
+        public ObservableCollection<Node> _matrixElements { get; set; }
+        public Map Map
         {
-            _rows = rows;
-            _columns = columns;
+            get { return _map; }
+            set
+            {
+                if (_map != value)
+                {
+                    _map = value;
+                    OnPropertyChanged(nameof(Map));
+                    UpdateCollection();
+                }
+            }
+        }
+
+        public MainViewModel(int rows, int cols)
+        {
+            _map = new Map(rows, cols);
+            _matrixElements = new ObservableCollection<Node>();
+        }
+
+        public void UpdateCollection()
+        {
+            Node[,] map = _map.map;
+            _matrixElements.Clear();
+            for (int i = 0; i < map.GetLength(0); i++)
+            {
+                for (int j = 0; j < map.GetLength(1); j++)
+                {
+                    _matrixElements.Add(map[i, j]);
+                }
+            }
         }
 
         public int Rows
         {
-            get => _rows;
+            get => _map.RowEff;
             set
             {
-                _rows = value;
+                _map.RowEff = value;
                 OnPropertyChanged(nameof(Rows));
             }
         }
 
         public int Columns
         {
-            get => _columns;
+            get => _map.ColEff;
             set
             {
-                _columns = value;
+                _map.ColEff = value;
                 OnPropertyChanged(nameof(Columns));
             }
         }
@@ -214,7 +246,7 @@ namespace CrabCrave
 
         public void GenerateMatrixElements(List<List<Node>> listOfListNode)
         {
-            //ObservableCollection<List<Node>> nodesCollection = new ObservableCollection<List<Node>>(listOfListNode);
+            _map.GenerateMap(listOfListNode);
 
             ObservableCollection<Node> elements = new ObservableCollection<Node>();
             int rows = listOfListNode.Count;
@@ -225,11 +257,7 @@ namespace CrabCrave
                 for (int j = 0; j < cols; j++)
                 {
                     // was Node(i, j, Brushes.WhiteSmoke)
-<<<<<<< HEAD
-                    elements.Add(new Node(i, j, 0, 0, Brushes.WhiteSmoke));
-=======
                     elements.Add(listOfListNode[i][j]);
->>>>>>> e0637f866215f0b9df737d7706955c9f9b617fa1
                 }
             }
 

@@ -20,7 +20,7 @@
                                      x:Name="FilenameBox"/>
 
                             <TextBlock IsHitTestVisible="False"
-                                       Text="Your File Here"
+                                       Text="Your file here..."
                                        VerticalAlignment="Center"
                                        HorizontalAlignment="Left"
                                        Margin="10,0,0,0"

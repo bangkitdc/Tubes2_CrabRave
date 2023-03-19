@@ -1,17 +1,20 @@
 using System.Collections.Generic;
 
-public class DFS 
+using CrabCrave.Core;
+
+public class DFS
 {
-    public Stack<Node> path; // holds the path that is used
-    public int treasureFound;
-    public DFS(Map map) {
-        // priorities: U D L R
-        Stack<Node> stack = new Stack<Node>();
-        this.path = new Stack<Node>();
-        this.treasureFound = 0;
- 
-        // assume
-        (int currentX, int currentY) = map.getStart();
+   public Stack<Node> path; // holds the path that is used
+   public int treasureFound;
+   public DFS(Map map)
+   {
+       // priorities: U D L R
+       Stack<Node> stack = new Stack<Node>();
+       this.path = new Stack<Node>();
+       this.treasureFound = 0;
+
+       // assume
+       (int currentX, int currentY) = map.getStart();
 
         map.map[currentX, currentY].setVisiting();
         stack.Push(map.map[currentX, currentY]);
