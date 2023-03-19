@@ -26,6 +26,15 @@ public class Node
         this.color = color;
     }
 
+    public Node(Node other)
+    {
+        this.x = other.x;
+        this.y = other.y;
+        this.val = other.val;
+        this.prog = other.prog;
+        this.color = other.color;
+    }
+
     /* SETTER */
     public void setPath() {
         this.val = (Value) 1;

@@ -28,13 +28,28 @@ public class Map
         this.colEff = columns;
     }
 
-   /* GETTER */
+    public Map(Map other)
+    {
+        this.rowEff = other.rowEff;
+        this.colEff = other.colEff;
+        this.treasureCount = other.treasureCount;
+        this.map = new Node[this.rowEff, this.colEff];
+        for (int i = 0; i < this.rowEff; i++)
+        {
+            for (int j = 0; j < this.colEff; j++)
+            {
+                this.map[i, j] = new Node(other.map[i, j]);
+            }
+        }
+    }
+
+    /* GETTER */
     public (int, int) getStart()
     {
         // returns the index of the starting point
         for (int i = 0; i < this.rowEff; i++)
         {
-            for (int j = 0; j < this.colEff; i++)
+            for (int j = 0; j < this.colEff; j++)
             {
                 if (map[i, j].isKrustyKrab())
                 {
