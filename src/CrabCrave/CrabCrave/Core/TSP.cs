@@ -30,6 +30,7 @@ public class TSP
                         map.map[currentX, currentY].setVisited();
                         currentY++;
                         map.map[currentX, currentY].setVisiting();
+                        await Task.Delay(750);
                         if (this.route != "") {
                             this.route += "-";
                         }
@@ -38,6 +39,7 @@ public class TSP
                         map.map[currentX, currentY].setVisited();
                         currentX--;
                         map.map[currentX, currentY].setVisiting();
+                        await Task.Delay(750);
                         if (this.route != "") {
                             this.route += "-";
                         }
@@ -46,6 +48,7 @@ public class TSP
                         map.map[currentX, currentY].setVisited();
                         currentY--;
                         map.map[currentX, currentY].setVisiting();
+                        await Task.Delay(750);
                         if (this.route != "") {
                             this.route += "-";
                         }
@@ -54,6 +57,7 @@ public class TSP
                         map.map[currentX, currentY].setVisited();
                         currentX++;
                         map.map[currentX, currentY].setVisiting();
+                        await Task.Delay(750);
                         if (this.route != "") {
                             this.route += "-";
                         }
@@ -62,7 +66,7 @@ public class TSP
                     break;
                 }
             }
-            
+
             if (map.isUpAvailable(currentX, currentY)) {
                 map.map[currentX, currentY].setVisited();
                 currentX--;
