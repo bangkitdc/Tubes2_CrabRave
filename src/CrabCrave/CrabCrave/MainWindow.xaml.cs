@@ -10,18 +10,28 @@ using CrabCrave.Core;
 using System;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Windows.Input;
 
 namespace CrabCrave
 {
     public partial class MainWindow : Window
     {
         private string? filePath;
+        private double? timePerStep = 0;
 
         public MainWindow()
         {
             InitializeComponent();
-
+            sliderTime.ValueChanged += sliderViewChanged;
             DataContext = new MainViewModel(0, 0);
+        }
+
+        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragMove();
+            }
         }
 
         private string AlgorithmChecked(RadioButton BFSOption, RadioButton DFSOption)
@@ -49,7 +59,7 @@ namespace CrabCrave
             return false;
         }
 
-        private void TESTBTN(object sender, RoutedEventArgs e)
+        private void Search(object sender, RoutedEventArgs e)
         {
             var m = (MainViewModel)DataContext;
 
@@ -142,11 +152,11 @@ namespace CrabCrave
                     {
                         if (value == "K")
                         {
-                            temp.Add(new Node(countX, countY, 3, 0, Brushes.SandyBrown));
+                            temp.Add(new Node(countX, countY, 3, 0, Brushes.Wheat));
                         }
                         else if (value == "R")
                         {
-                            temp.Add(new Node(countX, countY, 1, 0, Brushes.Green));
+                            temp.Add(new Node(countX, countY, 1, 0, Brushes.White));
                         }
                         else if (value == "X")
                         {
@@ -172,6 +182,33 @@ namespace CrabCrave
             }
 
             return res;
+        }
+        private void sliderViewChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            sliderText.Text = "" + Math.Round(e.NewValue) + " ms";
+            timePerStep = Math.Round(e.NewValue);
+        }
+
+        private void ButtonMinimize_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.WindowState = WindowState.Minimized;
+        }
+
+        private void ButtonMaximize_Click(object sender, RoutedEventArgs e)
+        {
+            if (Application.Current.MainWindow.WindowState != WindowState.Maximized)
+            {
+                Application.Current.MainWindow.WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                Application.Current.MainWindow.WindowState = WindowState.Normal;
+            }
+        }
+
+        private void ButtonClose_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 

@@ -142,7 +142,7 @@ public class Node : INotifyPropertyChanged
         }
         else
         {
-            Colors = Brushes.Coral;
+            Colors = Brushes.LightGreen;
         }
         this.numOfVisits++;
     }
@@ -150,18 +150,11 @@ public class Node : INotifyPropertyChanged
     public void setVisiting2()
     {
         this.prog = (Progress)1;
-        if (Val == Value.Treasure)
-        {
-            Colors = Brushes.DarkGoldenrod;
-        }
-        else
-        {
-            byte darkAlpha = 128; // 50% opacity
-            Color darkColor = Color.FromArgb(darkAlpha, Colors.Color.R, Colors.Color.G, Colors.Color.B);
-            SolidColorBrush darkBrush = new SolidColorBrush(darkColor);
+        byte darkAlpha = 128; // 50% opacity
+        Color darkColor = Color.FromArgb(darkAlpha, Colors.Color.R, Colors.Color.G, Colors.Color.B);
+        SolidColorBrush darkBrush = new SolidColorBrush(darkColor);
 
-            Colors = darkBrush;
-        }
+        Colors = darkBrush;
     }
 
     public void setVisited()
