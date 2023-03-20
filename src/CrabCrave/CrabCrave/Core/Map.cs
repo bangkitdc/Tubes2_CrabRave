@@ -153,10 +153,12 @@ public class Map : INotifyPropertyChanged
         this.map[x, y].setPath();
     }
 
-    public void setPathInMap(int x, int y)
-
-{
+    public void setPathInMap(int x, int y) {
         this.map[x, y].setPath();
+    }
+
+    public void setTreasureInMap(int x, int y) {
+        this.map[x, y].setTreasure();
     }
 
     // Assume all the index input is correct
