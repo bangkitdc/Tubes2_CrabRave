@@ -47,13 +47,17 @@ public class Map
     }
 
    /* SETTER */
-   public void setStartInMap(int x, int y) {
-      this.map[x, y].setPath();
-   }
+    public void setStartInMap(int x, int y) {
+        this.map[x, y].setStart();
+    }
 
-   public void setPathInMap(int x, int y) {
-      this.map[x, y].setPath();
-   }
+    public void setPathInMap(int x, int y) {
+        this.map[x, y].setPath();
+    }
+
+    public void setTreasureInMap(int x, int y) {
+        this.map[x, y].setTreasure();
+    }
 
     // Assume all the index input is correct
     public bool isUpAvailable(int x, int y) {

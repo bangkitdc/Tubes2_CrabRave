@@ -4,11 +4,13 @@ public class DFS
 {
     public Stack<Node> path; // holds the path that is used
     public int treasureFound;
-    public DFS(Map map) {
-        // priorities: U D L R
-        Stack<Node> stack = new Stack<Node>();
+    public DFS() {
         this.path = new Stack<Node>();
         this.treasureFound = 0;
+    }
+    public void search(Map map) {
+        // priorities: U D L R
+        Stack<Node> stack = new Stack<Node>();
  
         // assume
         (int currentX, int currentY) = map.getStart();
