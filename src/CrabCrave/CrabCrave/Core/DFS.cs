@@ -121,7 +121,8 @@ public class DFS
                         }
                         currentX = temp.x;
                         currentY = temp.y;
-                        map.map[currentX, currentY].setVisiting();
+                        map.map[currentX, currentY].setVisiting2();
+                        await Task.Delay(750);
                         this.stepsTaken++;
                     }
                 }
