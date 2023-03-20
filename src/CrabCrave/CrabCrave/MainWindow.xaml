@@ -128,13 +128,24 @@
                         FontWeight="SemiBold"
                         VerticalContentAlignment="Center"
                         HorizontalAlignment="Center"
-                        Margin="0,40,0,0"
+                        Margin="0,20,0,0"
                         Style="{StaticResource BtnTheme}"
                         Click="VisualizeClick"
                         />
 
-                <Button Content="Button"
-                        Click="TESTBTN"/>
+                <Button Content="Search"
+                        Height="45"
+                        Width="120"
+                        FontSize="16"
+                        FontWeight="SemiBold"
+                        VerticalContentAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Margin="0,20,0,0"
+                        Name="SearchBtn"
+                        Visibility="Hidden"
+                        Style="{StaticResource BtnTheme}"
+                        Click="TESTBTN"
+                />
 
             </StackPanel>
 
@@ -160,7 +171,7 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border BorderBrush="Black" BorderThickness="1" Background="{Binding Color}">
+                                <Border BorderBrush="Black" BorderThickness="1" Background="{Binding Colors}">
                                     <TextBlock>
                                         <TextBlock.Text>
                                             <MultiBinding StringFormat="({0}, {1})" >
