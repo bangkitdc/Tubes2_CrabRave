@@ -7,299 +7,438 @@
         mc:Ignorable="d"
         Title="CrabCrave" Height="600" Width="920"
         WindowStyle="None"
-        ResizeMode="NoResize"
+        ResizeMode="CanResizeWithGrip"
         Background="Transparent"
         AllowsTransparency="True"
 >
-    <Border Background="#272537"
-            CornerRadius="20">
+    <Border CornerRadius="10"
+            Background="#272537">
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="300"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-
             <Grid.RowDefinitions>
-                <RowDefinition Height="100"/>
-                <RowDefinition/>
+                <RowDefinition Height="25"/>
+                <RowDefinition />
             </Grid.RowDefinitions>
 
-            <TextBlock
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Left"
-                   Foreground="White"
-                   FontSize="32"
-                   FontWeight="Black"
-                       Margin="293,0,0,0" Text="Treasure Hunt Solver" Grid.ColumnSpan="2"/>
+            <Border Grid.Row="0"
+                    Background="#1B1A27"
+                    CornerRadius="10,10,0,0"
+                    MouseDown="Border_MouseDown">
+                    <Grid HorizontalAlignment="Stretch">
+                        <Label Content="CrabRave"
+                               Foreground="Gray"
+                               FontWeight="SemiBold"
+                               FontFamily="/Fonts/#Poppins"
+                               />
+                        <StackPanel HorizontalAlignment="Right"
+                                    Orientation="Horizontal"
+                                    Margin="0,0,0,0">
 
-            <StackPanel Grid.Row="1">
+                        <Button Content="―" 
+                                Width="25" 
+                                Height="25"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Foreground="Gray"
+                                FontWeight="Bold"
+                                Click="ButtonMinimize_Click"
+                                />
 
-                <TextBlock Text="Input"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Left"
-                   Foreground="White"
-                   FontSize="20"
-                   FontWeight="Bold"
-                       Margin="50,20,0,20" Grid.Column="1"/>
+                        <Button Content="☐" 
+                                Width="25" 
+                                Height="25"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Foreground="Gray"
+                                FontWeight="Bold"
+                                Click="ButtonMaximize_Click"/>
 
-                <TextBlock Text="FileName"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Left"
-                   Foreground="White"
-                   FontSize="16"
-                   FontWeight="Bold"
-                       Margin="50,10,0,10"/>
+                        <Button Content="⨉" 
+                                    Width="25" 
+                                    Height="25"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Foreground="Gray"
+                                    FontWeight="Bold"
+                                    Click="ButtonClose_Click">
 
-                <Grid Margin="50,0,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="150"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
+                            <Button.Resources>
+                                <Style TargetType="{x:Type Border}">
+                                    <Setter Property="CornerRadius" Value="0,10,0,0"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </StackPanel>
+                    </Grid>
+            </Border>
 
-                    <TextBox Width="140"
-                             IsReadOnly="True"
-                             IsEnabled="False"
-                             Grid.Column="0"
-                             Height="40"
-                             VerticalContentAlignment="Center"
-                             HorizontalAlignment="Left"
-                             Margin="0,5,0,5"
-                             x:Name="FilePathTextBox"
-                             Text="{Binding FilePath}"
-                             Style="{StaticResource TextBoxTheme}"/>
-
-                    <Button Content="Select File"
-                            FontSize="12"
-                            Grid.Column="1"
-                            Height="40"
-                            Width="80"
-                            HorizontalAlignment="Left"
-                            Click="BrowseBtnClick"
-                            Style="{StaticResource BtnTheme}"/>
-
-                </Grid>
-
-                <TextBlock Text="Algoritma"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Left"
-                           Foreground="White"
-                           FontSize="16"
-                           FontWeight="Bold"
-                           Margin="50,10,0,10"/>
-
-                <RadioButton Content="BFS"
-                             IsChecked="True"
-                             Height="40"
-                             Foreground="White"
-                             VerticalContentAlignment="Center"
-                             HorizontalAlignment="Left"
-                             Margin="50,0,0,0"
-                             FontSize="14"
-                             x:Name="BFSOption"
-                             />
-
-                <RadioButton Content="DFS"
-                             Height="40"
-                             Foreground="White"
-                             VerticalContentAlignment="Center"
-                             HorizontalAlignment="Left"
-                             Margin="50,0,0,0"
-                             FontSize="14"
-                             x:Name="DFSOption"
-                             />
-
-                <TextBlock Text="TSP"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Left"
-                           Foreground="White"
-                           FontSize="16"
-                           FontWeight="Bold"
-                           Margin="50,10,0,10"/>
-
-                <CheckBox HorizontalAlignment="Left"
-                          Margin="50,0,0,0"
-                          Style="{StaticResource ToggleBtn}"
-                          x:Name="TSPOption"/>
-
-                <Button Content="Visualize"
-                        Height="45"
-                        Width="120"
-                        FontSize="16"
-                        FontWeight="SemiBold"
-                        VerticalContentAlignment="Center"
-                        HorizontalAlignment="Center"
-                        Margin="0,20,0,0"
-                        Style="{StaticResource BtnTheme}"
-                        Click="VisualizeClick"
-                        />
-
-                <Button Content="Search"
-                        Height="45"
-                        Width="120"
-                        FontSize="16"
-                        FontWeight="SemiBold"
-                        VerticalContentAlignment="Center"
-                        HorizontalAlignment="Center"
-                        Margin="0,20,0,0"
-                        Name="SearchBtn"
-                        Visibility="Hidden"
-                        Style="{StaticResource BtnTheme}"
-                        Click="TESTBTN"
-                />
-
-            </StackPanel>
-
-
-            <StackPanel Grid.Row="1" Grid.Column="1">
-
-                <TextBlock Text="Output"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Left"
-                   Foreground="White"
-                   FontSize="20"
-                   FontWeight="Bold"
-                       Margin="50,20,0,20"/>
-
-                <Grid Height="300" Width="300" Margin="0,0,0,20">
-                     <ItemsControl ItemsSource="{Binding MatrixElements}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <UniformGrid Rows="{Binding Rows}" 
-                                             Columns="{Binding Columns}"
-                                             HorizontalAlignment="Stretch"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border BorderBrush="Black" BorderThickness="1" Background="{Binding Colors}">
-                                    <TextBlock>
-                                        <TextBlock.Text>
-                                            <MultiBinding StringFormat="({0}, {1})" >
-                                                <Binding Path="X" />
-                                                <Binding Path="Y" />
-                                            </MultiBinding>
-                                        </TextBlock.Text>
-                                    </TextBlock>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Grid>
-
+            <Border Grid.Row="1">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="300"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
                     <Grid.RowDefinitions>
-                        <RowDefinition/>
+                        <RowDefinition Height="80"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
 
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
+                    <Border Grid.ColumnSpan="2"
+                            BorderThickness="0,0,0,4"
+                            BorderBrush="#1B1A27">
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Foreground="White"
+                            FontSize="28"
+                            FontWeight="Black"
+                            Text="Treasure Hunt Solver" 
+                            FontFamily="/Fonts/#Poppins"
+                            />
+                    </Border>
+                    <Border Grid.Row="1"
+                            BorderThickness="0,0,4,0"
+                            BorderBrush="#1B1A27">
+                        <StackPanel>
 
-                        <TextBlock Text="Route:"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Left"
-                                   Foreground="White"
-                                   FontSize="16"
-                                   FontWeight="Bold"
-                                   Margin="50,10,0,10"
-                                   Grid.Column="0"/>
+                            <TextBlock Text="Input"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Foreground="White"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Margin="40,20,0,10"
+                           FontFamily="/Fonts/#Poppins"/>
 
-                        <TextBox Grid.Column="1"
-                                 FontSize="16"
-                                 IsEnabled="False"
-                                 Text=" "
-                                 Style="{StaticResource TextBoxTheme}">
-                        </TextBox>
-                    </Grid>
+                            <TextBlock Text="File Name"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Foreground="White"
+                           FontSize="14"
+                           FontWeight="SemiBold"
+                               Margin="40,10,0,10"
+                           FontFamily="/Fonts/#Poppins"/>
 
-                    <Grid Grid.Row="1" 
-                          Margin="0,10,0,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
+                            <Grid Margin="40,0,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="130"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="Nodes:"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Left"
-                                   Foreground="White"
-                                   FontSize="16"
-                                   FontWeight="Bold"
-                                   Margin="50,10,0,10"
-                                   Grid.Column="0"/>
+                                <TextBox Width="120"
+                                     IsReadOnly="True"
+                                     IsEnabled="False"
+                                     Grid.Column="0"
+                                     Height="40"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalAlignment="Left"
+                                     Margin="0,5,0,5"
+                                     x:Name="FilePathTextBox"
+                                     FontFamily="/Fonts/#Poppins"
+                                     Text="{Binding FilePath}"
+                                     Style="{StaticResource TextBoxTheme}"/>
 
-                        <TextBox Grid.Column="1"
-                                 FontSize="16"
-                                 IsEnabled="False"
-                                 Text=" "
-                                 Style="{StaticResource TextBoxTheme}">
+                                <Button Content="Select File"
+                                        FontFamily="/Fonts/#Poppins"
+                                    FontSize="12"
+                                    Grid.Column="1"
+                                    Height="40"
+                                    Width="80"
+                                    HorizontalAlignment="Left"
+                                    Click="BrowseBtnClick"
+                                    Style="{StaticResource BtnTheme}"/>
 
-                        </TextBox>
-                    </Grid>
+                            </Grid>
 
-                    <Grid Grid.Column="1" 
-                          >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="Steps:"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Left"
-                                   Foreground="White"
-                                   FontSize="16"
-                                   FontWeight="Bold"
-                                   Margin="20,10,0,10"
-                                   />
-                        <TextBox Grid.Column="1"
-                                 FontSize="16"
-                                 IsEnabled="False"
-                                 Width="120"
-                                 Text=" "
-                                 Style="{StaticResource TextBoxTheme}">
-                        </TextBox>
-                    </Grid>
+                            <Grid Margin="0,10,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
 
-                    <Grid Grid.Row="1" Grid.Column="1"
-                          Margin="0,10,0,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="Execution Time:"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Left"
-                                   Foreground="White"
-                                   FontSize="16"
-                                   FontWeight="Bold"
-                                   Margin="20,10,0,10"
-                                   Grid.Column="0"
-                        />
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Algoritma"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"
+                                           Foreground="White"
+                                           FontSize="14"
+                                           FontWeight="SemiBold"
+                                           Margin="40,10,0,10"
+                                           FontFamily="/Fonts/#Poppins"/>
 
-                        <TextBox Grid.Column="1"
-                                 Name="ExecutionText"
-                                 FontSize="16"
-                                 IsEnabled="False"
-                                 Width="120"
-                                 Text=" "
-                                 Style="{StaticResource TextBoxTheme}">
+                                    <RadioButton Content="BFS"
+                                             IsChecked="True"
+                                             Height="40"
+                                             Foreground="White"
+                                             VerticalContentAlignment="Center"
+                                             HorizontalAlignment="Left"
+                                             Margin="40,0,0,0"
+                                             FontSize="14"
+                                             x:Name="BFSOption"
+                                             FontFamily="/Fonts/#Poppins"
+                                     />
+                                    <RadioButton Content="DFS"
+                                             Height="40"
+                                             Foreground="White"
+                                             VerticalContentAlignment="Center"
+                                             HorizontalAlignment="Left"
+                                             Margin="40,0,0,0"
+                                             FontSize="14"
+                                             x:Name="DFSOption"
+                                             FontFamily="/Fonts/#Poppins"/>
+                                </StackPanel>
 
-                        </TextBox>
-                    </Grid>
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="TSP"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"
+                                           Foreground="White"
+                                           FontSize="14"
+                                           FontWeight="SemiBold"
+                                           Margin="30,10,0,10"
+                                           FontFamily="/Fonts/#Poppins"/>
+
+                                    <CheckBox HorizontalAlignment="Left"
+                                          Margin="30,0,0,0"
+                                          Style="{StaticResource ToggleBtn}"
+                                          x:Name="TSPOption"/>
+                                </StackPanel>
+                            </Grid>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0"
+                                       Text="Time per Step"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"
+                                       Foreground="White"
+                                       FontSize="14"
+                                       FontWeight="SemiBold"
+                                       Margin="40,0,0,20"
+                                       FontFamily="/Fonts/#Poppins"/>
+                                <Slider Width="150"
+                                    HorizontalAlignment="Left"
+                                    Margin="40,0,0,0"
+                                    Minimum="0"
+                                    Maximum="2000"
+                                    x:Name="sliderTime"
+                                    Grid.Row="1"/>
+                                <TextBlock Grid.Row="1"
+                                       Text="{Binding ElementName=sliderTime, Path=Value}"
+                                       FontSize="14"
+                                       FontWeight="SemiBold"
+                                       Foreground="White"
+                                       HorizontalAlignment="Left"
+                                       Margin="200,0,0,0"
+                                       x:Name="sliderText"
+                                       FontFamily="/Fonts/#Poppins"
+                                />
+                            </Grid>
+
+                            <Button Content="Visualize"
+                                Height="45"
+                                Width="120"
+                                FontSize="14"
+                                FontWeight="SemiBold"
+                                VerticalContentAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Margin="0,20,0,0"
+                                Style="{StaticResource BtnTheme}"
+                                Click="VisualizeClick"
+                                Name="VisualizeBtn"
+                                FontFamily="/Fonts/#Poppins"
+                            />
+
+                            <Button Content="Search"
+                                Height="45"
+                                Width="120"
+                                FontSize="14"
+                                FontWeight="SemiBold"
+                                VerticalContentAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Margin="0,10,0,0"
+                                Name="SearchBtn"
+                                Visibility="Hidden"
+                                Style="{StaticResource BtnTheme}"
+                                Click="Search"
+                                FontFamily="/Fonts/#Poppins"
+                            />
+
+
+                        </StackPanel>
+                    </Border>
+
+
+                    <StackPanel Grid.Row="1" Grid.Column="1">
+
+                        <TextBlock Text="Output"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left"
+                       Foreground="White"
+                       FontSize="20"
+                       FontWeight="Bold"
+                           Margin="50,20,0,20"
+                       FontFamily="/Fonts/#Poppins"/>
+
+                        <Grid Height="300" Width="300" Margin="0,0,0,20">
+                            <ItemsControl ItemsSource="{Binding MatrixElements}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Rows="{Binding Rows}" 
+                                                 Columns="{Binding Columns}"
+                                                 HorizontalAlignment="Stretch"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BorderBrush="Black" BorderThickness="1" Background="{Binding Colors}">
+                                            <TextBlock FontFamily="/Fonts/#Poppins">
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="({0}, {1})" >
+                                                        <Binding Path="X" />
+                                                        <Binding Path="Y" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="270"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="140"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="Route:"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"
+                                       Foreground="White"
+                                       FontSize="16"
+                                       FontWeight="Bold"
+                                       Margin="50,10,0,10"
+                                       Grid.Column="0"
+                                       FontFamily="/Fonts/#Poppins"/>
+
+                                <TextBox Grid.Column="1"
+                                         FontFamily="/Fonts/#Poppins"
+                                     Height="30"
+                                     FontSize="16"
+                                     IsEnabled="False"
+                                     Text=" "
+                                     Style="{StaticResource TextBoxTheme}">
+                                </TextBox>
+                            </Grid>
+
+                            <Grid Grid.Row="1" 
+                              >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="140"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="Nodes:"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"
+                                       Foreground="White"
+                                       FontSize="16"
+                                       FontWeight="Bold"
+                                       Margin="50,0,0,0"
+                                       Grid.Column="0"
+                                       FontFamily="/Fonts/#Poppins"/>
+
+                                <TextBox Grid.Column="1"
+                                         FontFamily="/Fonts/#Poppins"
+                                     Height="30"
+                                     FontSize="16"
+                                     IsEnabled="False"
+                                     Text=" "
+                                     Style="{StaticResource TextBoxTheme}">
+
+                                </TextBox>
+                            </Grid>
+
+                            <Grid Grid.Column="1" 
+                              >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="155"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Steps:"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"
+                                       Foreground="White"
+                                       FontSize="16"
+                                       FontWeight="Bold"
+                                       Margin="20,10,0,10"
+                                       FontFamily="/Fonts/#Poppins"
+                                       />
+                                <TextBox Grid.Column="1"
+                                         FontFamily="/Fonts/#Poppins"
+                                     FontSize="16"
+                                     IsEnabled="False"
+                                     Height="30"
+                                     HorizontalAlignment="Left"
+                                     Width="140"
+                                     Text=" "
+                                     Style="{StaticResource TextBoxTheme}">
+                                </TextBox>
+                            </Grid>
+
+                            <Grid Grid.Row="1" Grid.Column="1"
+                              >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="155"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Execution Time:"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"
+                                       Foreground="White"
+                                       FontSize="16"
+                                       FontWeight="Bold"
+                                       Margin="20,10,0,10"
+                                       Grid.Column="0"
+                                       FontFamily="/Fonts/#Poppins"
+                            />
+
+                                <TextBox Grid.Column="1"
+                                         FontFamily="/Fonts/#Poppins"
+                                     Name="ExecutionText"
+                                     FontSize="16"
+                                     IsEnabled="False"
+                                     Height="30"
+                                     Width="140"
+                                     HorizontalAlignment="Left"
+                                     Text=" "
+                                     Style="{StaticResource TextBoxTheme}">
+
+                                </TextBox>
+                            </Grid>
+
+                        </Grid>
+                    </StackPanel>
+
 
                 </Grid>
-            </StackPanel>
 
-
+            </Border>
         </Grid>
-
     </Border>
+
 </Window>
