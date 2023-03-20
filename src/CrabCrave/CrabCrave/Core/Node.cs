@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 public class Node : INotifyPropertyChanged
 {
@@ -20,8 +21,9 @@ public class Node : INotifyPropertyChanged
     public int y;
     public Value val;
     public Progress prog;
-    public Brush color;
-    public Node(int x, int y, int value, int progress, Brush color)
+    public SolidColorBrush color;
+
+    public Node(int x, int y, int value, int progress, SolidColorBrush color)
     {
         this.x = x;
         this.y = y;
@@ -90,7 +92,7 @@ public class Node : INotifyPropertyChanged
         }
     }
 
-    public Brush Color
+    public SolidColorBrush Colors
     {
         get { return color; }
         set
@@ -98,7 +100,7 @@ public class Node : INotifyPropertyChanged
             if (color != value)
             {
                 color = value;
-                OnPropertyChanged(nameof(Color));
+                OnPropertyChanged(nameof(Colors));
             }
         }
     }
@@ -131,8 +133,33 @@ public class Node : INotifyPropertyChanged
     public void setVisiting()
     {
         this.prog = (Progress)1;
-        Color = Brushes.Coral;
+        if (Val == Value.Treasure)
+        {
+            Colors = Brushes.DarkGoldenrod;
+        }
+        else
+        {
+            Colors = Brushes.Coral;
+        }
     }
+
+    public void setVisiting2()
+    {
+        this.prog = (Progress)1;
+        if (Val == Value.Treasure)
+        {
+            Colors = Brushes.DarkGoldenrod;
+        }
+        else
+        {
+            byte darkAlpha = 128; // 50% opacity
+            Color darkColor = Color.FromArgb(darkAlpha, Colors.Color.R, Colors.Color.G, Colors.Color.B);
+            SolidColorBrush darkBrush = new SolidColorBrush(darkColor);
+
+            Colors = darkBrush;
+        }
+    }
+
     public void setVisited()
     {
         this.prog = (Progress)2;

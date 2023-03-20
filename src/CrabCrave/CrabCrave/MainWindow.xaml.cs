@@ -107,6 +107,8 @@ namespace CrabCrave
             MainViewModel m = new MainViewModel(rows, cols);
             m.GenerateMatrixElements(res);
             DataContext = m;
+
+            SearchBtn.Visibility = Visibility.Visible;
         }
 
         private List<List<Node>> GetNodeListFromString(string fileContent)
@@ -140,11 +142,11 @@ namespace CrabCrave
                     {
                         if (value == "K")
                         {
-                            temp.Add(new Node(countX, countY, 3, 0, Brushes.Orange));
+                            temp.Add(new Node(countX, countY, 3, 0, Brushes.SandyBrown));
                         }
                         else if (value == "R")
                         {
-                            temp.Add(new Node(countX, countY, 1, 0, Brushes.LightGreen));
+                            temp.Add(new Node(countX, countY, 1, 0, Brushes.Green));
                         }
                         else if (value == "X")
                         {

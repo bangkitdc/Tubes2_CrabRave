@@ -77,6 +77,8 @@ public class DFS
                     this.path.Push(temp);
                     currentX = temp.x;
                     currentY = temp.y;
+                    map.map[currentX, currentY].setVisiting2();
+                    await Task.Delay(750);
                 }
             }
         }
