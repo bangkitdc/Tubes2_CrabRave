@@ -1,12 +1,13 @@
 using System.Collections.Generic;
-
+using System.Threading.Tasks;
+using System.Windows.Media;
 using CrabCrave.Core;
 
 public class DFS
 {
    public Stack<Node> path; // holds the path that is used
    public int treasureFound;
-   public DFS(Map map)
+   public async Task StartDFS(Map map)
    {
        // priorities: U D L R
        Stack<Node> stack = new Stack<Node>();
@@ -17,6 +18,7 @@ public class DFS
        (int currentX, int currentY) = map.getStart();
 
         map.map[currentX, currentY].setVisiting();
+        await Task.Delay(750);
         stack.Push(map.map[currentX, currentY]);
         this.path.Push(map.map[currentX, currentY]);
 
@@ -33,6 +35,7 @@ public class DFS
                     map.map[currentX, currentY].setVisited();
                     currentX--;
                     map.map[currentX, currentY].setVisiting();
+                    await Task.Delay(750);
                     if (map.map[currentX, currentY].isTreasure()) {
                         treasureFound++;
                     }
@@ -42,6 +45,7 @@ public class DFS
                     map.map[currentX, currentY].setVisited();
                     currentX++;
                     map.map[currentX, currentY].setVisiting();
+                    await Task.Delay(750);
                     if (map.map[currentX, currentY].isTreasure()) {
                         treasureFound++;
                     }
@@ -51,6 +55,7 @@ public class DFS
                     map.map[currentX, currentY].setVisited();
                     currentY--;
                     map.map[currentX, currentY].setVisiting();
+                    await Task.Delay(750);
                     if (map.map[currentX, currentY].isTreasure()) {
                         treasureFound++;
                     }
@@ -60,6 +65,7 @@ public class DFS
                     map.map[currentX, currentY].setVisited();
                     currentY++;
                     map.map[currentX, currentY].setVisiting();
+                    await Task.Delay(750);
                     if (map.map[currentX, currentY].isTreasure()) {
                         treasureFound++;
                     }
@@ -74,5 +80,5 @@ public class DFS
                 }
             }
         }
-    }
+   }
 }
