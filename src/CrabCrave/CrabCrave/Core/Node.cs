@@ -19,6 +19,7 @@ public class Node : INotifyPropertyChanged
     }
     public int x;
     public int y;
+    public int numOfVisits;
     public Value val;
     public Progress prog;
     public SolidColorBrush color;
@@ -27,6 +28,7 @@ public class Node : INotifyPropertyChanged
     {
         this.x = x;
         this.y = y;
+        this.numOfVisits = 0;
         this.val = (Value)value;
         this.prog = (Progress)progress;
         this.color = color;
@@ -48,6 +50,7 @@ public class Node : INotifyPropertyChanged
     {
         this.x = other.x;
         this.y = other.y;
+        this.numOfVisits = other.numOfVisits;
         this.val = other.val;
         this.prog = other.prog;
         this.color = other.color;
@@ -141,6 +144,7 @@ public class Node : INotifyPropertyChanged
         {
             Colors = Brushes.Coral;
         }
+        this.numOfVisits++;
     }
 
     public void setVisiting2()

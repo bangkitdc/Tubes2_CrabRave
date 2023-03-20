@@ -150,7 +150,7 @@ public class Map : INotifyPropertyChanged
    /* SETTER */ 
     public void setStartInMap(int x, int y) 
     {
-        this.map[x, y].setPath();
+        this.map[x, y].setStart();
     }
 
     public void setPathInMap(int x, int y) {

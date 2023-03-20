@@ -6,12 +6,14 @@ using CrabCrave.Core;
 public class DFS
 {
    public Stack<Node> path; // holds the path that is used
+   public int stepsTaken;
    public int treasureFound;
    public async Task StartDFS(Map map)
    {
        // priorities: U D L R
        Stack<Node> stack = new Stack<Node>();
        this.path = new Stack<Node>();
+       this.stepsTaken = 0;
        this.treasureFound = 0;
 
        // assume
@@ -25,11 +27,7 @@ public class DFS
         // while 
         while (stack.Count != 0) {
             if (treasureFound == map.getTreasureCount()) {
-                map.map[currentX, currentY].setVisited();
-                Node temp = stack.Pop();
-                this.path.Push(temp);
-                currentX = temp.x;
-                currentY = temp.y;
+                break;
             } else {
                 if (map.isUpAvailable(currentX, currentY)) {
                     map.map[currentX, currentY].setVisited();
@@ -41,6 +39,7 @@ public class DFS
                     }
                     this.path.Push(map.map[currentX, currentY]);
                     stack.Push(map.map[currentX, currentY]);
+                    this.stepsTaken++;
                 } else if (map.isDownAvailable(currentX, currentY)) {
                     map.map[currentX, currentY].setVisited();
                     currentX++;
@@ -51,6 +50,7 @@ public class DFS
                     }
                     this.path.Push(map.map[currentX, currentY]);
                     stack.Push(map.map[currentX, currentY]);
+                    this.stepsTaken++;
                 } else if (map.isLeftAvailable(currentX, currentY)) {
                     map.map[currentX, currentY].setVisited();
                     currentY--;
@@ -61,6 +61,7 @@ public class DFS
                     }
                     this.path.Push(map.map[currentX, currentY]);
                     stack.Push(map.map[currentX, currentY]);
+                    this.stepsTaken++;
                 } else if (map.isRightAvailable(currentX, currentY)) {
                     map.map[currentX, currentY].setVisited();
                     currentY++;
@@ -71,14 +72,20 @@ public class DFS
                     }
                     this.path.Push(map.map[currentX, currentY]);
                     stack.Push(map.map[currentX, currentY]);
+                    this.stepsTaken++;
                 } else {
                     map.map[currentX, currentY].setVisited();
                     Node temp = stack.Pop();
-                    this.path.Push(temp);
-                    currentX = temp.x;
-                    currentY = temp.y;
-                    map.map[currentX, currentY].setVisiting2();
-                    await Task.Delay(750);
+                    if (temp.x == currentX && temp.y == currentY) {
+
+                    } else {
+                        this.path.Push(temp);
+                        currentX = temp.x;
+                        currentY = temp.y;
+                        map.map[currentX, currentY].setVisiting2();
+                        await Task.Delay(750);
+                        this.stepsTaken++;
+                    }
                 }
             }
         }
