@@ -76,9 +76,9 @@ public class DFS
                     }
                 }
             }
-            if (map.isUpAvailable(currentX, currentY)) {
+            if (map.isRightAvailable(currentX, currentY)) {
                 map.map[currentX, currentY].setVisited();
-                currentX--;
+                currentY++;
                 map.map[currentX, currentY].setVisiting();
                 await Task.Delay(750);
                 if (map.map[currentX, currentY].isTreasure()) {
@@ -90,7 +90,7 @@ public class DFS
                 if (this.route != "") {
                     this.route += "-";
                 }
-                this.route += "U";
+                this.route += "R";
             } else if (map.isDownAvailable(currentX, currentY)) {
                 map.map[currentX, currentY].setVisited();
                 currentX++;
@@ -121,9 +121,9 @@ public class DFS
                     this.route += "-";
                 }
                 this.route += "L";
-            } else if (map.isRightAvailable(currentX, currentY)) {
+            } else if (map.isUpAvailable(currentX, currentY)) {
                 map.map[currentX, currentY].setVisited();
-                currentY++;
+                currentX--;
                 map.map[currentX, currentY].setVisiting();
                 await Task.Delay(750);
                 if (map.map[currentX, currentY].isTreasure()) {
@@ -135,7 +135,7 @@ public class DFS
                 if (this.route != "") {
                     this.route += "-";
                 }
-                this.route += "R";
+                this.route += "U";
             } else {
                 map.map[currentX, currentY].setVisited();
                 Node temp = stack.Pop();
