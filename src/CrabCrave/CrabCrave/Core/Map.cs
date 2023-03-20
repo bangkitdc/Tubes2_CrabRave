@@ -269,5 +269,32 @@ public class Map : INotifyPropertyChanged
     {
         return this.treasureCount;
     }
+    
+    public bool adjacentToStart(int x, int y) {
+        if (x != 0) {
+            if (this.map[x-1, y].isKrustyKrab()) {
+                return true;
+            }
+        }
 
+        if (x != this.rowEff-1) {
+            if (this.map[x+1, y].isKrustyKrab()) {
+                return true;
+            }
+        }
+
+        if (y != 0) {
+            if (this.map[x, y-1].isKrustyKrab()) {
+                return true;
+            }
+        }
+
+        if (y != this.colEff-1) {
+            if (this.map[x, y+1].isKrustyKrab()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

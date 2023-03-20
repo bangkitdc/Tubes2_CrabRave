@@ -8,6 +8,7 @@ public class DFS
    public Stack<Node> path; // holds the path that is used
    public int stepsTaken;
    public int treasureFound;
+   public string route;
    public async Task StartDFS(Map map)
    {
        // priorities: U D L R
@@ -15,6 +16,7 @@ public class DFS
        this.path = new Stack<Node>();
        this.stepsTaken = 0;
        this.treasureFound = 0;
+       this.route = "";
 
        // assume
        (int currentX, int currentY) = map.getStart();
@@ -40,6 +42,10 @@ public class DFS
                     this.path.Push(map.map[currentX, currentY]);
                     stack.Push(map.map[currentX, currentY]);
                     this.stepsTaken++;
+                    if (this.route != "") {
+                        this.route += "-";
+                    }
+                    this.route += "U";
                 } else if (map.isDownAvailable(currentX, currentY)) {
                     map.map[currentX, currentY].setVisited();
                     currentX++;
@@ -51,6 +57,10 @@ public class DFS
                     this.path.Push(map.map[currentX, currentY]);
                     stack.Push(map.map[currentX, currentY]);
                     this.stepsTaken++;
+                    if (this.route != "") {
+                        this.route += "-";
+                    }
+                    this.route += "D";
                 } else if (map.isLeftAvailable(currentX, currentY)) {
                     map.map[currentX, currentY].setVisited();
                     currentY--;
@@ -62,6 +72,10 @@ public class DFS
                     this.path.Push(map.map[currentX, currentY]);
                     stack.Push(map.map[currentX, currentY]);
                     this.stepsTaken++;
+                    if (this.route != "") {
+                        this.route += "-";
+                    }
+                    this.route += "L";
                 } else if (map.isRightAvailable(currentX, currentY)) {
                     map.map[currentX, currentY].setVisited();
                     currentY++;
@@ -73,6 +87,10 @@ public class DFS
                     this.path.Push(map.map[currentX, currentY]);
                     stack.Push(map.map[currentX, currentY]);
                     this.stepsTaken++;
+                    if (this.route != "") {
+                        this.route += "-";
+                    }
+                    this.route += "R";
                 } else {
                     map.map[currentX, currentY].setVisited();
                     Node temp = stack.Pop();
@@ -80,6 +98,27 @@ public class DFS
 
                     } else {
                         this.path.Push(temp);
+                        if (currentX < temp.x) {
+                            if (this.route != "") {
+                                this.route += "-";
+                            }
+                            this.route += "U";
+                        } else if (currentX > temp.x) {
+                            if (this.route != "") {
+                                this.route += "-";
+                            }
+                            this.route += "D";
+                        } else if (currentY < temp.y) {
+                            if (this.route != "") {
+                                this.route += "-";
+                            }
+                            this.route += "L";
+                        } else {
+                            if (this.route != "") {
+                                this.route += "-";
+                            }
+                            this.route += "R";
+                        }
                         currentX = temp.x;
                         currentY = temp.y;
                         map.map[currentX, currentY].setVisiting();
