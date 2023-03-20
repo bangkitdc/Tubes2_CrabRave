@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows.Media;
 public class Node : INotifyPropertyChanged
 {
@@ -109,10 +110,6 @@ public class Node : INotifyPropertyChanged
     }
 
     /* SETTER */
-    public void setColor(Brush color)
-    {
-        this.color = color;
-    }
 
     public void setPath()
     {
@@ -134,6 +131,7 @@ public class Node : INotifyPropertyChanged
     public void setVisiting()
     {
         this.prog = (Progress)1;
+        Color = Brushes.Coral;
     }
     public void setVisited()
     {

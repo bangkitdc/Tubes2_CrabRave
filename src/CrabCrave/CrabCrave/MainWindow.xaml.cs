@@ -9,6 +9,7 @@ using System.ComponentModel;
 using CrabCrave.Core;
 using System;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace CrabCrave
 {
@@ -48,15 +49,19 @@ namespace CrabCrave
             return false;
         }
 
-        private async void TESTBTN(object sender, RoutedEventArgs e)
+        private void TESTBTN(object sender, RoutedEventArgs e)
         {
             var m = (MainViewModel)DataContext;
-            m._map.map[0, 0].Color = (Brushes.Yellow);
 
-            await Task.Delay(1000); // wait for 1 second
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
 
-            m._map.map[0, 0].Color = (Brushes.Black);
-            
+            DFS dfs = new DFS();
+            dfs.StartDFS(m._map);
+
+            stopwatch.Stop();
+
+            ExecutionText.Text = stopwatch.Elapsed.TotalSeconds.ToString() + " seconds";
         }
 
         private void BrowseBtnClick(object sender, RoutedEventArgs e)
@@ -222,15 +227,6 @@ namespace CrabCrave
             {
                 _map.ColEff = value;
                 OnPropertyChanged(nameof(Columns));
-            }
-        }
-
-        public void ChangeNodeColor(int x, int y, Brush color)
-        {
-            int index = x * Columns + y;
-            if (index >= 0 && index < MatrixElements.Count)
-            {
-                MatrixElements[index].setColor(color);
             }
         }
 
