@@ -265,6 +265,8 @@
                                 Click="Search"
                                 FontFamily="/Fonts/#Poppins"
                             />
+                            <Button Content="Button"
+                                    Click="updateVVV"/>
 
 
                         </StackPanel>
@@ -337,6 +339,7 @@
 
                                 <TextBox Grid.Column="1"
                                          FontFamily="/Fonts/#Poppins"
+                                         Name="RouteText"
                                      Height="30"
                                      FontSize="16"
                                      IsEnabled="False"
@@ -364,7 +367,8 @@
 
                                 <TextBox Grid.Column="1"
                                          FontFamily="/Fonts/#Poppins"
-                                     Height="30"
+                                         Name="NodesText"
+                                         Height="30"
                                      FontSize="16"
                                      IsEnabled="False"
                                      Text=" "
@@ -390,13 +394,14 @@
                                        />
                                 <TextBox Grid.Column="1"
                                          FontFamily="/Fonts/#Poppins"
-                                     FontSize="16"
-                                     IsEnabled="False"
-                                     Height="30"
-                                     HorizontalAlignment="Left"
-                                     Width="140"
-                                     Text=" "
-                                     Style="{StaticResource TextBoxTheme}">
+                                         FontSize="16"
+                                         IsEnabled="False"
+                                         Height="30"
+                                         HorizontalAlignment="Left"
+                                         Width="140"
+                                         Text=" "
+                                         Name="StepsText"
+                                         Style="{StaticResource TextBoxTheme}">
                                 </TextBox>
                             </Grid>
 

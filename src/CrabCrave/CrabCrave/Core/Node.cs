@@ -1,5 +1,7 @@
 using System.ComponentModel;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Media;
 public class Node : INotifyPropertyChanged
@@ -78,6 +80,7 @@ public class Node : INotifyPropertyChanged
             {
                 val = value;
                 OnPropertyChanged(nameof(Val));
+
             }
         }
     }
@@ -109,9 +112,10 @@ public class Node : INotifyPropertyChanged
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
-    protected void OnPropertyChanged(string propertyName)
+    protected async void OnPropertyChanged(string propertyName)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        await Task.Delay(1500);
     }
 
     /* SETTER */
@@ -144,11 +148,13 @@ public class Node : INotifyPropertyChanged
         {
             Colors = Brushes.LightGreen;
         }
+
         this.numOfVisits++;
     }
 
     public void setVisiting2()
     {
+
         this.prog = (Progress)1;
         byte darkAlpha = 128; // 50% opacity
         Color darkColor = Color.FromArgb(darkAlpha, Colors.Color.R, Colors.Color.G, Colors.Color.B);

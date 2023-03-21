@@ -11,13 +11,15 @@ using System;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace CrabCrave
 {
     public partial class MainWindow : Window
     {
         private string? filePath;
-        private double? timePerStep = 0;
+        private int timePerStep = 0;
+        private string rrr;
 
         public MainWindow()
         {
@@ -49,7 +51,7 @@ namespace CrabCrave
             return null;
         }
 
-        private bool TSPChecked(object sender, RoutedEventArgs e)
+        private bool TSPChecked(CheckBox TSPOption)
         {
             if (TSPOption.IsChecked == true)
             {
@@ -59,19 +61,47 @@ namespace CrabCrave
             return false;
         }
 
-        private void Search(object sender, RoutedEventArgs e)
+        private async void Search(object sender, RoutedEventArgs e)
         {
             var m = (MainViewModel)DataContext;
 
             Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-
             DFS dfs = new DFS();
-            dfs.StartDFS(m._map);
 
-            stopwatch.Stop();
+            if (AlgorithmChecked(BFSOption, DFSOption) == "DFS")
+            {
+                if (TSPChecked(TSPOption))
+                {
+                    //dfs.StartDFS(m._map, true, timePerStep);
+                }
+                else
+                {
+                    stopwatch.Start();
+                    dfs.StartDFS(m._map, false, timePerStep);
+                    stopwatch.Stop();
+                }
+            }
 
-            ExecutionText.Text = stopwatch.Elapsed.TotalSeconds.ToString() + " seconds";
+            await Task.Run(async () =>
+            {
+                while (dfs.isRunning)
+                {
+                    await Task.Delay(0);
+                }
+            });
+
+            //NodesText.Text = dfs.path.Count.ToString();
+            //StepsText.Text = dfs.stepsTaken.ToString();
+            ExecutionText.Text = stopwatch.Elapsed.TotalMilliseconds.ToString() + " ms";
+            RouteText.Text = dfs.route;
+
+            SearchBtn.Visibility = Visibility.Hidden;
+        }
+
+        public void updateVVV(object sender, RoutedEventArgs e)
+        {
+            RouteText.Text = rrr;
+
         }
 
         private void BrowseBtnClick(object sender, RoutedEventArgs e)
@@ -186,7 +216,7 @@ namespace CrabCrave
         private void sliderViewChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             sliderText.Text = "" + Math.Round(e.NewValue) + " ms";
-            timePerStep = Math.Round(e.NewValue);
+            timePerStep = (int)Math.Round(e.NewValue);
         }
 
         private void ButtonMinimize_Click(object sender, RoutedEventArgs e)
