@@ -35,38 +35,42 @@ public class DFS
                 } else {
                     // if tsp
                     if (map.adjacentToStart(currentX, currentY)) {
-                        if (map.map[currentX, currentY+1].isKrustyKrab()) {
+                        if (map.rightIsStart(currentX, currentY)) {
                             map.map[currentX, currentY].setVisited();
                             currentY++;
                             map.map[currentX, currentY].setVisiting();
-                            await Task.Delay(750);
+                            this.stepsTaken++;
+                            this.path.Push(map.map[currentX, currentY]);
                             if (this.route != "") {
                                 this.route += "-";
                             }
                             this.route += "R";
-                        } else if (map.map[currentX-1, currentY].isKrustyKrab()) {
+                        } else if (map.downIsStart(currentX, currentY)) {
                             map.map[currentX, currentY].setVisited();
-                            currentX--;
+                            currentX++;
                             map.map[currentX, currentY].setVisiting();
-                            await Task.Delay(750);
+                            this.stepsTaken++;
+                            this.path.Push(map.map[currentX, currentY]);
                             if (this.route != "") {
                                 this.route += "-";
                             }
                             this.route += "D";
-                        } else if (map.map[currentX, currentY-1].isKrustyKrab()) {
+                        } else if (map.leftIsStart(currentX, currentY)) {
                             map.map[currentX, currentY].setVisited();
                             currentY--;
                             map.map[currentX, currentY].setVisiting();
-                            await Task.Delay(750);
+                            this.stepsTaken++;
+                            this.path.Push(map.map[currentX, currentY]);
                             if (this.route != "") {
                                 this.route += "-";
                             }
                             this.route += "L";
                         } else {
                             map.map[currentX, currentY].setVisited();
-                            currentX++;
+                            currentX--;
                             map.map[currentX, currentY].setVisiting();
-                            await Task.Delay(750);
+                            this.stepsTaken++;
+                            this.path.Push(map.map[currentX, currentY]);
                             if (this.route != "") {
                                 this.route += "-";
                             }
@@ -147,27 +151,26 @@ public class DFS
                         if (this.route != "") {
                             this.route += "-";
                         }
-                        this.route += "U";
+                        this.route += "D";
                     } else if (currentX > temp.x) {
                         if (this.route != "") {
                             this.route += "-";
                         }
-                        this.route += "D";
+                        this.route += "U";
                     } else if (currentY < temp.y) {
                         if (this.route != "") {
                             this.route += "-";
                         }
-                        this.route += "L";
+                        this.route += "R";
                     } else {
                         if (this.route != "") {
                             this.route += "-";
                         }
-                        this.route += "R";
+                        this.route += "L";
                     }
                     currentX = temp.x;
                     currentY = temp.y;
-                    map.map[currentX, currentY].setVisiting2();
-                    await Task.Delay(750);
+                    map.map[currentX, currentY].setVisiting();
                     this.stepsTaken++;
                 }
             }
