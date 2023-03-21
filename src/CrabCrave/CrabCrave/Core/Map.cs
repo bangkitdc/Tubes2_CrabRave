@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 using CrabCrave;
 using CrabCrave.Core;
+using System.Threading.Tasks;
 
 public class Map : INotifyPropertyChanged
 {
@@ -147,7 +148,7 @@ public class Map : INotifyPropertyChanged
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
-   /* SETTER */ 
+    /* SETTER */
     public void setStartInMap(int x, int y) 
     {
         this.map[x, y].setStart();

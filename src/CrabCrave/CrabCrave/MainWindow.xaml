@@ -266,7 +266,6 @@
                                 FontFamily="/Fonts/#Poppins"
                             />
 
-
                         </StackPanel>
                     </Border>
 
@@ -337,10 +336,12 @@
 
                                 <TextBox Grid.Column="1"
                                          FontFamily="/Fonts/#Poppins"
-                                     Height="30"
+                                         Name="RouteText"
+                                         IsEnabled="True"
+                                         HorizontalScrollBarVisibility="Auto"
+                                         Height="30"
                                      FontSize="16"
-                                     IsEnabled="False"
-                                     Text=" "
+                                         Text=" "
                                      Style="{StaticResource TextBoxTheme}">
                                 </TextBox>
                             </Grid>
@@ -364,7 +365,8 @@
 
                                 <TextBox Grid.Column="1"
                                          FontFamily="/Fonts/#Poppins"
-                                     Height="30"
+                                         Name="NodesText"
+                                         Height="30"
                                      FontSize="16"
                                      IsEnabled="False"
                                      Text=" "
@@ -390,13 +392,14 @@
                                        />
                                 <TextBox Grid.Column="1"
                                          FontFamily="/Fonts/#Poppins"
-                                     FontSize="16"
-                                     IsEnabled="False"
-                                     Height="30"
-                                     HorizontalAlignment="Left"
-                                     Width="140"
-                                     Text=" "
-                                     Style="{StaticResource TextBoxTheme}">
+                                         FontSize="16"
+                                         IsEnabled="False"
+                                         Height="30"
+                                         HorizontalAlignment="Left"
+                                         Width="140"
+                                         Text=" "
+                                         Name="StepsText"
+                                         Style="{StaticResource TextBoxTheme}">
                                 </TextBox>
                             </Grid>
 
