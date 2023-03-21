@@ -173,6 +173,18 @@ public class DFS
                     map.map[currentX, currentY].setVisiting();
                     this.stepsTaken++;
                 }
+
+                if (stack.Count == 0) {
+                    if (map.isRightAvailable(currentX, currentY)) {
+                        stack.Push(map.map[currentX, currentY]);
+                    } else if (map.isDownAvailable(currentX, currentY)) {
+                        stack.Push(map.map[currentX, currentY]);
+                    } else if (map.isLeftAvailable(currentX, currentY)) {
+                        stack.Push(map.map[currentX, currentY]);
+                    } else if (map.isUpAvailable(currentX, currentY)) {
+                        stack.Push(map.map[currentX, currentY]);
+                    }
+                }
             }
             
         }
