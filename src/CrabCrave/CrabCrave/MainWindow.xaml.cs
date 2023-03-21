@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Windows.Input;
 using System.Windows.Threading;
+using CrabCrave.Core.SearchAlgorithm;
 
 namespace CrabCrave
 {
@@ -64,23 +65,43 @@ namespace CrabCrave
         private async void Search(object sender, RoutedEventArgs e)
         {
             var m = (MainViewModel)DataContext;
+            bool usedDFS = false;
+            bool usedBFS = false;
 
             Stopwatch stopwatch = new Stopwatch();
             DFS dfs = new DFS();
+            BFS bfs = new BFS(m._map);
+
+            stopwatch.Start();
 
             if (AlgorithmChecked(BFSOption, DFSOption) == "DFS")
             {
                 if (TSPChecked(TSPOption))
                 {
-                    //dfs.StartDFS(m._map, true, timePerStep);
+                    dfs.StartDFS(m._map, true, timePerStep);
                 }
                 else
                 {
-                    stopwatch.Start();
                     dfs.StartDFS(m._map, false, timePerStep);
-                    stopwatch.Stop();
                 }
+
+                usedDFS = true;
+            } 
+            else if (AlgorithmChecked(BFSOption, DFSOption) == "BFS")
+            {
+                if (TSPChecked(TSPOption))
+                {
+                    
+                }
+                else
+                {
+                    bfs.Search();
+                }
+
+                usedBFS = true;
             }
+
+            stopwatch.Stop();
 
             await Task.Run(async () =>
             {
@@ -90,18 +111,20 @@ namespace CrabCrave
                 }
             });
 
-            //NodesText.Text = dfs.path.Count.ToString();
-            //StepsText.Text = dfs.stepsTaken.ToString();
+            if (usedDFS)
+            {
+                NodesText.Text = dfs.nodesVisited.ToString();
+                StepsText.Text = dfs.stepsTaken.ToString();
+                RouteText.Text = dfs.route;
+            }
+
+            if (usedBFS)
+            {
+
+            }
+            
             ExecutionText.Text = stopwatch.Elapsed.TotalMilliseconds.ToString() + " ms";
-            RouteText.Text = dfs.route;
-
             SearchBtn.Visibility = Visibility.Hidden;
-        }
-
-        public void updateVVV(object sender, RoutedEventArgs e)
-        {
-            RouteText.Text = rrr;
-
         }
 
         private void BrowseBtnClick(object sender, RoutedEventArgs e)

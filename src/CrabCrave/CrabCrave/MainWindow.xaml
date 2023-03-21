@@ -265,9 +265,6 @@
                                 Click="Search"
                                 FontFamily="/Fonts/#Poppins"
                             />
-                            <Button Content="Button"
-                                    Click="updateVVV"/>
-
 
                         </StackPanel>
                     </Border>
@@ -340,10 +337,11 @@
                                 <TextBox Grid.Column="1"
                                          FontFamily="/Fonts/#Poppins"
                                          Name="RouteText"
-                                     Height="30"
+                                         IsEnabled="True"
+                                         HorizontalScrollBarVisibility="Auto"
+                                         Height="30"
                                      FontSize="16"
-                                     IsEnabled="False"
-                                     Text=" "
+                                         Text=" "
                                      Style="{StaticResource TextBoxTheme}">
                                 </TextBox>
                             </Grid>

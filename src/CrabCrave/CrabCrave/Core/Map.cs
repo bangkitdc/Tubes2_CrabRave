@@ -271,25 +271,17 @@ public class Map : INotifyPropertyChanged
         return this.treasureCount;
     }
     
-    public bool adjacentToStart(int x, int y) {
+    public bool upIsStart(int x, int y) {
         if (x != 0) {
             if (this.map[x-1, y].isKrustyKrab()) {
                 return true;
             }
         }
 
-        if (x != this.rowEff-1) {
-            if (this.map[x+1, y].isKrustyKrab()) {
-                return true;
-            }
-        }
+        return false;
+    }
 
-        if (y != 0) {
-            if (this.map[x, y-1].isKrustyKrab()) {
-                return true;
-            }
-        }
-
+    public bool rightIsStart(int x, int y) {
         if (y != this.colEff-1) {
             if (this.map[x, y+1].isKrustyKrab()) {
                 return true;
@@ -297,5 +289,29 @@ public class Map : INotifyPropertyChanged
         }
 
         return false;
+    }
+
+    public bool downIsStart(int x, int y) {
+        if (x != this.rowEff-1) {
+            if (this.map[x+1, y].isKrustyKrab()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public bool leftIsStart(int x, int y) {
+        if (y != 0) {
+            if (this.map[x, y-1].isKrustyKrab()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public bool adjacentToStart(int x, int y) {
+        return upIsStart(x, y) || rightIsStart(x, y) || downIsStart(x, y) || leftIsStart(x, y);
     }
 }
