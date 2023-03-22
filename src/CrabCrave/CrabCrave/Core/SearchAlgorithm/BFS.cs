@@ -27,20 +27,31 @@ namespace CrabCrave.Core.SearchAlgorithm
 
     public class BFS
     {
+        // Process Variables
         private Queue<Node>? visitQueue; // visit queue
         private Node? start; // start node
         private int treasureFound; // number of treasure found
         private int expectedTreasure; // number of treasure expected
         private Map map;
-        private ObservableCollection<Node> path;
         private bool backtrackOn;
+
+        // Result
+        private ObservableCollection<Node> path;
+        private int nodeVisited;
+        private string route;
+        private int steps;
+
+        // Getter result
+        public int NodeVisited { get => nodeVisited;}
+        public string Route { get => route;}
+        public int Steps { get => steps; }
 
         public bool isRunning;
 
         /* backtracking attributes */
         private Dictionary<Node, int>? depthOf; // depth of node
         private Dictionary<Node, Node>? parentOf; //backtracking
-        private Dictionary<Node, Queue<Node>>? pathToNode; //retracking
+        private Dictionary<Node, List<Node>>? pathToNode; //retracking
 
         /// <summary>
         /// Default constructor, the backtrack is off
@@ -90,18 +101,15 @@ namespace CrabCrave.Core.SearchAlgorithm
             (int xStart, int yStart) = map.getStart();
             start = map.map[xStart, yStart];
             start.setVisiting();
-            start.setVisited();
             await Task.Delay(awaitTime);
 
             if (backtrackOn) //only set if backtrack on
             {
                 depthOf[start] = 0;
-                pathToNode[start] = new Queue<Node>();
+                pathToNode[start] = new List<Node>();
             }
-
-            //Node current = next(start).Result;
+            
             Node current = await next(start, 0);
-
 
             // next until found
             while (treasureFound != expectedTreasure && visitQueue.Count >= 0)
@@ -110,8 +118,6 @@ namespace CrabCrave.Core.SearchAlgorithm
                 current = await next(current, awaitTime);
                 if (current == null) break;
             }
-
-
 
             if (treasureFound != expectedTreasure)
             {
@@ -125,22 +131,19 @@ namespace CrabCrave.Core.SearchAlgorithm
                     while (prev != start)
                     {
                         path.Add(prev);
-                        prev.setVisiting();
-                        prev.setVisited();
-                        await Task.Delay(awaitTime);
-
+                        await progressToNode(prev, awaitTime);
                         prev = parentOf[prev];
                     }
                     path.Add(prev);
-                    prev.setVisiting();
-                    prev.setVisited();
-                    await Task.Delay(awaitTime);
+                    await progressToNode(prev, awaitTime);
                 }
             }
-            foreach (Node n in path)
-            {
-                System.Console.WriteLine(n.x + " " + n.y);
-            }
+
+            Debug.WriteLine("Steps: " + steps);
+            Debug.WriteLine("Node Visited: " + nodeVisited);
+            Debug.WriteLine("Treasure Found: " + treasureFound);
+            Debug.WriteLine("Expected Treasure: " + expectedTreasure);
+            Debug.WriteLine("Route: " + route);
 
             isRunning = false;
         }
@@ -153,9 +156,8 @@ namespace CrabCrave.Core.SearchAlgorithm
         private async Task<Node?> next(Node current, int awaitTime)
         {
             path.Add(current);
-            current.setVisiting();
-            current.setVisited();
-            await Task.Delay(awaitTime);
+            await progressToNode(current, awaitTime);
+            nodeVisited++;
 
             List<Node> adjacents = adjacentNode(current); // Guaranteed that it has not been visited
 
@@ -175,8 +177,8 @@ namespace CrabCrave.Core.SearchAlgorithm
                 {
                     depthOf[node] = depthOf[current] + 1;
                     parentOf[node] = current;
-                    pathToNode[node] = new Queue<Node>(pathToNode[current]);
-                    pathToNode[node].Enqueue(node);
+                    pathToNode[node] = new List<Node>(pathToNode[current]);
+                    pathToNode[node].Add(node);
                 }
             }
 
@@ -184,6 +186,7 @@ namespace CrabCrave.Core.SearchAlgorithm
             {
                 await addPathToNextNode(current, awaitTime);
             }
+            current.setVisited();
 
             return visitQueue.Count > 0 ? visitQueue.Dequeue() : null;
         }
@@ -239,34 +242,19 @@ namespace CrabCrave.Core.SearchAlgorithm
                 while (!pathToNode[visitQueue.Peek()].Contains(prev) && prev != start)
                 {
                     path.Add(prev);
-                    prev.setVisiting();
-                    prev.setVisited();
-                    await Task.Delay(awaitTime);
+                    await progressToNode(prev, awaitTime);
 
                     prev = parentOf[prev];
                 }
                 path.Add(prev);
-                prev.setVisiting();
-                prev.setVisited();
-                await Task.Delay(awaitTime);
+                await progressToNode(prev, awaitTime);
 
                 // go forward until just before the destined queue
-                Queue<Node> pathToDest = new Queue<Node>(pathToNode[visitQueue.Peek()]);
-                if (prev != start)
+                for (int i = depthOf[prev]; i < depthOf[visitQueue.Peek()] - 1; i++)
                 {
-                    for (int i = depthOf[prev]; i >= 1; i--)
-                    {
-                        pathToDest.Dequeue();
-                    }
-                }
-
-                while (pathToDest.Count > 1)
-                {
-                    Node a = pathToDest.Dequeue();
-                    path.Add(a);
-                    a.setVisiting();
-                    a.setVisited();
-                    await Task.Delay(awaitTime);
+                    Node n = pathToNode[visitQueue.Peek()][i]; // node that should be visited first before going to the next node in the queue
+                    path.Add(n);
+                    await progressToNode(n, awaitTime);
                 }
             }
         }
@@ -280,33 +268,57 @@ namespace CrabCrave.Core.SearchAlgorithm
             visitQueue = new Queue<Node>();
             path = new ObservableCollection<Node>();
             treasureFound = 0;
-            path.CollectionChanged += OnNodeAddedToPath;
+            steps = -1;
+            nodeVisited = 0;
+            route = "";
 
             if (backtrackOn)
             {
                 depthOf = new Dictionary<Node, int>();
                 parentOf = new Dictionary<Node, Node>();
-                pathToNode = new Dictionary<Node, Queue<Node>>();
+                pathToNode = new Dictionary<Node, List<Node>>();
             }
         }
 
-        private async void OnNodeAddedToPath(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (e.Action == NotifyCollectionChangedAction.Add)
-            {
-                Node n = (Node)e.NewItems[0];
-                Debug.Write(n.x + "," + n.y + " ");
-            }
-            return;
-        }
-
-        private async Task setNodeVisiting(Node n)
+        private async Task progressToNode(Node n, int awaitTime)
         {
             n.setVisiting();
-            await Task.Delay(500);
+            steps++;
+            if (steps > 1)
+            {
+                route += direction(path[path.Count - 2], path[path.Count - 1]);
+            }
+            await Task.Delay(awaitTime);
+            n.setVisited();
         }
 
-        private string QueueToString(Queue<Node> q)
+        private string direction(Node source, Node dest)
+        {
+            if (source.x == dest.x)
+            {
+                if (source.y < dest.y)
+                {
+                    return "R";
+                }
+                else
+                {
+                    return "L";
+                }
+            }
+            else
+            {
+                if (source.x < dest.x)
+                {
+                    return "D";
+                }
+                else
+                {
+                    return "U";
+                }
+            }
+        }
+
+        private string EnumerableToString(IEnumerable<Node> q)
         {
             string result = "";
             foreach (Node curr in q)
