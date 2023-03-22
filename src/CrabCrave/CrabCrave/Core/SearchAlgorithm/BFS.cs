@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Windows;
+using System.Collections.Concurrent;
 
 namespace CrabCrave.Core.SearchAlgorithm
 {
@@ -89,6 +90,7 @@ namespace CrabCrave.Core.SearchAlgorithm
             (int xStart, int yStart) = map.getStart();
             start = map.map[xStart, yStart];
             start.setVisiting();
+            start.setVisited();
             await Task.Delay(awaitTime);
 
             if (backtrackOn) //only set if backtrack on
@@ -106,9 +108,10 @@ namespace CrabCrave.Core.SearchAlgorithm
             {
                 //current = next(current).Result;
                 current = await next(current, awaitTime);
+                if (current == null) break;
             }
 
-            Debug.WriteLine(treasureFound);
+
 
             if (treasureFound != expectedTreasure)
             {
@@ -123,12 +126,14 @@ namespace CrabCrave.Core.SearchAlgorithm
                     {
                         path.Add(prev);
                         prev.setVisiting();
+                        prev.setVisited();
                         await Task.Delay(awaitTime);
 
                         prev = parentOf[prev];
                     }
                     path.Add(prev);
                     prev.setVisiting();
+                    prev.setVisited();
                     await Task.Delay(awaitTime);
                 }
             }
@@ -150,7 +155,6 @@ namespace CrabCrave.Core.SearchAlgorithm
             path.Add(current);
             current.setVisiting();
             current.setVisited();
-
             await Task.Delay(awaitTime);
 
             List<Node> adjacents = adjacentNode(current); // Guaranteed that it has not been visited
@@ -176,12 +180,12 @@ namespace CrabCrave.Core.SearchAlgorithm
                 }
             }
 
-            if (backtrackOn)
+            if (backtrackOn && visitQueue.Count > 0)
             {
-                addPathToNextNode(current, awaitTime);
+                await addPathToNextNode(current, awaitTime);
             }
 
-            return visitQueue.Count > 0 ? visitQueue.Dequeue() : current;
+            return visitQueue.Count > 0 ? visitQueue.Dequeue() : null;
         }
 
         /// <summary>
@@ -218,7 +222,7 @@ namespace CrabCrave.Core.SearchAlgorithm
         /// Adding path to the search path from current node to the next node in the visit queue
         /// </summary>
         /// <param name="current">Current Node</param>
-        private async void addPathToNextNode(Node current, int awaitTime)
+        private async Task addPathToNextNode(Node current, int awaitTime)
         {
             // if next node in queue is the same level as current or deeper -> require backtracking and retracking
             if (visitQueue.Count > 0 && current != start && (depthOf[current] <= depthOf[visitQueue.Peek()]))
@@ -236,19 +240,21 @@ namespace CrabCrave.Core.SearchAlgorithm
                 {
                     path.Add(prev);
                     prev.setVisiting();
+                    prev.setVisited();
                     await Task.Delay(awaitTime);
 
                     prev = parentOf[prev];
                 }
                 path.Add(prev);
                 prev.setVisiting();
+                prev.setVisited();
                 await Task.Delay(awaitTime);
 
                 // go forward until just before the destined queue
                 Queue<Node> pathToDest = new Queue<Node>(pathToNode[visitQueue.Peek()]);
                 if (prev != start)
                 {
-                    for (int i = depthOf[prev]; i > 1; i--)
+                    for (int i = depthOf[prev]; i >= 1; i--)
                     {
                         pathToDest.Dequeue();
                     }
@@ -259,6 +265,7 @@ namespace CrabCrave.Core.SearchAlgorithm
                     Node a = pathToDest.Dequeue();
                     path.Add(a);
                     a.setVisiting();
+                    a.setVisited();
                     await Task.Delay(awaitTime);
                 }
             }
@@ -273,7 +280,7 @@ namespace CrabCrave.Core.SearchAlgorithm
             visitQueue = new Queue<Node>();
             path = new ObservableCollection<Node>();
             treasureFound = 0;
-            //path.CollectionChanged += OnNodeAddedToPath;
+            path.CollectionChanged += OnNodeAddedToPath;
 
             if (backtrackOn)
             {
@@ -283,15 +290,15 @@ namespace CrabCrave.Core.SearchAlgorithm
             }
         }
 
-        //private async void OnNodeAddedToPath(object sender, NotifyCollectionChangedEventArgs e)
-        //{
-        //    if (e.Action == NotifyCollectionChangedAction.Add)
-        //    {
-        //        Node n = (Node)e.NewItems[0];
-        //        await await setNodeVisiting(n);
-        //    }
-        //    return;
-        //}
+        private async void OnNodeAddedToPath(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                Node n = (Node)e.NewItems[0];
+                Debug.Write(n.x + "," + n.y + " ");
+            }
+            return;
+        }
 
         private async Task setNodeVisiting(Node n)
         {
