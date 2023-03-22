@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using CrabCrave.Core;
@@ -9,67 +11,114 @@ public class DFS
    public int stepsTaken;
    public int treasureFound;
    public string route;
-   public async Task StartDFS(Map map, bool tsp)
-   {
-       // priorities: U D L R
-       Stack<Node> stack = new Stack<Node>();
-       this.path = new Stack<Node>();
-       this.stepsTaken = 0;
-       this.treasureFound = 0;
-       this.route = "";
+   public int nodesVisited;
+   public bool isRunning;
 
-       // assume
-       (int currentX, int currentY) = map.getStart();
+    public async Task StartDFS(Map map, bool tsp, int awaitTime)
+    {
+        // priorities: U D L R
+        Stack<Node> stack = new Stack<Node>();
+        this.path = new Stack<Node>();
+        this.stepsTaken = 0;
+        this.treasureFound = 0;
+        this.nodesVisited = 0;
+        this.route = "";
+        isRunning = true;
+
+        // assume
+        (int currentX, int currentY) = map.getStart();
 
         map.map[currentX, currentY].setVisiting();
-        await Task.Delay(750);
+        nodesVisited++;
+        await Task.Delay(awaitTime);
+
         stack.Push(map.map[currentX, currentY]);
         this.path.Push(map.map[currentX, currentY]);
 
         // while 
-        while (stack.Count != 0) {
-            if (treasureFound == map.getTreasureCount()) {
-                if (!tsp) {
+        while (stack.Count != 0)
+        {
+            if (treasureFound == map.getTreasureCount())
+            {
+                if (!tsp)
+                {
                     // if not tsp
                     break;
-                } else {
+                }
+                else
+                {
                     // if tsp
-                    if (map.adjacentToStart(currentX, currentY)) {
-                        if (map.map[currentX, currentY+1].isKrustyKrab()) {
+                    if (map.adjacentToStart(currentX, currentY))
+                    {
+                        nodesVisited--; // adjust saat visit krustykrab di awal
+                        if (map.rightIsStart(currentX, currentY)) {
                             map.map[currentX, currentY].setVisited();
                             currentY++;
                             map.map[currentX, currentY].setVisiting();
-                            await Task.Delay(750);
+                            await Task.Delay(awaitTime);
+                            this.stepsTaken++;
+                            this.path.Push(map.map[currentX, currentY]);
                             if (this.route != "") {
                                 this.route += "-";
+                            }
+
+                            if (!map.map[currentX, currentY].hasBeenVisited())
+                            {
+                                nodesVisited++;
                             }
                             this.route += "R";
-                        } else if (map.map[currentX-1, currentY].isKrustyKrab()) {
-                            map.map[currentX, currentY].setVisited();
-                            currentX--;
-                            map.map[currentX, currentY].setVisiting();
-                            await Task.Delay(750);
-                            if (this.route != "") {
-                                this.route += "-";
-                            }
-                            this.route += "D";
-                        } else if (map.map[currentX, currentY-1].isKrustyKrab()) {
-                            map.map[currentX, currentY].setVisited();
-                            currentY--;
-                            map.map[currentX, currentY].setVisiting();
-                            await Task.Delay(750);
-                            if (this.route != "") {
-                                this.route += "-";
-                            }
-                            this.route += "L";
-                        } else {
+                        } else if (map.downIsStart(currentX, currentY)) {
                             map.map[currentX, currentY].setVisited();
                             currentX++;
                             map.map[currentX, currentY].setVisiting();
-                            await Task.Delay(750);
+                            await Task.Delay(awaitTime);
+                            this.stepsTaken++;
+                            this.path.Push(map.map[currentX, currentY]);
                             if (this.route != "") {
                                 this.route += "-";
                             }
+
+                            if(!map.map[currentX, currentY].hasBeenVisited())
+                            {
+                                nodesVisited++;
+                            }
+
+                            this.route += "D";
+                        } else if (map.leftIsStart(currentX, currentY)) {
+                            map.map[currentX, currentY].setVisited();
+                            currentY--;
+                            map.map[currentX, currentY].setVisiting();
+                            await Task.Delay(awaitTime);
+                            this.stepsTaken++;
+                            this.path.Push(map.map[currentX, currentY]);
+                            if (this.route != "") {
+                                this.route += "-";
+                            }
+
+                            if (!map.map[currentX, currentY].hasBeenVisited())
+                            {
+                                nodesVisited++;
+                            }
+
+                            this.route += "L";
+                        }
+                        else
+                        {
+                            map.map[currentX, currentY].setVisited();
+                            currentX--;
+                            map.map[currentX, currentY].setVisiting();
+                            await Task.Delay(awaitTime);
+                            this.stepsTaken++;
+                            this.path.Push(map.map[currentX, currentY]);
+                            if (this.route != "") {
+                                this.route += "-";
+                            }
+
+                            if (!map.map[currentX, currentY].hasBeenVisited())
+                            {
+                                nodesVisited++;
+                            }
+
                             this.route += "U";
                         }
                         break;
@@ -80,98 +129,157 @@ public class DFS
                 map.map[currentX, currentY].setVisited();
                 currentY++;
                 map.map[currentX, currentY].setVisiting();
-                await Task.Delay(750);
-                if (map.map[currentX, currentY].isTreasure()) {
+                await Task.Delay(awaitTime);
+
+                if (map.map[currentX, currentY].isTreasure())
+                {
                     treasureFound++;
                 }
                 this.path.Push(map.map[currentX, currentY]);
                 stack.Push(map.map[currentX, currentY]);
                 this.stepsTaken++;
-                if (this.route != "") {
+                if (this.route != "")
+                {
                     this.route += "-";
                 }
+
+                if (!map.map[currentX, currentY].hasBeenVisited())
+                {
+                    nodesVisited++;
+                }
+
                 this.route += "R";
             } else if (map.isDownAvailable(currentX, currentY)) {
                 map.map[currentX, currentY].setVisited();
                 currentX++;
                 map.map[currentX, currentY].setVisiting();
-                await Task.Delay(750);
-                if (map.map[currentX, currentY].isTreasure()) {
+                await Task.Delay(awaitTime);
+
+                if (map.map[currentX, currentY].isTreasure())
+                {
                     treasureFound++;
                 }
                 this.path.Push(map.map[currentX, currentY]);
                 stack.Push(map.map[currentX, currentY]);
                 this.stepsTaken++;
-                if (this.route != "") {
+                if (this.route != "")
+                {
                     this.route += "-";
                 }
+
+                if (!map.map[currentX, currentY].hasBeenVisited())
+                {
+                    nodesVisited++;
+                }
+
                 this.route += "D";
-            } else if (map.isLeftAvailable(currentX, currentY)) {
+            }
+            else if (map.isLeftAvailable(currentX, currentY))
+            {
                 map.map[currentX, currentY].setVisited();
                 currentY--;
                 map.map[currentX, currentY].setVisiting();
-                await Task.Delay(750);
-                if (map.map[currentX, currentY].isTreasure()) {
+
+                await Task.Delay(awaitTime);
+
+                if (map.map[currentX, currentY].isTreasure())
+                {
                     treasureFound++;
                 }
                 this.path.Push(map.map[currentX, currentY]);
                 stack.Push(map.map[currentX, currentY]);
                 this.stepsTaken++;
-                if (this.route != "") {
+                if (this.route != "")
+                {
                     this.route += "-";
                 }
+
+                if (!map.map[currentX, currentY].hasBeenVisited())
+                {
+                    nodesVisited++;
+                }
+
                 this.route += "L";
             } else if (map.isUpAvailable(currentX, currentY)) {
                 map.map[currentX, currentY].setVisited();
                 currentX--;
                 map.map[currentX, currentY].setVisiting();
-                await Task.Delay(750);
-                if (map.map[currentX, currentY].isTreasure()) {
+
+                await Task.Delay(awaitTime);
+
+                if (map.map[currentX, currentY].isTreasure())
+                {
                     treasureFound++;
                 }
                 this.path.Push(map.map[currentX, currentY]);
                 stack.Push(map.map[currentX, currentY]);
                 this.stepsTaken++;
-                if (this.route != "") {
+                if (this.route != "")
+                {
                     this.route += "-";
                 }
+
+                if (!map.map[currentX, currentY].hasBeenVisited())
+                {
+                    nodesVisited++;
+                }
+
                 this.route += "U";
             } else {
                 map.map[currentX, currentY].setVisited();
                 Node temp = stack.Pop();
-                if (temp.x == currentX && temp.y == currentY) {
+                if (temp.x == currentX && temp.y == currentY)
+                {
 
-                } else {
+                }
+                else
+                {
                     this.path.Push(temp);
-                    if (currentX < temp.x) {
-                        if (this.route != "") {
+                    if (currentX < temp.x)
+                    {
+                        if (this.route != "")
+                        {
                             this.route += "-";
                         }
-                        this.route += "U";
+                        this.route += "D";
                     } else if (currentX > temp.x) {
                         if (this.route != "") {
                             this.route += "-";
                         }
-                        this.route += "D";
+                        this.route += "U";
                     } else if (currentY < temp.y) {
                         if (this.route != "") {
                             this.route += "-";
                         }
-                        this.route += "L";
+                        this.route += "R";
                     } else {
                         if (this.route != "") {
                             this.route += "-";
                         }
-                        this.route += "R";
+                        this.route += "L";
                     }
+
                     currentX = temp.x;
                     currentY = temp.y;
-                    map.map[currentX, currentY].setVisiting2();
-                    await Task.Delay(750);
+                    stack.Push(map.map[currentX, currentY]);
+                    map.map[currentX, currentY].setVisiting();
+                    await Task.Delay(awaitTime);
                     this.stepsTaken++;
                 }
+
+                if (stack.Count == 0) {
+                    if (map.isRightAvailable(currentX, currentY)) {
+                        stack.Push(map.map[currentX, currentY]);
+                    } else if (map.isDownAvailable(currentX, currentY)) {
+                        stack.Push(map.map[currentX, currentY]);
+                    } else if (map.isLeftAvailable(currentX, currentY)) {
+                        stack.Push(map.map[currentX, currentY]);
+                    } else if (map.isUpAvailable(currentX, currentY)) {
+                        stack.Push(map.map[currentX, currentY]);
+                    }
+                }
             }
-            
         }
-   }
+        isRunning = false;
+    }
 }
