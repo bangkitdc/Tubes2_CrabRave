@@ -128,7 +128,9 @@ namespace CrabCrave
 
             if (usedBFS)
             {
-
+                NodesText.Text = bfs.NodeVisited.ToString();
+                StepsText.Text = bfs.Steps.ToString();
+                RouteText.Text = bfs.Route;
             }
             
             ExecutionText.Text = stopwatch.Elapsed.TotalMilliseconds.ToString() + " ms";

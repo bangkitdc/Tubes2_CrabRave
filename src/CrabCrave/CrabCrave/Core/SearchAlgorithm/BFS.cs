@@ -143,7 +143,9 @@ namespace CrabCrave.Core.SearchAlgorithm
 
             /* This is for finding the solution route */
             /* Converting each path to treasures (List<Node>) to string */
+            /* Highlighting the soulution route */
             current = start; steps++;
+            await highlightNode(current, awaitTime);
             foreach (Node treasure in treasureNodes)
             {
                 // backtrack until it is possible to go to the destined node
@@ -165,6 +167,7 @@ namespace CrabCrave.Core.SearchAlgorithm
                     }
                     steps++;
                     current = n;
+                    await highlightNode(current, awaitTime);
                 }
             }
 
@@ -340,6 +343,17 @@ namespace CrabCrave.Core.SearchAlgorithm
             //}
             await Task.Delay(awaitTime);
             n.setVisited();
+        }
+
+        /// <summary>
+        /// Highlight the node as a solution node
+        /// </summary>
+        /// <param name="n">Node to be highlighted</param>
+        /// <param name="awaitTime">Waiting time between each node highlighting</param>
+        private async Task highlightNode(Node n, int awaitTime)
+        {
+            n.highlightSolution();
+            await Task.Delay(awaitTime);
         }
 
         /// <summary>
