@@ -139,12 +139,6 @@ namespace CrabCrave.Core.SearchAlgorithm
                 }
             }
 
-            Debug.WriteLine("Steps: " + steps);
-            Debug.WriteLine("Node Visited: " + nodeVisited);
-            Debug.WriteLine("Treasure Found: " + treasureFound);
-            Debug.WriteLine("Expected Treasure: " + expectedTreasure);
-            Debug.WriteLine("Route: " + route);
-
             isRunning = false;
         }
 
@@ -284,8 +278,12 @@ namespace CrabCrave.Core.SearchAlgorithm
         {
             n.setVisiting();
             steps++;
-            if (steps > 1)
+            if (steps > 0)
             {
+                if (steps != 1)
+                {
+                    route += '-';
+                }
                 route += direction(path[path.Count - 2], path[path.Count - 1]);
             }
             await Task.Delay(awaitTime);
