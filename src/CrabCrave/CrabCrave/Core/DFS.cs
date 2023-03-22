@@ -235,7 +235,7 @@ public class DFS
             } else {
                 map.map[currentX, currentY].setVisited();
                 Node temp = stack.Pop();
-                if (temp.isTreasure()) {
+                if (temp.isTreasure()  && !thereIsTreasure) {
                     thereIsTreasure = true;
                     currentX = temp.x;
                     currentY = temp.y;

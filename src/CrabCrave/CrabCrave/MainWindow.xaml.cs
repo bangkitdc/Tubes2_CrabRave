@@ -91,11 +91,11 @@ namespace CrabCrave
             {
                 if (TSPChecked(TSPOption))
                 {
-                    
+                    bfs.Search(timePerStep, true);
                 }
                 else
                 {
-                    bfs.Search(timePerStep);
+                    bfs.Search(timePerStep, false);
                 }
 
                 usedBFS = true;
