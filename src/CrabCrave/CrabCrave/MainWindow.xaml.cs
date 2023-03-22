@@ -95,7 +95,7 @@ namespace CrabCrave
                 }
                 else
                 {
-                    bfs.Search();
+                    bfs.Search(timePerStep);
                 }
 
                 usedBFS = true;
@@ -106,6 +106,14 @@ namespace CrabCrave
             await Task.Run(async () =>
             {
                 while (dfs.isRunning)
+                {
+                    await Task.Delay(0);
+                }
+            });
+
+            await Task.Run(async () =>
+            {
+                while (bfs.isRunning)
                 {
                     await Task.Delay(0);
                 }
