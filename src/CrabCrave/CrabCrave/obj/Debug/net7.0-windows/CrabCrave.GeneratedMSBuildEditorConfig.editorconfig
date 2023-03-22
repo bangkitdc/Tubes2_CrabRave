@@ -8,4 +8,8 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = CrabCrave
+<<<<<<< HEAD
 build_property.ProjectDir = C:\Users\louis\Downloads\Projects\Tubes2_CrabRave\src\CrabCrave\CrabCrave\
+=======
+build_property.ProjectDir = d:\STEI\Jurusan\Semester-4\STIMA\tubes\tubes-2\Tubes2_CrabRave\src\CrabCrave\CrabCrave\
+>>>>>>> 7a86ed7158de522e3295641958bf0541bc53b17a

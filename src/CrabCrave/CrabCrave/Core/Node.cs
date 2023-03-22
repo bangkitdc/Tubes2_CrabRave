@@ -141,11 +141,6 @@ public class Node : INotifyPropertyChanged
     {
         if (this.prog == (Progress)2)
         {
-            //byte darkAlpha = 128; // 50% opacity
-            //Color darkColor = Color.FromArgb(darkAlpha, Colors.Color.R, Colors.Color.G, Colors.Color.B);
-            //SolidColorBrush darkBrush = new SolidColorBrush(darkColor);
-
-            //Colors = darkBrush;
             Color darkColor = Color.FromArgb(
                 Colors.Color.A,
                 (byte)(Colors.Color.R * 0.5),
