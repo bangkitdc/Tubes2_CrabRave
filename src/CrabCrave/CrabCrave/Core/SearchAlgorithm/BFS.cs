@@ -1,15 +1,19 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace CrabCrave.Core.SearchAlgorithm
 {
-    public class BFS : SearchAlgorithm<Node>
+    public class BFS
     {
         private Queue<Node>? visitQueue; // visit queue
         private Node? start; // start node
         private int treasureFound; // number of treasure found
         private int expectedTreasure; // number of treasure expected
-
-        private Map originalMap; // maintain original map for reset
+        private Map map;
+        private ObservableCollection<Node> path;
         private bool backtrackOn;
 
         /* backtracking attributes */
@@ -21,9 +25,9 @@ namespace CrabCrave.Core.SearchAlgorithm
         /// Default constructor, the backtrack is off
         /// </summary>
         /// <param name="m">Map that will be searched</param>
-        public BFS(Map m) : base(m)
+        public BFS(Map m)
         {
-            originalMap = new Map(m);
+            map = m;
             backtrackOn = false;
             resetBFS();
         }
@@ -57,7 +61,7 @@ namespace CrabCrave.Core.SearchAlgorithm
         /// <returns>
         /// null if treasure found is less then expected. otherwise, will return the path
         /// </returns>
-        public override List<Node> Search()
+        public async Task Search()
         {
             // init
             (int xStart, int yStart) = map.getStart();
@@ -70,17 +74,19 @@ namespace CrabCrave.Core.SearchAlgorithm
                 pathToNode[start] = new Queue<Node>();
             }
 
-            Node current = next(start);
+            Node current = next(start).Result;
 
             // next until found
             while (treasureFound != expectedTreasure && visitQueue.Count >= 0)
             {
-                current = next(current);
+                current = next(current).Result;
             }
+
+            Debug.WriteLine(treasureFound);
 
             if (treasureFound != expectedTreasure)
             {
-                return null;
+                //do nothing
             }
             else
             {
@@ -90,13 +96,19 @@ namespace CrabCrave.Core.SearchAlgorithm
                     while (prev != start)
                     {
                         path.Add(prev);
+                        prev.setVisiting();
+                        await Task.Delay(750);
                         prev = parentOf[prev];
                     }
                     path.Add(prev);
+                    prev.setVisiting();
+                    await Task.Delay(750);
                 }
             }
-
-            return path;
+            foreach (Node n in path)
+            {
+                System.Console.WriteLine(n.x + " " + n.y);
+            }
         }
 
         /// <summary>
@@ -104,9 +116,11 @@ namespace CrabCrave.Core.SearchAlgorithm
         /// </summary>
         /// <param name="current">Current node</param>
         /// <returns></returns>
-        private Node? next(Node current)
+        private async Task<Node?> next(Node current)
         {
             path.Add(current);
+            current.setVisiting();
+            await Task.Delay(750);
             List<Node> adjacents = adjacentNode(current); // Guaranteed that it has not been visited
 
             if (current.isTreasure())
@@ -173,7 +187,7 @@ namespace CrabCrave.Core.SearchAlgorithm
         /// Adding path to the search path from current node to the next node in the visit queue
         /// </summary>
         /// <param name="current">Current Node</param>
-        private void addPathToNextNode(Node current)
+        private async void addPathToNextNode(Node current)
         {
             // if next node in queue is the same level as current or deeper -> require backtracking and retracking
             if (visitQueue.Count > 0 && current != start && (depthOf[current] <= depthOf[visitQueue.Peek()]))
@@ -190,15 +204,19 @@ namespace CrabCrave.Core.SearchAlgorithm
                 while (!pathToNode[visitQueue.Peek()].Contains(prev) && prev != start)
                 {
                     path.Add(prev);
+                    prev.setVisiting();
+                    await Task.Delay(750);
                     prev = parentOf[prev];
                 }
                 path.Add(prev);
+                prev.setVisiting();
+                await Task.Delay(750);
 
                 // go forward until just before the destined queue
                 Queue<Node> pathToDest = new Queue<Node>(pathToNode[visitQueue.Peek()]);
                 if (prev != start)
                 {
-                    for (int i = depthOf[prev]; i >= 1; i--)
+                    for (int i = depthOf[prev]; i > 1; i--)
                     {
                         pathToDest.Dequeue();
                     }
@@ -208,6 +226,8 @@ namespace CrabCrave.Core.SearchAlgorithm
                 {
                     Node a = pathToDest.Dequeue();
                     path.Add(a);
+                    a.setVisiting();
+                    await Task.Delay(750);
                 }
             }
         }
@@ -217,11 +237,11 @@ namespace CrabCrave.Core.SearchAlgorithm
         /// </summary>
         private void resetBFS()
         {
-            map = new Map(originalMap);
             expectedTreasure = map.getTreasureCount();
             visitQueue = new Queue<Node>();
-            path = new List<Node>();
+            path = new ObservableCollection<Node>();
             treasureFound = 0;
+            //path.CollectionChanged += OnNodeAddedToPath;
 
             if (backtrackOn)
             {
@@ -231,6 +251,22 @@ namespace CrabCrave.Core.SearchAlgorithm
             }
         }
 
+        //private async void OnNodeAddedToPath(object sender, NotifyCollectionChangedEventArgs e)
+        //{
+        //    if (e.Action == NotifyCollectionChangedAction.Add)
+        //    {
+        //        Node n = (Node)e.NewItems[0];
+        //        await await setNodeVisiting(n);
+        //    }
+        //    return;
+        //}
+
+        private async Task setNodeVisiting(Node n)
+        {
+            n.setVisiting();
+            await Task.Delay(750);
+        }
+        
         private string QueueToString(Queue<Node> q)
         {
             string result = "";
