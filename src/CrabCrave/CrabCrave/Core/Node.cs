@@ -168,6 +168,13 @@ public class Node : INotifyPropertyChanged
 
         this.prog = (Progress)2;
     }
+
+    public void highlightSolution()
+    {
+        Color solutionColor = Color.FromArgb(255, 173, 255, 47); // light red
+        SolidColorBrush solutionBrush = new SolidColorBrush(solutionColor);
+        Colors = solutionBrush;
+    }
     /**/
     public bool isPath()
     {
