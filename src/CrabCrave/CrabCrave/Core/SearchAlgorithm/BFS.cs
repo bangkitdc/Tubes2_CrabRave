@@ -3,9 +3,27 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Windows;
 
 namespace CrabCrave.Core.SearchAlgorithm
 {
+//// buat di mainwindow
+//private void Search(object sender, RoutedEventArgs e)
+//{
+//    var m = (MainViewModel)DataContext;
+
+//    Stopwatch stopwatch = new Stopwatch();
+//    stopwatch.Start();
+
+//    BFS bfs = new BFS(m._map);
+//    //bfs.SetBacktrackOn();
+//    await bfs.Search();
+
+//    stopwatch.Stop();
+
+//    ExecutionText.Text = stopwatch.Elapsed.TotalSeconds.ToString() + " seconds";
+//}
+
     public class BFS
     {
         private Queue<Node>? visitQueue; // visit queue
@@ -97,12 +115,11 @@ namespace CrabCrave.Core.SearchAlgorithm
                     {
                         path.Add(prev);
                         prev.setVisiting();
-                        await Task.Delay(750);
                         prev = parentOf[prev];
                     }
                     path.Add(prev);
                     prev.setVisiting();
-                    await Task.Delay(750);
+                    
                 }
             }
             foreach (Node n in path)
@@ -120,7 +137,8 @@ namespace CrabCrave.Core.SearchAlgorithm
         {
             path.Add(current);
             current.setVisiting();
-            await Task.Delay(750);
+            current.setVisited();
+            
             List<Node> adjacents = adjacentNode(current); // Guaranteed that it has not been visited
 
             if (current.isTreasure())
@@ -133,7 +151,6 @@ namespace CrabCrave.Core.SearchAlgorithm
 
             foreach (Node node in adjacents)
             {
-                node.setVisited();
                 visitQueue.Enqueue(node);
 
                 if (backtrackOn)
@@ -205,12 +222,12 @@ namespace CrabCrave.Core.SearchAlgorithm
                 {
                     path.Add(prev);
                     prev.setVisiting();
-                    await Task.Delay(750);
+                    
                     prev = parentOf[prev];
                 }
                 path.Add(prev);
                 prev.setVisiting();
-                await Task.Delay(750);
+                
 
                 // go forward until just before the destined queue
                 Queue<Node> pathToDest = new Queue<Node>(pathToNode[visitQueue.Peek()]);
@@ -227,7 +244,7 @@ namespace CrabCrave.Core.SearchAlgorithm
                     Node a = pathToDest.Dequeue();
                     path.Add(a);
                     a.setVisiting();
-                    await Task.Delay(750);
+                    
                 }
             }
         }
@@ -264,7 +281,7 @@ namespace CrabCrave.Core.SearchAlgorithm
         private async Task setNodeVisiting(Node n)
         {
             n.setVisiting();
-            await Task.Delay(750);
+            
         }
         
         private string QueueToString(Queue<Node> q)
