@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="CrabRave" Height="600" Width="920"
         WindowStyle="None"
-        ResizeMode="CanResizeWithGrip"
+        ResizeMode="NoResize"
         Background="Transparent"
         AllowsTransparency="True"
 >

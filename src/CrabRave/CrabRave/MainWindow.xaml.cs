@@ -20,7 +20,6 @@ namespace CrabRave
     {
         private string? filePath;
         private int timePerStep = 0;
-        private string rrr;
 
         public MainWindow()
         {
@@ -121,16 +120,25 @@ namespace CrabRave
 
             if (usedDFS)
             {
+                if (dfs.treasureFound < m._map.treasureCount)
+                {
+                    MessageBox.Show("No Solution!!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
                 NodesText.Text = dfs.nodesVisited.ToString();
                 StepsText.Text = dfs.stepsTaken.ToString();
-                RouteText.Text = dfs.route;
+                RouteText.Text = dfs.route.Length != 0 ? bfs.Route : " ";
             }
 
             if (usedBFS)
             {
+                if (bfs.treasureFound < m._map.treasureCount)
+                {
+                    MessageBox.Show("No Solution!!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
                 NodesText.Text = bfs.NodeVisited.ToString();
                 StepsText.Text = bfs.Steps.ToString();
-                RouteText.Text = bfs.Route;
+                RouteText.Text = bfs.Route.Length != 0 ? bfs.Route : " ";
             }
             
             ExecutionText.Text = stopwatch.Elapsed.TotalMilliseconds.ToString() + " ms";

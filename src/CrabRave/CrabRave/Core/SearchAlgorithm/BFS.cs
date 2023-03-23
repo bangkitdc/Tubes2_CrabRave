@@ -4,29 +4,12 @@ using System.Threading.Tasks;
 
 namespace CrabRave.Core.SearchAlgorithm
 {
-//// buat di mainwindow
-//private void Search(object sender, RoutedEventArgs e)
-//{
-//    var m = (MainViewModel)DataContext;
-
-//    Stopwatch stopwatch = new Stopwatch();
-//    stopwatch.Start();
-
-//    BFS bfs = new BFS(m._map);
-//    //bfs.SetBacktrackOn();
-//    await bfs.Search();
-
-//    stopwatch.Stop();
-
-//    ExecutionText.Text = stopwatch.Elapsed.TotalSeconds.ToString() + " seconds";
-//}
-
     public class BFS
     {
         /* Variables needed in the process */
         private Queue<Node>? visitQueue; // visit queue => store next node to be visited in queue
         private Node? start; // start node => store starting node
-        private int treasureFound; // number of treasure found (current)
+        public int treasureFound; // number of treasure found (current)
         private int expectedTreasure; // number of treasure expected
         private Map map; // map to be searched
         private bool backtrackOn; // option to use backtrack. if set off, travelling between node can be done directly (without backtrack)
