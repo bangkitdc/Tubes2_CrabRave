@@ -1,5 +1,9 @@
 # Tubes2_CrabRave
 
+<p align="center">
+    <img src="https://github.com/bangkitdc/Tubes2_CrabRave/blob/main/gif/test.gif">
+</p>
+
 ## Brief Description
 This application is used to search for treasure in a maze that is defined from a txt file. For searching the treasure you can use BFS or DFS method. Each of these methods can produce a different approach/ solution. You can also use TSP mode, if this toggle's on then the 'searcher' will return to where it started the search.
 
