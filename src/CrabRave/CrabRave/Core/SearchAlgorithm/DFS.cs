@@ -301,10 +301,12 @@ public class DFS
                     if (!thereIsTreasure) {
                         // if while backtracking there are no treasures, then delete it from the path
                         this.path.Pop();
-                        stepsTaken--;
-                        this.route = this.route.Remove(this.route.Length - 1);
-                        if (this.route.Length >= 2) {
+                        if (this.route.Length != 0) {
+                            stepsTaken--;
                             this.route = this.route.Remove(this.route.Length - 1);
+                            if (this.route.Length >= 2) {
+                                this.route = this.route.Remove(this.route.Length - 1);
+                            }
                         }
                     }
                 }
