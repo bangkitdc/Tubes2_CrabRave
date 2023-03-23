@@ -6,15 +6,15 @@ using System.IO;
 using System.Windows.Media;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using CrabCrave.Core;
+using CrabRave.Core;
 using System;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Windows.Input;
 using System.Windows.Threading;
-using CrabCrave.Core.SearchAlgorithm;
+using CrabRave.Core.SearchAlgorithm;
 
-namespace CrabCrave
+namespace CrabRave
 {
     public partial class MainWindow : Window
     {
@@ -120,16 +120,25 @@ namespace CrabCrave
 
             if (usedDFS)
             {
+                if (dfs.treasureFound < m._map.treasureCount)
+                {
+                    MessageBox.Show("No Solution!!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
                 NodesText.Text = dfs.nodesVisited.ToString();
                 StepsText.Text = dfs.stepsTaken.ToString();
-                RouteText.Text = dfs.route;
+                RouteText.Text = dfs.route.Length != 0 ? bfs.Route : " ";
             }
 
             if (usedBFS)
             {
+                if (bfs.treasureFound < m._map.treasureCount)
+                {
+                    MessageBox.Show("No Solution!!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
                 NodesText.Text = bfs.NodeVisited.ToString();
                 StepsText.Text = bfs.Steps.ToString();
-                RouteText.Text = bfs.Route;
+                RouteText.Text = bfs.Route.Length != 0 ? bfs.Route : " ";
             }
             
             ExecutionText.Text = stopwatch.Elapsed.TotalMilliseconds.ToString() + " ms";

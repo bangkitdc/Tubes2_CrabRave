@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
-namespace CrabCrave.Core;
+using System.Windows.Media;
+using CrabRave.Core;
 
 public class DFS
 {

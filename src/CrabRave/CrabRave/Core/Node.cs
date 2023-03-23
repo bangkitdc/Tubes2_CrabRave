@@ -2,7 +2,7 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace CrabCrave.Core;
+namespace CrabRave.Core;
 
 public class Node : INotifyPropertyChanged
 {
