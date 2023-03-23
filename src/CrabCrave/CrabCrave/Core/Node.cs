@@ -1,9 +1,9 @@
 using System.ComponentModel;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Timers;
-using System.Windows;
 using System.Windows.Media;
+
+namespace CrabCrave.Core;
+
 public class Node : INotifyPropertyChanged
 {
     public enum Value
@@ -159,10 +159,10 @@ public class Node : INotifyPropertyChanged
             Color = Color.FromArgb(255, 0, 255, 0); // LightGreen
         }
         Color darkColor = Color.FromArgb(
-        Color.A,
-        (byte)(Color.R * System.Math.Pow(0.85, numOfVisits+1)),
-        (byte)(Color.G * System.Math.Pow(0.85, numOfVisits+1)),
-        (byte)(Color.B * System.Math.Pow(0.85, numOfVisits+1)));
+            Color.A,
+            (byte)(Color.R * System.Math.Pow(0.85, numOfVisits+1)),
+            (byte)(Color.G * System.Math.Pow(0.85, numOfVisits+1)),
+            (byte)(Color.B * System.Math.Pow(0.85, numOfVisits+1)));
         SolidColorBrush darkBrush = new SolidColorBrush(darkColor);
         Colors = darkBrush;
 

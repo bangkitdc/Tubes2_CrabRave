@@ -1,18 +1,16 @@
-using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Media;
-using CrabCrave.Core;
+
+namespace CrabCrave.Core;
 
 public class DFS
 {
-   public Stack<Node> path; // holds the path that is used
-   public int stepsTaken;
-   public int treasureFound;
-   public string route;
-   public int nodesVisited;
-   public bool isRunning;
+    public Stack<Node> path; // holds the path that is used
+    public int stepsTaken;
+    public int treasureFound;
+    public string route;
+    public int nodesVisited;
+    public bool isRunning;
 
     public async Task StartDFS(Map map, bool tsp, int awaitTime)
     {

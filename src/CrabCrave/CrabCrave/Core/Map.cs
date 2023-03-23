@@ -1,11 +1,9 @@
-using System.ComponentModel;
-using System.Windows.Media;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Media;
 
-using CrabCrave;
-using CrabCrave.Core;
-using System.Threading.Tasks;
+namespace CrabCrave.Core;
 
 public class Map : INotifyPropertyChanged
 {

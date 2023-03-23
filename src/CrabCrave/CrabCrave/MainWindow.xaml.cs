@@ -21,7 +21,6 @@ namespace CrabCrave
     {
         private string? filePath;
         private int timePerStep = 0;
-        private string rrr;
 
         public MainWindow()
         {

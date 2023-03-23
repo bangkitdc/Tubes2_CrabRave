@@ -7,9 +7,10 @@
         mc:Ignorable="d"
         Title="CrabCrave" Height="600" Width="920"
         WindowStyle="None"
-        ResizeMode="CanResizeWithGrip"
+        ResizeMode="NoResize"
         Background="Transparent"
         AllowsTransparency="True"
+        Icon="Icon/Icon1.ico"
 >
     <Border CornerRadius="10"
             Background="#272537">
