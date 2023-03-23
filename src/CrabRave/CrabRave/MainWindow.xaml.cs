@@ -163,7 +163,6 @@ namespace CrabRave
 
         private void VisualizeClick(object sender, RoutedEventArgs e)
         {
-            string algorithmUsed = AlgorithmChecked(BFSOption, DFSOption);
             string fileName = FilePathTextBox.Text;
             if (fileName == "")
             {
@@ -207,6 +206,7 @@ namespace CrabRave
                 lines[i] = lines[i].Replace("\r", " ").Replace("\n", " ").Replace("\t", " ").Trim();
             }
 
+            int countK = 0;
             int countX = 0;
             int countY = 0;
 
@@ -228,6 +228,7 @@ namespace CrabRave
                         if (value == "K")
                         {
                             temp.Add(new Node(countX, countY, 3, 0, Brushes.Wheat));
+                            countK++;
                         }
                         else if (value == "R")
                         {
@@ -254,6 +255,13 @@ namespace CrabRave
                 countY = 0;
                 countX++;
                 res.Add(temp);
+            }
+
+            if (countK != 1)
+            {
+                MessageBox.Show("Krusty Krab(K) should be 1 on the map", "Error", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return null;
             }
 
             return res;
