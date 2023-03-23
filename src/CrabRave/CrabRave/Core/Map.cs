@@ -1,9 +1,8 @@
-using System.ComponentModel;
-using System.Windows.Media;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Media;
 
-using CrabRave;
 using CrabRave.Core;
 using System.Threading.Tasks;
 

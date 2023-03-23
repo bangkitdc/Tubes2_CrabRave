@@ -20,7 +20,6 @@ namespace CrabRave
     {
         private string? filePath;
         private int timePerStep = 0;
-        private string rrr;
 
         public MainWindow()
         {
@@ -121,16 +120,25 @@ namespace CrabRave
 
             if (usedDFS)
             {
+                if (dfs.treasureFound < m._map.treasureCount)
+                {
+                    MessageBox.Show("No Solution!!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
                 NodesText.Text = dfs.nodesVisited.ToString();
                 StepsText.Text = dfs.stepsTaken.ToString();
-                RouteText.Text = dfs.route;
+                RouteText.Text = dfs.route.Length != 0 ? bfs.Route : " ";
             }
 
             if (usedBFS)
             {
+                if (bfs.treasureFound < m._map.treasureCount)
+                {
+                    MessageBox.Show("No Solution!!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
                 NodesText.Text = bfs.NodeVisited.ToString();
                 StepsText.Text = bfs.Steps.ToString();
-                RouteText.Text = bfs.Route;
+                RouteText.Text = bfs.Route.Length != 0 ? bfs.Route : " ";
             }
             
             ExecutionText.Text = stopwatch.Elapsed.TotalMilliseconds.ToString() + " ms";
@@ -155,7 +163,6 @@ namespace CrabRave
 
         private void VisualizeClick(object sender, RoutedEventArgs e)
         {
-            string algorithmUsed = AlgorithmChecked(BFSOption, DFSOption);
             string fileName = FilePathTextBox.Text;
             if (fileName == "")
             {
@@ -199,6 +206,7 @@ namespace CrabRave
                 lines[i] = lines[i].Replace("\r", " ").Replace("\n", " ").Replace("\t", " ").Trim();
             }
 
+            int countK = 0;
             int countX = 0;
             int countY = 0;
 
@@ -220,6 +228,7 @@ namespace CrabRave
                         if (value == "K")
                         {
                             temp.Add(new Node(countX, countY, 3, 0, Brushes.Wheat));
+                            countK++;
                         }
                         else if (value == "R")
                         {
@@ -246,6 +255,13 @@ namespace CrabRave
                 countY = 0;
                 countX++;
                 res.Add(temp);
+            }
+
+            if (countK != 1)
+            {
+                MessageBox.Show("Krusty Krab(K) should be 1 on the map", "Error", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return null;
             }
 
             return res;
