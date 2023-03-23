@@ -3,9 +3,10 @@
     "",
     "\\src",
     "\\src\\CrabCrave",
-    "\\src\\CrabCrave\\CrabCrave",
-    "\\src\\CrabCrave\\CrabCrave\\Core"
+    "\\src\\CrabRave",
+    "\\src\\CrabRave\\CrabRave",
+    "\\src\\CrabRave\\CrabRave\\Core",
+    "\\src\\CrabRave\\CrabRave\\Core\\SearchAlgorithm"
   ],
-  "SelectedNode": "\\src\\CrabCrave\\CrabCrave\\MainWindow.xaml",
   "PreviewInSolutionExplorer": false
 }

@@ -14,7 +14,7 @@ public class DFS
 
     public async Task StartDFS(Map map, bool tsp, int awaitTime)
     {
-        // priorities: U D L R
+        // priorities: R D L U
         Stack<Node> stack = new Stack<Node>();
         this.path = new Stack<Node>();
         this.stepsTaken = 0;
@@ -24,7 +24,7 @@ public class DFS
         bool thereIsTreasure = false;
         isRunning = true;
 
-        // assume
+        // get the start point
         (int currentX, int currentY) = map.getStart();
 
         map.map[currentX, currentY].setVisiting();
@@ -34,10 +34,11 @@ public class DFS
         stack.Push(map.map[currentX, currentY]);
         this.path.Push(map.map[currentX, currentY]);
 
-        // while 
+        // while stack is not empty 
         while (stack.Count != 0)
         {
             if (treasureFound == map.getTreasureCount())
+            // if all treasure has been found
             {
                 if (!tsp)
                 {
@@ -46,11 +47,12 @@ public class DFS
                 }
                 else
                 {
-                    // if tsp
+                    // if tsp, then find the route back to start
                     if (map.adjacentToStart(currentX, currentY))
                     {
                         nodesVisited--; // adjust saat visit krustykrab di awal
                         if (map.rightIsStart(currentX, currentY)) {
+                            // if start is at the right side of current node
                             map.map[currentX, currentY].setVisited();
                             currentY++;
                             map.map[currentX, currentY].setVisiting();
@@ -67,6 +69,7 @@ public class DFS
                             }
                             this.route += "R";
                         } else if (map.downIsStart(currentX, currentY)) {
+                            // if start is at the down side of current node
                             map.map[currentX, currentY].setVisited();
                             currentX++;
                             map.map[currentX, currentY].setVisiting();
@@ -84,6 +87,7 @@ public class DFS
 
                             this.route += "D";
                         } else if (map.leftIsStart(currentX, currentY)) {
+                            // if start is at the left side of current node
                             map.map[currentX, currentY].setVisited();
                             currentY--;
                             map.map[currentX, currentY].setVisiting();
@@ -103,6 +107,7 @@ public class DFS
                         }
                         else
                         {
+                            // if start is at the up side of current node
                             map.map[currentX, currentY].setVisited();
                             currentX--;
                             map.map[currentX, currentY].setVisiting();
@@ -125,6 +130,7 @@ public class DFS
                 }
             }
             if (map.isRightAvailable(currentX, currentY)) {
+                // if the right side of current node is available
                 thereIsTreasure = false;
                 map.map[currentX, currentY].setVisited();
                 currentY++;
@@ -151,6 +157,7 @@ public class DFS
 
                 this.route += "R";
             } else if (map.isDownAvailable(currentX, currentY)) {
+                // if the down side of current node is available
                 thereIsTreasure = false;
                 map.map[currentX, currentY].setVisited();
                 currentX++;
@@ -177,8 +184,8 @@ public class DFS
 
                 this.route += "D";
             }
-            else if (map.isLeftAvailable(currentX, currentY))
-            {
+            else if (map.isLeftAvailable(currentX, currentY)) {
+                // if the left side of current node is available
                 thereIsTreasure = false;
                 map.map[currentX, currentY].setVisited();
                 currentY--;
@@ -205,6 +212,7 @@ public class DFS
 
                 this.route += "L";
             } else if (map.isUpAvailable(currentX, currentY)) {
+                // if the up side of current node is available
                 thereIsTreasure = false;
                 map.map[currentX, currentY].setVisited();
                 currentX--;
@@ -231,8 +239,11 @@ public class DFS
 
                 this.route += "U";
             } else {
+                // if there are no available nodes to be visited from the current node, then backtrack
                 map.map[currentX, currentY].setVisited();
                 Node temp = stack.Pop();
+                
+                // if while backtracking there is treasure
                 if (temp.isTreasure()  && !thereIsTreasure) {
                     thereIsTreasure = true;
                     currentX = temp.x;
@@ -243,6 +254,7 @@ public class DFS
                 if (temp.x == currentX && temp.y == currentY)
                 {
                     if (!thereIsTreasure) {
+                        // if while backtracking there are no treasures, then delete it from the path
                         this.path.Pop();
                         stepsTaken--;
                         this.route = this.route.Remove(this.route.Length - 1);
@@ -254,6 +266,7 @@ public class DFS
                 else
                 {
                     if (thereIsTreasure) {
+                        // if while backtracking there are treasures, then add it to the path
                         this.path.Push(temp);
                         this.stepsTaken++;
                     }
