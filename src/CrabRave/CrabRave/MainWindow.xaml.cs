@@ -13,6 +13,7 @@ using System.Diagnostics;
 using System.Windows.Input;
 using System.Windows.Threading;
 using CrabRave.Core.SearchAlgorithm;
+using System.Net;
 
 namespace CrabRave
 {
@@ -118,31 +119,36 @@ namespace CrabRave
                 }
             });
 
+            ExecutionText.Text = stopwatch.Elapsed.TotalMilliseconds.ToString() + " ms";
+            SearchBtn.Visibility = Visibility.Hidden;
+
             if (usedDFS)
             {
-                if (dfs.treasureFound < m._map.treasureCount)
-                {
-                    MessageBox.Show("No Solution!!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-
                 NodesText.Text = dfs.nodesVisited.ToString();
                 StepsText.Text = dfs.stepsTaken.ToString();
                 RouteText.Text = dfs.route.Length != 0 ? dfs.route : " ";
+
+                if (dfs.treasureFound < m._map.treasureCount)
+                {
+                    RouteText.Text = "No Solution";
+                    MessageBox.Show("No Solution!!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
             }
 
             if (usedBFS)
             {
-                if (bfs.treasureFound < m._map.treasureCount)
-                {
-                    MessageBox.Show("No Solution!!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
                 NodesText.Text = bfs.NodeVisited.ToString();
                 StepsText.Text = bfs.Steps.ToString();
                 RouteText.Text = bfs.Route.Length != 0 ? bfs.Route : " ";
+
+                if (bfs.treasureFound < m._map.treasureCount)
+                {
+                    RouteText.Text = "No Solution";
+                    MessageBox.Show("No Solution!!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
             }
-            
-            ExecutionText.Text = stopwatch.Elapsed.TotalMilliseconds.ToString() + " ms";
-            SearchBtn.Visibility = Visibility.Hidden;
         }
 
         private void BrowseBtnClick(object sender, RoutedEventArgs e)
@@ -161,8 +167,17 @@ namespace CrabRave
             }
         }
 
+        private void clearTextBox()
+        {
+            ExecutionText.Text = " ";
+            NodesText.Text = " ";
+            StepsText.Text = " ";
+            RouteText.Text = " ";
+        }
+
         private void VisualizeClick(object sender, RoutedEventArgs e)
         {
+            clearTextBox();
             string fileName = FilePathTextBox.Text;
             if (fileName == "")
             {
