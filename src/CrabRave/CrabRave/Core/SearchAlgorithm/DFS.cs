@@ -4,20 +4,53 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using CrabRave.Core;
+using System.Linq;
 
 public class DFS
 {
-   public Stack<Node> path; // holds the path that is used
-   public int stepsTaken;
-   public int treasureFound;
-   public string route;
-   public int nodesVisited;
-   public bool isRunning;
+    public Stack<Node> path; // holds the path that is used
+    public int stepsTaken;
+    public int treasureFound;
+    public string route;
+    public int nodesVisited;
+    public bool isRunning;
+
+    public bool isItSection(Map map, int x, int y) {
+        int ctr = 0;
+
+        if (map.isRightAvailable(x, y)) {
+            ctr++;
+        }
+        if (map.isDownAvailable(x, y)) {
+            ctr++;
+        }
+        if (map.isLeftAvailable(x, y)) {
+            ctr++;
+        }
+        if (map.isUpAvailable(x, y)) {
+            ctr++;
+        }
+        if (ctr > 1) {
+            return true;
+        }
+        return false;
+    }
+    
+    public bool isItInTheList(List<Node> list, int x, int y) {
+        for (int i = 0; i < list.Count; i++) {
+            if (list.ElementAt(i).x == x && list.ElementAt(i).y == y) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     public async Task StartDFS(Map map, bool tsp, int awaitTime)
     {
         // priorities: R D L U
         Stack<Node> stack = new Stack<Node>();
+        List<Node> treasureNode = new List<Node>(); // contains the node which is in a path to get a treasure
         this.path = new Stack<Node>();
         this.stepsTaken = 0;
         this.treasureFound = 0;
@@ -133,6 +166,9 @@ public class DFS
             }
             if (map.isRightAvailable(currentX, currentY)) {
                 // if the right side of current node is available
+                if (thereIsTreasure) {
+                    treasureNode.Add(map.map[currentX, currentY]);
+                }
                 thereIsTreasure = false;
                 map.map[currentX, currentY].setVisited();
                 currentY++;
@@ -160,6 +196,9 @@ public class DFS
                 this.route += "R";
             } else if (map.isDownAvailable(currentX, currentY)) {
                 // if the down side of current node is available
+                if (thereIsTreasure) {
+                    treasureNode.Add(map.map[currentX, currentY]);
+                }
                 thereIsTreasure = false;
                 map.map[currentX, currentY].setVisited();
                 currentX++;
@@ -188,6 +227,9 @@ public class DFS
             }
             else if (map.isLeftAvailable(currentX, currentY)) {
                 // if the left side of current node is available
+                if (thereIsTreasure) {
+                    treasureNode.Add(map.map[currentX, currentY]);
+                }
                 thereIsTreasure = false;
                 map.map[currentX, currentY].setVisited();
                 currentY--;
@@ -215,6 +257,9 @@ public class DFS
                 this.route += "L";
             } else if (map.isUpAvailable(currentX, currentY)) {
                 // if the up side of current node is available
+                if (thereIsTreasure) {
+                    treasureNode.Add(map.map[currentX, currentY]);
+                }
                 thereIsTreasure = false;
                 map.map[currentX, currentY].setVisited();
                 currentX--;
@@ -309,6 +354,11 @@ public class DFS
                     stack.Push(map.map[currentX, currentY]);
                     map.map[currentX, currentY].setVisiting();
                     await Task.Delay(awaitTime);
+
+                    // check if the current node is actually a needed node in the path
+                    if (isItInTheList(treasureNode, currentX, currentY)) {
+                        thereIsTreasure = true;
+                    }
                 }
 
                 if (stack.Count == 0) {
