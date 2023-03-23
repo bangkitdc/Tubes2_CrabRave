@@ -8,26 +8,27 @@
     "net7.0-windows7.0": []
   },
   "packageFolders": {
-    "C:\\Users\\louis\\.nuget\\packages\\": {}
+    "C:\\Users\\bangk\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\louis\\Downloads\\Projects\\Tubes2_CrabRave\\src\\CrabCrave\\CrabCrave\\CrabCrave.csproj",
+      "projectUniqueName": "D:\\STEI\\Jurusan\\Semester-4\\STIMA\\tubes\\tubes-2\\Tubes2_CrabRave\\src\\CrabCrave\\CrabCrave\\CrabCrave.csproj",
       "projectName": "CrabCrave",
-      "projectPath": "C:\\Users\\louis\\Downloads\\Projects\\Tubes2_CrabRave\\src\\CrabCrave\\CrabCrave\\CrabCrave.csproj",
-      "packagesPath": "C:\\Users\\louis\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\louis\\Downloads\\Projects\\Tubes2_CrabRave\\src\\CrabCrave\\CrabCrave\\obj\\",
+      "projectPath": "D:\\STEI\\Jurusan\\Semester-4\\STIMA\\tubes\\tubes-2\\Tubes2_CrabRave\\src\\CrabCrave\\CrabCrave\\CrabCrave.csproj",
+      "packagesPath": "C:\\Users\\bangk\\.nuget\\packages\\",
+      "outputPath": "D:\\STEI\\Jurusan\\Semester-4\\STIMA\\tubes\\tubes-2\\Tubes2_CrabRave\\src\\CrabCrave\\CrabCrave\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\louis\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\bangk\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net7.0-windows"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {}
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net7.0-windows7.0": {
@@ -63,7 +64,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
       }
     }
   }
