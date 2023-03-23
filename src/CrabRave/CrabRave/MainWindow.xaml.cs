@@ -13,7 +13,6 @@ using System.Diagnostics;
 using System.Windows.Input;
 using System.Windows.Threading;
 using CrabCrave.Core.SearchAlgorithm;
-using System.Net;
 
 namespace CrabCrave
 {
@@ -154,18 +153,9 @@ namespace CrabCrave
             }
         }
 
-        private void clearTextBox()
-        {
-            NodesText.Text = " ";
-            StepsText.Text = " ";
-            RouteText.Text = " ";
-            ExecutionText.Text = " ";
-
-        }
-
         private void VisualizeClick(object sender, RoutedEventArgs e)
         {
-            clearTextBox();
+            string algorithmUsed = AlgorithmChecked(BFSOption, DFSOption);
             string fileName = FilePathTextBox.Text;
             if (fileName == "")
             {
@@ -183,11 +173,6 @@ namespace CrabCrave
             string fileContent = File.ReadAllText(filePath);
 
             List<List<Node>> res = GetNodeListFromString(fileContent);
-
-            if (res == null)
-            {
-                return;
-            }
 
             int rows = res.Count;
             int cols = res[0].Count;
