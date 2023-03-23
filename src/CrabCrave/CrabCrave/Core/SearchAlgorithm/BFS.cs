@@ -161,9 +161,15 @@ namespace CrabCrave.Core.SearchAlgorithm
                 {
                     Node n = pathToNode[treasure][i]; // node that should be visited first before going to the next node in the queue
                     route += direction(current, n);
-                    if (!tspOn && !(treasure == treasureNodes[treasureNodes.Count-1] && i == depthOf[treasure]-1))
+                    if (!(treasure == treasureNodes[treasureNodes.Count-1] && i == depthOf[treasure]-1))
                     {
                         route += '-';
+                    } else
+                    {
+                        if (tspOn)
+                        {
+                            route += '-';
+                        }
                     }
                     steps++;
                     current = n;
@@ -197,6 +203,11 @@ namespace CrabCrave.Core.SearchAlgorithm
         /// <returns>Next node</returns>
         private async Task<Node?> next(Node current, int awaitTime)
         {
+            //if (current.hasBeenVisited()) // skip this node
+            //{
+            //    return visitQueue.Count > 0 ? visitQueue.Dequeue() : null;
+            //}
+
             path.Add(current);
             await progressToNode(current, awaitTime);
             nodeVisited++;
@@ -272,6 +283,11 @@ namespace CrabCrave.Core.SearchAlgorithm
         /// <param name="awaitTime">Time to wait before changing node</param>
         private async Task addPathToNextNode(Node current, int awaitTime)
         {
+            while (visitQueue.Peek().hasBeenVisited()) // ignore this node
+            {
+                visitQueue.Dequeue();
+            }
+
             // if next node in queue is the same level as current or deeper -> require backtracking and retracking
             if (visitQueue.Count > 0 && current != start && (depthOf[current] <= depthOf[visitQueue.Peek()]))
             {
