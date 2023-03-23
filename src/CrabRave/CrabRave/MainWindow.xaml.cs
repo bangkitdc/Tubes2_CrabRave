@@ -174,6 +174,10 @@ namespace CrabCrave
 
             List<List<Node>> res = GetNodeListFromString(fileContent);
 
+            if (res == null) {
+                return;
+            }
+
             int rows = res.Count;
             int cols = res[0].Count;
 
