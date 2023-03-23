@@ -127,7 +127,7 @@ namespace CrabRave
 
                 NodesText.Text = dfs.nodesVisited.ToString();
                 StepsText.Text = dfs.stepsTaken.ToString();
-                RouteText.Text = dfs.route.Length != 0 ? bfs.Route : " ";
+                RouteText.Text = dfs.route.Length != 0 ? dfs.route : " ";
             }
 
             if (usedBFS)
