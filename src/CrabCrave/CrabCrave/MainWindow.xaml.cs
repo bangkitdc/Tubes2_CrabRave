@@ -13,6 +13,7 @@ using System.Diagnostics;
 using System.Windows.Input;
 using System.Windows.Threading;
 using CrabCrave.Core.SearchAlgorithm;
+using System.Net;
 
 namespace CrabCrave
 {
@@ -91,11 +92,11 @@ namespace CrabCrave
             {
                 if (TSPChecked(TSPOption))
                 {
-                    
+                    bfs.Search(timePerStep, true);
                 }
                 else
                 {
-                    bfs.Search(timePerStep);
+                    bfs.Search(timePerStep, false);
                 }
 
                 usedBFS = true;
@@ -128,7 +129,9 @@ namespace CrabCrave
 
             if (usedBFS)
             {
-
+                NodesText.Text = bfs.NodeVisited.ToString();
+                StepsText.Text = bfs.Steps.ToString();
+                RouteText.Text = bfs.Route;
             }
             
             ExecutionText.Text = stopwatch.Elapsed.TotalMilliseconds.ToString() + " ms";
@@ -151,9 +154,18 @@ namespace CrabCrave
             }
         }
 
+        private void clearTextBox()
+        {
+            NodesText.Text = " ";
+            StepsText.Text = " ";
+            RouteText.Text = " ";
+            ExecutionText.Text = " ";
+
+        }
+
         private void VisualizeClick(object sender, RoutedEventArgs e)
         {
-            string algorithmUsed = AlgorithmChecked(BFSOption, DFSOption);
+            clearTextBox();
             string fileName = FilePathTextBox.Text;
             if (fileName == "")
             {
@@ -171,6 +183,11 @@ namespace CrabCrave
             string fileContent = File.ReadAllText(filePath);
 
             List<List<Node>> res = GetNodeListFromString(fileContent);
+
+            if (res == null)
+            {
+                return;
+            }
 
             int rows = res.Count;
             int cols = res[0].Count;

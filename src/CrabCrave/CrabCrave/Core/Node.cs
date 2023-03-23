@@ -137,7 +137,8 @@ public class Node : INotifyPropertyChanged
     {
         this.prog = (Progress)0;
     }
-  public void setVisiting()
+
+    public void setVisiting()
     {
         Color visitingColor = Color.FromArgb(255, 173, 216, 230); // LightBlue
         SolidColorBrush visitingBrush = new SolidColorBrush(visitingColor);
@@ -151,21 +152,28 @@ public class Node : INotifyPropertyChanged
         Color Color;
         if (Val == Value.Treasure)
         {
-            Color = Color.FromArgb(255, 192, 134, 176); // DarkGoldenrod
+            Color = Color.FromArgb(255, 255, 255, 0); // Yellow
         }
         else
         {
-            Color = Color.FromArgb(255, 144, 238, 144); // LightGreen
+            Color = Color.FromArgb(255, 0, 255, 0); // LightGreen
         }
         Color darkColor = Color.FromArgb(
         Color.A,
-        (byte)(Color.R * System.Math.Pow(0.5, numOfVisits)),
-        (byte)(Color.G * System.Math.Pow(0.5, numOfVisits)),
-        (byte)(Color.B * System.Math.Pow(0.5, numOfVisits)));
+        (byte)(Color.R * System.Math.Pow(0.85, numOfVisits+1)),
+        (byte)(Color.G * System.Math.Pow(0.85, numOfVisits+1)),
+        (byte)(Color.B * System.Math.Pow(0.85, numOfVisits+1)));
         SolidColorBrush darkBrush = new SolidColorBrush(darkColor);
         Colors = darkBrush;
 
         this.prog = (Progress)2;
+    }
+
+    public void highlightSolution()
+    {
+        Color solutionColor = Color.FromArgb(255, 173, 255, 47); // light red
+        SolidColorBrush solutionBrush = new SolidColorBrush(solutionColor);
+        Colors = solutionBrush;
     }
     /**/
     public bool isPath()

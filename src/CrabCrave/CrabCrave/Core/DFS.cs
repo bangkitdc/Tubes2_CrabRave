@@ -23,6 +23,7 @@ public class DFS
         this.treasureFound = 0;
         this.nodesVisited = 0;
         this.route = "";
+        bool thereIsTreasure = false;
         isRunning = true;
 
         // assume
@@ -126,9 +127,11 @@ public class DFS
                 }
             }
             if (map.isRightAvailable(currentX, currentY)) {
+                thereIsTreasure = false;
                 map.map[currentX, currentY].setVisited();
                 currentY++;
                 map.map[currentX, currentY].setVisiting();
+
                 await Task.Delay(awaitTime);
 
                 if (map.map[currentX, currentY].isTreasure())
@@ -150,9 +153,11 @@ public class DFS
 
                 this.route += "R";
             } else if (map.isDownAvailable(currentX, currentY)) {
+                thereIsTreasure = false;
                 map.map[currentX, currentY].setVisited();
                 currentX++;
                 map.map[currentX, currentY].setVisiting();
+
                 await Task.Delay(awaitTime);
 
                 if (map.map[currentX, currentY].isTreasure())
@@ -176,6 +181,7 @@ public class DFS
             }
             else if (map.isLeftAvailable(currentX, currentY))
             {
+                thereIsTreasure = false;
                 map.map[currentX, currentY].setVisited();
                 currentY--;
                 map.map[currentX, currentY].setVisiting();
@@ -201,6 +207,7 @@ public class DFS
 
                 this.route += "L";
             } else if (map.isUpAvailable(currentX, currentY)) {
+                thereIsTreasure = false;
                 map.map[currentX, currentY].setVisited();
                 currentX--;
                 map.map[currentX, currentY].setVisiting();
@@ -228,13 +235,31 @@ public class DFS
             } else {
                 map.map[currentX, currentY].setVisited();
                 Node temp = stack.Pop();
+                if (temp.isTreasure()  && !thereIsTreasure) {
+                    thereIsTreasure = true;
+                    currentX = temp.x;
+                    currentY = temp.y;
+                    map.map[currentX, currentY].setVisiting();
+                }
+
                 if (temp.x == currentX && temp.y == currentY)
                 {
-
+                    if (!thereIsTreasure) {
+                        this.path.Pop();
+                        stepsTaken--;
+                        this.route = this.route.Remove(this.route.Length - 1);
+                        if (this.route.Length >= 2) {
+                            this.route = this.route.Remove(this.route.Length - 1);
+                        }
+                    }
                 }
                 else
                 {
-                    this.path.Push(temp);
+                    if (thereIsTreasure) {
+                        this.path.Push(temp);
+                        this.stepsTaken++;
+                    }
+
                     if (currentX < temp.x)
                     {
                         if (this.route != "")
@@ -259,12 +284,18 @@ public class DFS
                         this.route += "L";
                     }
 
+                    if (!thereIsTreasure) {
+                        this.route = this.route.Remove(this.route.Length - 1);
+                        if (this.route.Length >= 2) {
+                            this.route = this.route.Remove(this.route.Length - 1);
+                        }
+                    }
+
                     currentX = temp.x;
                     currentY = temp.y;
                     stack.Push(map.map[currentX, currentY]);
                     map.map[currentX, currentY].setVisiting();
                     await Task.Delay(awaitTime);
-                    this.stepsTaken++;
                 }
 
                 if (stack.Count == 0) {
@@ -279,6 +310,12 @@ public class DFS
                     }
                 }
             }
+        }
+        // highlight solution
+        while (this.path.Count != 0) {
+            Node temp = this.path.Pop();
+            map.map[temp.x, temp.y].highlightSolution();
+            await Task.Delay(awaitTime);
         }
         isRunning = false;
     }
