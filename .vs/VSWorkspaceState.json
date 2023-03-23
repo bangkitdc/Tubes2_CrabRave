@@ -2,11 +2,11 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\CrabCrave",
     "\\src\\CrabRave",
     "\\src\\CrabRave\\CrabRave",
     "\\src\\CrabRave\\CrabRave\\Core",
     "\\src\\CrabRave\\CrabRave\\Core\\SearchAlgorithm"
   ],
+  "SelectedNode": "\\src\\CrabRave\\CrabRave\\MainWindow.xaml",
   "PreviewInSolutionExplorer": false
 }

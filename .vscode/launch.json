@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/CrabCrave/CrabCrave/bin/Debug/net7.0-windows/CrabCrave.dll",
+            "program": "${workspaceFolder}/src/CrabRave/CrabRave/bin/Debug/net7.0-windows/CrabRave.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/CrabCrave/CrabCrave",
+            "cwd": "${workspaceFolder}/src/CrabRave/CrabRave",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
             "stopAtEntry": false

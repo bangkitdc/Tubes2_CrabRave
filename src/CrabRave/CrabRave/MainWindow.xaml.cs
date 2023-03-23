@@ -6,15 +6,15 @@ using System.IO;
 using System.Windows.Media;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using CrabCrave.Core;
+using CrabRave.Core;
 using System;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Windows.Input;
 using System.Windows.Threading;
-using CrabCrave.Core.SearchAlgorithm;
+using CrabRave.Core.SearchAlgorithm;
 
-namespace CrabCrave
+namespace CrabRave
 {
     public partial class MainWindow : Window
     {

@@ -3,8 +3,8 @@ using System.Windows.Media;
 using System;
 using System.Collections.Generic;
 
-using CrabCrave;
-using CrabCrave.Core;
+using CrabRave;
+using CrabRave.Core;
 using System.Threading.Tasks;
 
 public class Map : INotifyPropertyChanged

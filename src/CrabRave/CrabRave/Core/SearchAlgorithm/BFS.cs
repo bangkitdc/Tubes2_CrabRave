@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
-namespace CrabCrave.Core.SearchAlgorithm
+namespace CrabRave.Core.SearchAlgorithm
 {
 //// buat di mainwindow
 //private void Search(object sender, RoutedEventArgs e)
