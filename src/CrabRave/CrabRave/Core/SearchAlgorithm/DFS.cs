@@ -49,7 +49,7 @@ public class DFS
                 }
                 else
                 {
-                    // if tsp, then find the route back tos tart
+                    // if tsp, then find the route back to start
                     if (map.adjacentToStart(currentX, currentY))
                     {
                         nodesVisited--; // adjust saat visit krustykrab di awal
