@@ -294,14 +294,28 @@ public class DFS
                     currentX = temp.x;
                     currentY = temp.y;
                     map.map[currentX, currentY].setVisiting();
+                    await Task.Delay(awaitTime);
                 }
 
                 if (temp.x == currentX && temp.y == currentY)
-                {
-                    if (!thereIsTreasure) {
+                {   
+                    if (!thereIsTreasure && !map.map[currentX, currentY].isTreasure()) {
                         // if while backtracking there are no treasures, then delete it from the path
                         this.path.Pop();
-                        if (this.route.Length != 0) {
+                        if (this.path.Count > 0) {
+                            currentX = path.ElementAt(0).x;
+                            currentY = path.ElementAt(0).y;
+                        } else {
+                            currentX = 0;
+                            currentY = 0;
+                        }
+                        map.map[currentX, currentY].setVisiting();
+                        await Task.Delay(awaitTime);
+                        // check if the current node is actually a needed node in the path
+                        if (isItInTheList(treasureNode, currentX, currentY)) {
+                            thereIsTreasure = true;
+                        }
+                        if (this.route.Length > 0) {
                             stepsTaken--;
                             this.route = this.route.Remove(this.route.Length - 1);
                             if (this.route.Length >= 2) {
