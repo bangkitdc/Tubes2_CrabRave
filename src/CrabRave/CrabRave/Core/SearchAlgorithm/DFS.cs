@@ -301,13 +301,14 @@ public class DFS
                 {   
                     if (!thereIsTreasure && !map.map[currentX, currentY].isTreasure()) {
                         // if while backtracking there are no treasures, then delete it from the path
-                        this.path.Pop();
-                        if (this.path.Count > 0) {
+                        if (this.path.Count > 1) {
+                            this.path.Pop();
                             currentX = path.ElementAt(0).x;
                             currentY = path.ElementAt(0).y;
                         } else {
-                            currentX = 0;
-                            currentY = 0;
+                            currentX = path.ElementAt(0).x;
+                            currentY = path.ElementAt(0).y;
+                            this.path.Pop();
                         }
                         map.map[currentX, currentY].setVisiting();
                         await Task.Delay(awaitTime);
