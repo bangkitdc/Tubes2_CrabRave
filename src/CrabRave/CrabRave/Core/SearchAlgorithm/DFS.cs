@@ -301,6 +301,7 @@ public class DFS
                 {   
                     if (!thereIsTreasure && !map.map[currentX, currentY].isTreasure()) {
                         // if while backtracking there are no treasures, then delete it from the path
+                        // backtrack to the node before
                         if (this.path.Count > 1) {
                             this.path.Pop();
                             currentX = path.ElementAt(0).x;
@@ -316,6 +317,7 @@ public class DFS
                         if (isItInTheList(treasureNode, currentX, currentY)) {
                             thereIsTreasure = true;
                         }
+                        // undo the newest route
                         if (this.route.Length > 0) {
                             stepsTaken--;
                             this.route = this.route.Remove(this.route.Length - 1);
